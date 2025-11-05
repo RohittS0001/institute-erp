@@ -10,11 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  res.json({ 
-    message: 'Institute ERP API is running',
-    status: 'success',
-    timestamp: new Date()
-  });
+  res.send( 'Welcome to the Institute ERP Backend API');
 });
 
 const PORT = process.env.PORT || 5000;
