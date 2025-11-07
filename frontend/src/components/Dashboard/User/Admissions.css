@@ -1,0 +1,36 @@
+.page-container {
+  padding: 30px;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+.page-header {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0a6ed1;
+  margin-bottom: 20px;
+}
+
+.page-card {
+  background: #ffffff;
+  padding: 25px;
+  border-left: 6px solid #0a6ed1;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.page-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(10, 110, 209, 0.2);
+}
+
+.page-card h3 {
+  color: #0a6ed1;
+}
+
+.page-card p {
+  color: #333;
+  font-size: 15px;
+}

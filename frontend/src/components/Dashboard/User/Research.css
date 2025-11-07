@@ -1,0 +1,30 @@
+.research-container {
+  padding: 30px 50px;
+  background: #f9fbfd;
+  min-height: 100vh;
+}
+
+.research-header {
+  color: #00b894;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.research-card {
+  background: #ffffff;
+  border-left: 5px solid #00b894;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.research-card h4 {
+  margin: 0;
+  color: #222;
+}
+
+.research-card p {
+  color: #555;
+  margin-top: 5px;
+}
