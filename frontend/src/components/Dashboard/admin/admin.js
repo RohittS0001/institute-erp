@@ -1,104 +1,98 @@
 import React, { useState } from 'react';
+import Sidebar from './Sidebar';
 import './admin.css';
 
 const widgetsData = [
-  { title: "Total Users", value: 150, icon: "👥", color: "#4e73df" },
-  { title: "Active Sessions", value: 23, icon: "🟢", color: "#1cc88a" },
-  { title: "Pending Approvals", value: 8, icon: "⏳", color: "#f6c23e" },
-  { title: "Revenue This Month", value: "$12,300", icon: "💰", color: "#36b9cc" },
-  { title: "New Registrations", value: 12, icon: "🆕", color: "#e74a3b" },
-  { title: "Courses", value: 36, icon: "📚", color: "#f6c23e" },
+  { title: 'Total Institutes', value: 15, icon: '🏫', color: '#5c71e7ff' },
+  { title: 'Active Users', value: 4500, icon: '👥', color: '#f50057' },
+  { title: 'Courses Offered', value: 200, icon: '📚', color: '#ff9800' },
+  { title: 'Pending Approvals', value: 12, icon: '⏳', color: '#009688' },
 ];
 
-const recentUsers = [
-  { name: "John Doe", activity: "Logged in", time: "2 min ago" },
-  { name: "Jane Smith", activity: "Updated profile", time: "20 min ago" },
-  { name: "Emily Davis", activity: "Requested access", time: "42 min ago" },
-  { name: "Rahul Kumar", activity: "Logged out", time: "1 hour ago" },
+const institutes = [
+  { id: 1, name: 'Institute A', location: 'New York', status: 'Active' },
+  { id: 2, name: 'Institute B', location: 'California', status: 'Active' },
+  { id: 3, name: 'Institute C', location: 'Texas', status: 'Inactive' },
+  { id: 4, name: 'Institute D', location: 'Florida', status: 'Active' },
 ];
-
-const quickLinks = [
-  { url: "#", text: "Manage Users" },
-  { url: "#", text: "Manage Courses" },
-  { url: "#", text: "Generate Reports" },
-  { url: "#", text: "Audit Logs" },
-  { url: "#", text: "Faculty" },
-  { url: "#", text: "Profile" },
-  { url: "#", text: "Settings" },
-];
-
-// Helper: Format numbers with commas
-const formatNumber = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
 const AdminDashboard = () => {
   const [search, setSearch] = useState('');
 
-  // Filter recent activity based on search
-  const filteredActivity = recentUsers.filter(
-    (user) =>
-      user.name.toLowerCase().includes(search.toLowerCase()) ||
-      user.activity.toLowerCase().includes(search.toLowerCase())
+  const filteredInstitutes = institutes.filter(
+    (inst) =>
+      inst.name.toLowerCase().includes(search.toLowerCase()) ||
+      inst.location.toLowerCase().includes(search.toLowerCase()) ||
+      inst.status.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
-    <div className="admin-dashboard">
-      <header className="admin-header">
-        <div>
-          <h1>👤 Admin Dashboard</h1>
-          <div className="admin-sub">Welcome, System Administrator</div>
-        </div>
-        <input
-          className="admin-search"
-          type="search"
-          placeholder="Search users, reports..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          aria-label="Search users or reports"
-        />
-      </header>
+    <div className="dashboard-wrapper">
+      <Sidebar />
+      <main className="dashboard-content">
+        <header className="dashboard-header">
+          <h1>Admin</h1>
+          <input
+            type="text"
+            placeholder="Search institutes..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="search-input"
+          />
+        </header>
 
-      <nav className="admin-nav">
-        {quickLinks.map((link) => (
-          <a href={link.url} key={link.text} aria-label={link.text}>
-            {link.text}
-          </a>
-        ))}
-      </nav>
-
-      <main className="admin-main">
-        <section className="dashboard-widgets">
-          {widgetsData.map((widget) => (
-            <div
-              className="widget"
-              style={{ borderLeft: `6px solid ${widget.color}` }}
-              key={widget.title}
-              aria-label={`${widget.title}: ${widget.value}`}
-            >
-              <div className="widget-icon" style={{ color: widget.color }} aria-hidden="true">
-                {widget.icon}
+        <section className="widgets-section">
+          {widgetsData.map((w) => (
+            <div key={w.title} className="widget-card" style={{ borderTop: `4px solid ${w.color}` }}>
+              <div className="widget-icon" style={{ backgroundColor: w.color }}>
+                {w.icon}
               </div>
-              <div>
-                <h2>{widget.title}</h2>
-                <p>{typeof widget.value === 'number' ? formatNumber(widget.value) : widget.value}</p>
+              <div className="widget-info">
+                <h3>{w.value.toLocaleString()}</h3>
+                <p>{w.title}</p>
               </div>
             </div>
           ))}
         </section>
 
-        <section className="recent-activity">
-          <h2>Recent User Activity</h2>
-          <ul>
-            {filteredActivity.length ? (
-              filteredActivity.map((user, idx) => (
-                <li key={idx}>
-                  <span className="user">{user.name}</span> – {user.activity}{' '}
-                  <span className="time">({user.time})</span>
-                </li>
-              ))
-            ) : (
-              <li>No matching activity found.</li>
-            )}
-          </ul>
+        <section className="institutes-table-section">
+          <h2>Institutes Overview</h2>
+          <table className="institutes-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredInstitutes.length ? (
+                filteredInstitutes.map((inst) => (
+                  <tr key={inst.id}>
+                    <td>{inst.name}</td>
+                    <td>{inst.location}</td>
+                    <td>
+                      <span className={`status-indicator ${inst.status.toLowerCase()}`}>
+                        {inst.status}
+                      </span>
+                    </td>
+                    <td>
+                      <button className="btn view-btn">View</button>
+                      <button className="btn edit-btn">Edit</button>
+                      <button className="btn delete-btn">Delete</button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4" style={{ textAlign: 'center', padding: '20px' }}>
+                    No institutes found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </section>
       </main>
     </div>
