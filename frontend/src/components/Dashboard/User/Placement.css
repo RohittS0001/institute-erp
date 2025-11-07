@@ -1,0 +1,44 @@
+.placement-container {
+  padding: 30px 50px;
+  background: #f9fbfd;
+  min-height: 100vh;
+}
+
+.placement-header {
+  color: #36b9cc;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.placement-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.placement-card {
+  background: #ffffff;
+  border-left: 5px solid #36b9cc;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.placement-card h4 {
+  margin: 0;
+  color: #222;
+}
+
+.placement-card p {
+  color: #555;
+  margin-top: 5px;
+}
+
+.interview-highlight {
+  background: #eaf7fb;
+  padding: 10px;
+  border-radius: 8px;
+  color: #0c5460;
+  margin-top: 10px;
+  border: 1px solid #bee5eb;
+}
