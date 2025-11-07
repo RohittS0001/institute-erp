@@ -3,18 +3,24 @@ import { NavLink } from 'react-router-dom';
 import './sidebar.css';
 
 const menuItems = [
-  { path: '/dashboard/admin', icon: '🏠', label: 'Dashboard' },
-  { path: '/dashboard/admin/institutes', icon: '🏫', label: 'Institutes' },
-  { path: '/dashboard/admin/users', icon: '👥', label: 'Users' },
-  { path: '/dashboard/admin/courses', icon: '📚', label: 'Courses' },
-  { path: '/dashboard/admin/financials', icon: '💰', label: 'Financials' },
-  { path: '/dashboard/admin/reports', icon: '📊', label: 'Reports' },
-  { path: '/dashboard/admin/notifications', icon: '🔔', label: 'Notifications' },
-  { path: '/dashboard/admin/settings', icon: '⚙️', label: 'Settings' },
+  { path: 'admin', icon: '🏠', label: 'Dashboard' },
+  { path: 'institutes', icon: '🏫', label: 'Institutes' },
+  { path: 'users', icon: '👥', label: 'Users' },
+  { path: 'courses', icon: '📚', label: 'Courses' },
+  { path: 'financials', icon: '💰', label: 'Financials' },
+  { path: 'reports', icon: '📊', label: 'Reports' },
+  { path: 'notifications', icon: '🔔', label: 'Notifications' },
+  { path: 'settings', icon: '⚙️', label: 'Settings' },
 ];
+
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    window.location.href = '/';
+  };
 
   return (
     <div className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
@@ -25,18 +31,20 @@ const Sidebar = () => {
         </button>
       </div>
       <nav className="sidebar-menu">
-        {menuItems.map((item) => (
-          <NavLink
-            to={item.path}
-            key={item.label}
-            className="sidebar-link"
-            activeClassName="active"
-            exact
-          >
-            <span className="sidebar-icon">{item.icon}</span>
-            {!collapsed && <span className="sidebar-text">{item.label}</span>}
-          </NavLink>
-        ))}
+       {menuItems.map(item => (
+            <NavLink
+                to={`/dashboard/admin/${item.path}`}
+                key={item.label}
+                className={({ isActive }) =>
+                isActive ? 'sidebar-link active' : 'sidebar-link'
+                }
+                end
+            >
+                <span className="sidebar-icon">{item.icon}</span>
+                {!collapsed && <span className="sidebar-text">{item.label}</span>}
+            </NavLink>
+            ))}
+
       </nav>
       {!collapsed && (
         <div className="sidebar-footer">
@@ -44,7 +52,7 @@ const Sidebar = () => {
             <img src="/avatar.png" alt="User Avatar" className="avatar" />
             <div>
               <p className="user-name">Admin User</p>
-              <button className="logout-btn">Logout</button>
+              <button className="logout-btn" onClick={handleLogout}>Logout</button>
             </div>
           </div>
         </div>

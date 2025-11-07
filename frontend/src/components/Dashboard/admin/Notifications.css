@@ -1,0 +1,81 @@
+.page-content {
+  padding: 25px 40px;
+  background: white;
+  border-radius: 8px;
+  min-height: calc(100vh - 80px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  color: #333;
+}
+
+.page-content h1 {
+  color: #3f51b5;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.notifications-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notification-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 18px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+.notification-item.unread {
+  background-color: #e3f2fd;
+  font-weight: 700;
+}
+
+.notification-item.read {
+  color: #666;
+  background-color: white;
+  font-weight: 400;
+}
+
+.notif-type {
+  flex: 1 1 20%;
+  font-weight: 600;
+  color: #1976d2;
+}
+
+.notif-message {
+  flex: 1 1 60%;
+}
+
+.notif-date {
+  flex: 1 1 20%;
+  font-size: 0.9rem;
+  color: #999;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.mark-read-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: #2196f3;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+.mark-read-btn:hover {
+  background-color: #1976d2;
+}
+
+.no-notifications {
+  text-align: center;
+  padding: 30px;
+  color: #999;
+  font-style: italic;
+}

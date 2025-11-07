@@ -1,20 +1,21 @@
+/* Dashboard wrapper with fixed sidebar and content */
 .dashboard-wrapper {
   display: flex;
+  height: 100vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9fafb;
 }
 
+/* Main content area to the right of sidebar */
 .dashboard-content {
   flex-grow: 1;
-  margin-left: 240px;
-  padding: 30px;
+  padding: 30px 30px;
+  overflow-y: auto;
   background-color: #f3f4f6;
   min-height: 100vh;
-  transition: margin-left 0.3s ease;
 }
 
-.sidebar.collapsed + .dashboard-content {
-  margin-left: 70px;
-}
-
+/* Header styles for dashboard pages */
 .dashboard-header {
   display: flex;
   justify-content: space-between;
@@ -23,154 +24,149 @@
 }
 
 .dashboard-header h1 {
-  font-size: 2.4rem;
-  color: #3f51b5;
-  margin: 10px;
+  font-weight: 700;
+  color: #1f2937;
+  font-size: 2rem;
 }
 
 .search-input {
-  width: 300px;
-  padding: 10px 15px;
+  padding: 10px;
+  width: 280px;
   border-radius: 8px;
-  border: 1px solid #272323;
+  border: 1px solid #d1d5db;
   font-size: 1rem;
-  transition: all 0.3s ease;
+  font-weight: 600;
 }
 
-.search-input:focus {
-  border-color: #3f51b5;
-  outline: none;
-  box-shadow: 0 0 8px rgb(63 81 181 / 0.4);
-}
-
+/* Widgets section styles */
 .widgets-section {
-  display: flex;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
   margin-bottom: 40px;
 }
 
 .widget-card {
   background-color: white;
-  flex: 1;
   padding: 25px 20px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.07);
   display: flex;
   align-items: center;
-  gap: 20px;
-  cursor: default;
-  transition: box-shadow 0.3s ease;
-}
-
-.widget-card:hover {
-    transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 4px 15px rgba(63,81,181,.25);
+  gap: 15px;
 }
 
 .widget-icon {
-  font-size: 3rem;
-  color: white;
+  font-size: 30px;
   padding: 15px;
-  border-radius: 10px;
+  border-radius: 50%;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .widget-info h3 {
-  margin: 0;
-  font-size: 2rem;
-  font-weight: 700;
-  color: #333;
+  margin: 0 0 6px 0;
+  font-size: 1.8rem;
+  color: #111827;
 }
 
 .widget-info p {
-  margin: 5px 0 0 0;
-  color: #666;
+  margin: 0;
+  font-weight: 600;
   font-size: 1rem;
+  color: #6b7280;
 }
 
+/* Institutes Table Section */
 .institutes-table-section {
   background-color: white;
   padding: 25px 30px;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.07);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
 }
 
 .institutes-table-section h2 {
-  color: #3f51b5;
   margin-bottom: 20px;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #111827;
 }
 
 .institutes-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 1rem;
-  color: #444;
+  font-weight: 600;
+  color: #4b5563;
 }
 
 .institutes-table th,
 .institutes-table td {
-  padding: 12px 18px;
-  border-bottom: 1px solid #eee;
+  padding: 14px 16px;
+  border-bottom: 1px solid #e5e7eb;
   text-align: left;
+  vertical-align: middle;
 }
 
 .institutes-table th {
-  background-color: #f5f5f5;
-  color: #333;
+  font-weight: 700;
+  font-size: 0.95rem;
+  background-color: #f9fafb;
 }
 
+/* Status indicator pills */
 .status-indicator {
-  font-weight: 600;
-  padding: 5px 12px;
-  border-radius: 20px;
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 700;
   color: white;
+  text-transform: capitalize;
   display: inline-block;
-  min-width: 70px;
-  text-align: center;
 }
-
 .status-indicator.active {
-  background-color: #4caf50;
+  background-color: #10b981; /* green */
 }
-
 .status-indicator.inactive {
-  background-color: #f44336;
+  background-color: #ef4444; /* red */
 }
 
+/* Buttons Styles */
 .btn {
-  padding: 8px 14px;
-  border-radius: 6px;
-  border: none;
-  color: white;
-  margin-right: 8px;
-  cursor: pointer;
   font-weight: 600;
   font-size: 0.9rem;
-  transition: background-color 0.3s ease;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.2s ease;
 }
 
 .view-btn {
-  background-color: #2196f3;
+  background-color: #3b82f6;
+  color: white;
 }
 
 .view-btn:hover {
-  background-color: #1976d2;
+  background-color: #2563eb;
 }
 
 .edit-btn {
-  background-color: #ff9800;
+  background-color: #facc15;
+  color: black;
 }
 
 .edit-btn:hover {
-  background-color: #f57c00;
+  background-color: #ca8a04;
 }
 
 .delete-btn {
-  background-color: #f44336;
+  background-color: #ef4444;
+  color: white;
 }
 
 .delete-btn:hover {
-  background-color: #d32f2f;
+  background-color: #b91c1c;
 }
