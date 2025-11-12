@@ -49,7 +49,7 @@ const Sidebar = () => {
       {!collapsed && (
         <div className="sidebar-footer">
           <div className="user-info">
-            <img src="/avatar.png" alt="User Avatar" className="avatar" />
+            {/* <img src="/avatar.png" alt="User Avatar" className="avatar" /> */}
             <div>
               <p className="user-name">Admin User</p>
               <button className="logout-btn" onClick={handleLogout}>Logout</button>

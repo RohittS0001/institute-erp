@@ -34,6 +34,7 @@ export default function User() {
         <div>
           <h1>🎓 User Dashboard</h1>
           <p className="user-sub">Welcome to Saathaihum Foundation, Student!</p>
+        
         </div>
         <input
           className="user-search"

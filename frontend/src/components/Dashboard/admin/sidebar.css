@@ -1,12 +1,13 @@
 .sidebar {
-  width: 240px;
+  width: 260px;
+  min-width: 260px;
   height: 100vh;
   background-color: #1f2937;
   color: white;
   display: flex;
   flex-direction: column;
   transition: width 0.3s ease;
-  position: fixed;
+  position: relative;
 }
 
 .sidebar.collapsed {
@@ -73,6 +74,7 @@
 
 .sidebar-footer {
   padding: 10px 20px;
+  background-color: #1f2937;
   border-top: 1px solid #374151;
   display: flex;
   align-items: center;
