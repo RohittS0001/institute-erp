@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./AdminDashboard.css";
 
 const widgetsData = [
-  { title: "Total Institutes", value: 15, icon: "🏫", color: "#5c71e7ff" },
-  { title: "Active Users", value: 4500, icon: "👥", color: "#f50057" },
-  { title: "Courses Offered", value: 200, icon: "📚", color: "#ff9800" },
-  { title: "Pending Approvals", value: 12, icon: "⏳", color: "#009688" },
+  { title: "Total Institutes", icon: "🏫", color: "#5c71e7ff", path: "institutes" },
+  { title: "Active Users", icon: "👥", color: "#f50057", path: "users" },
+  { title: "Courses Offered", icon: "📚", color: "#ff9800", path: "courses" },
+  { title: "Pending Approvals", icon: "⏳", color: "#009688", path: "notifications" },
 ];
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [institutes, setInstitutes] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchInstitutes = async () => {
       try {
         const response = await axios.get("http://localhost:4000/api/institutes");
         setInstitutes(response.data);
@@ -23,7 +25,7 @@ const AdminDashboard = () => {
         setInstitutes([]);
       }
     };
-    fetchData();
+    fetchInstitutes();
   }, []);
 
   const filteredInstitutes = institutes.filter(
@@ -51,13 +53,14 @@ const AdminDashboard = () => {
           <div
             key={w.title}
             className="widget-card"
-            style={{ borderTop: `4px solid ${w.color}` }}
+            style={{ borderTop: `4px solid ${w.color}`, cursor: 'pointer' }}
+            onClick={() => navigate(`/dashboard/admin/${w.path}`)}
           >
             <div className="widget-icon" style={{ backgroundColor: w.color }}>
               {w.icon}
             </div>
             <div className="widget-info">
-              <h3>{w.value.toLocaleString()}</h3>
+              {/* <h3>{w.value.toLocaleString()}</h3> */}
               <p>{w.title}</p>
             </div>
           </div>
@@ -82,9 +85,7 @@ const AdminDashboard = () => {
                   <td>{inst.name}</td>
                   <td>{inst.location}</td>
                   <td>
-                    <span
-                      className={`status-indicator ${inst.status.toLowerCase()}`}
-                    >
+                    <span className={`status-indicator ${inst.status.toLowerCase()}`}>
                       {inst.status}
                     </span>
                   </td>
