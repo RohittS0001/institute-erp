@@ -1,36 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./Financials.css";
 
-const initialTransactions = [
-  {
-    id: 1,
-    type: "Payment",
-    institute: "Institute A",
-    amount: 1200,
-    date: "2025-11-01",
-    status: "Completed",
-  },
-  {
-    id: 2,
-    type: "Invoice",
-    institute: "Institute B",
-    amount: 500,
-    date: "2025-10-25",
-    status: "Pending",
-  },
-  {
-    id: 3,
-    type: "Payment",
-    institute: "Institute C",
-    amount: 750,
-    date: "2025-10-20",
-    status: "Completed",
-  },
-];
-
 const Financials = () => {
-  const [transactions, setTransactions] = useState(initialTransactions);
+  const [transactions, setTransactions] = useState([]);
   const [filterStatus, setFilterStatus] = useState("All");
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/api/transactions");
+        setTransactions(response.data);
+      } catch (error) {
+        console.error("Error fetching transactions:", error);
+        setTransactions([]);
+      }
+    };
+    fetchTransactions();
+  }, []);
 
   // Filter transactions by status
   const filteredTransactions =
@@ -69,7 +56,7 @@ const Financials = () => {
         <tbody>
           {filteredTransactions.length ? (
             filteredTransactions.map((txn) => (
-              <tr key={txn.id}>
+              <tr key={txn.id || txn._id}>
                 <td>{txn.type}</td>
                 <td>{txn.institute}</td>
                 <td>${txn.amount.toFixed(2)}</td>

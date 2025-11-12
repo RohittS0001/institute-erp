@@ -1,37 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./Notifications.css";
 
-const initialNotifications = [
-  {
-    id: 1,
-    type: "User Request",
-    message: "New user registration pending approval.",
-    date: "2025-11-07T09:30:00",
-    read: false,
-  },
-  {
-    id: 2,
-    type: "System Alert",
-    message: "Scheduled maintenance on Nov 15.",
-    date: "2025-11-05T10:00:00",
-    read: true,
-  },
-  {
-    id: 3,
-    type: "Approval",
-    message: "New course approval granted.",
-    date: "2025-11-04T14:20:00",
-    read: false,
-  },
-];
-
 function formatDate(dateString) {
-  const options = { year: "numeric", month: "short", day: "numeric", hour: '2-digit', minute: '2-digit' };
+  const options = {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  };
   return new Date(dateString).toLocaleDateString(undefined, options);
 }
 
 const Notifications = () => {
-  const [notifications, setNotifications] = useState(initialNotifications);
+  const [notifications, setNotifications] = useState([]);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/api/notifications");
+        setNotifications(response.data);
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+        setNotifications([]);
+      }
+    };
+    fetchNotifications();
+  }, []);
 
   const toggleReadStatus = (id) => {
     setNotifications((prev) =>
@@ -39,6 +35,7 @@ const Notifications = () => {
         notif.id === id ? { ...notif, read: !notif.read } : notif
       )
     );
+    // For persistence, call backend API here on toggle if needed
   };
 
   return (
@@ -49,11 +46,17 @@ const Notifications = () => {
           <li className="no-notifications">No notifications</li>
         ) : (
           notifications.map(({ id, type, message, date, read }) => (
-            <li key={id} className={`notification-item ${read ? 'read' : 'unread'}`} onClick={() => toggleReadStatus(id)}>
+            <li
+              key={id || id._id}
+              className={`notification-item ${read ? "read" : "unread"}`}
+              onClick={() => toggleReadStatus(id)}
+            >
               <div className="notif-type">{type}</div>
               <div className="notif-message">{message}</div>
               <div className="notif-date">{formatDate(date)}</div>
-              <button className="mark-read-btn">{read ? "Mark Unread" : "Mark Read"}</button>
+              <button className="mark-read-btn">
+                {read ? "Mark Unread" : "Mark Read"}
+              </button>
             </li>
           ))
         )}

@@ -36,7 +36,7 @@ function App() {
         {/* Login or Redirect */}
         <Route
           path="/"
-          element={user ? <Navigate to={'/dashboard/${user.role}'} /> : <Login />}
+          element={user ? <Navigate to={`/dashboard/${user.role}`} /> : <Login />}
         />
 
         {/* Admin Dashboard Container - with nested routing */}

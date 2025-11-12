@@ -1,32 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./Courses.css";
 
-const initialCourses = [
-  {
-    id: 1,
-    title: "React Fundamentals",
-    duration: "8 weeks",
-    instructor: "Mary Johnson",
-    status: "Active",
-  },
-  {
-    id: 2,
-    title: "Advanced Node.js",
-    duration: "6 weeks",
-    instructor: "James Smith",
-    status: "Inactive",
-  },
-  {
-    id: 3,
-    title: "Python for Data Science",
-    duration: "10 weeks",
-    instructor: "Linda Williams",
-    status: "Active",
-  },
-];
-
 const Courses = () => {
-  const [courses, setCourses] = useState(initialCourses);
+  const [courses, setCourses] = useState([]);
   const [search, setSearch] = useState("");
   const [showAddForm, setShowAddForm] = useState(false);
   const [newCourse, setNewCourse] = useState({
@@ -36,6 +13,21 @@ const Courses = () => {
     status: "Active",
   });
 
+  useEffect(() => {
+    // Fetch courses from backend API on component mount
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/api/courses");
+        setCourses(response.data);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+        setCourses([]);
+      }
+    };
+    fetchCourses();
+  }, []);
+
+  // Filter courses based on search input
   const filteredSessions = courses.filter(
     (course) =>
       course.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -43,21 +35,34 @@ const Courses = () => {
       course.status.toLowerCase().includes(search.toLowerCase())
   );
 
+  // Handle input change for new course form
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewCourse((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleAddCourse = (e) => {
+  // Handle form submission to add new course
+  const handleAddCourse = async (e) => {
     e.preventDefault();
     if (!newCourse.title.trim()) {
       alert("Course title is required");
       return;
     }
-    setCourses((prev) => [...prev, { ...newCourse, id: prev.length + 1 }]);
-    setNewCourse({ title: "", duration: "", instructor: "", status: "Active" });
-    setShowAddForm(false);
+    // Send data to backend API to save in database
+    try {
+      const response = await axios.post("http://localhost:4000/api/courses", newCourse);
+      // Add the newly created course to local list
+      setCourses((prev) => [...prev, response.data]);
+      // Reset form
+      setNewCourse({ title: "", duration: "", instructor: "", status: "Active" });
+      setShowAddForm(false);
+    } catch (error) {
+      console.error("Failed to add course:", error);
+      alert("Failed to add course. Please try again.");
+    }
   };
+
+  const toggleForm = () => setShowAddForm((prev) => !prev);
 
   return (
     <div className="page-content">
@@ -70,7 +75,7 @@ const Courses = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <button onClick={() => setShowAddForm((prev) => !prev)} className="add-btn">
+        <button onClick={toggleForm} className="add-btn">
           {showAddForm ? "Close Form" : "Add New Course"}
         </button>
       </div>
@@ -78,7 +83,6 @@ const Courses = () => {
       {showAddForm && (
         <form onSubmit={handleAddCourse} className="add-form">
           <input
-            type="text"
             name="title"
             placeholder="Course Title"
             value={newCourse.title}
@@ -86,14 +90,12 @@ const Courses = () => {
             required
           />
           <input
-            type="text"
             name="duration"
             placeholder="Duration (e.g., 6 weeks)"
             value={newCourse.duration}
             onChange={handleChange}
           />
           <input
-            type="text"
             name="instructor"
             placeholder="Instructor Name"
             value={newCourse.instructor}
@@ -121,7 +123,7 @@ const Courses = () => {
         <tbody>
           {filteredSessions.length ? (
             filteredSessions.map((course) => (
-              <tr key={course.id} className={course.status.toLowerCase()}>
+              <tr key={course.id || course._id} className={course.status.toLowerCase()}>
                 <td>{course.title}</td>
                 <td>{course.duration}</td>
                 <td>{course.instructor}</td>

@@ -1,22 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./AdminDashboard.css";
 
 const widgetsData = [
-  { title: 'Total Institutes', value: 15, icon: '🏫', color: '#5c71e7ff' },
-  { title: 'Active Users', value: 4500, icon: '👥', color: '#f50057' },
-  { title: 'Courses Offered', value: 200, icon: '📚', color: '#ff9800' },
-  { title: 'Pending Approvals', value: 12, icon: '⏳', color: '#009688' },
-];
-
-const institutes = [
-  { id: 1, name: 'Institute A', location: 'New York', status: 'Active' },
-  { id: 2, name: 'Institute B', location: 'California', status: 'Active' },
-  { id: 3, name: 'Institute C', location: 'Texas', status: 'Inactive' },
-  { id: 4, name: 'Institute D', location: 'Florida', status: 'Active' },
+  { title: "Total Institutes", value: 15, icon: "🏫", color: "#5c71e7ff" },
+  { title: "Active Users", value: 4500, icon: "👥", color: "#f50057" },
+  { title: "Courses Offered", value: 200, icon: "📚", color: "#ff9800" },
+  { title: "Pending Approvals", value: 12, icon: "⏳", color: "#009688" },
 ];
 
 const AdminDashboard = () => {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
+  const [institutes, setInstitutes] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/api/institutes");
+        setInstitutes(response.data);
+      } catch (error) {
+        console.error("Error fetching institutes:", error);
+        setInstitutes([]);
+      }
+    };
+    fetchData();
+  }, []);
 
   const filteredInstitutes = institutes.filter(
     (inst) =>
@@ -70,11 +78,13 @@ const AdminDashboard = () => {
           <tbody>
             {filteredInstitutes.length ? (
               filteredInstitutes.map((inst) => (
-                <tr key={inst.id}>
+                <tr key={inst.id || inst._id}>
                   <td>{inst.name}</td>
                   <td>{inst.location}</td>
                   <td>
-                    <span className={`status-indicator ${inst.status.toLowerCase()}`}>
+                    <span
+                      className={`status-indicator ${inst.status.toLowerCase()}`}
+                    >
                       {inst.status}
                     </span>
                   </td>
@@ -87,7 +97,7 @@ const AdminDashboard = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="4" style={{ textAlign: 'center', padding: '20px' }}>
+                <td colSpan="4" style={{ textAlign: "center", padding: "20px" }}>
                   No institutes found
                 </td>
               </tr>

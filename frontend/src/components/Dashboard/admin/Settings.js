@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./Settings.css";
 
 const defaultSettings = {
@@ -46,21 +47,48 @@ const backupSchedules = [
 
 const Settings = () => {
   const [settings, setSettings] = useState(defaultSettings);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/api/settings");
+        setSettings(response.data);
+      } catch (err) {
+        setError("Failed to load settings");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSettings();
+  }, []);
 
   const handleChange = (key, value) => {
     setSettings(prev => ({ ...prev, [key]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Settings saved successfully!");
-    // API call to save settings
+    setError(null);
+    try {
+      await axios.post("http://localhost:4000/api/settings", settings);
+      alert("Settings saved successfully!");
+    } catch (err) {
+      setError("Failed to save settings. Please try again.");
+    }
   };
+
+  if (loading) {
+    return <div className="page-content">Loading settings...</div>;
+  }
 
   return (
     <div className="page-content">
       <h1>System Settings</h1>
+      {error && <div className="error-msg">{error}</div>}
       <form className="settings-form" onSubmit={handleSubmit}>
+        {/* Your existing form UI unchanged, just replacing onChange handlers */}
         <fieldset>
           <legend>General</legend>
           <label>

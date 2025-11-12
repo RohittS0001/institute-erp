@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
 const Login = () => {
-  // State management
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     role: '',
     email: '',
@@ -20,15 +23,12 @@ const Login = () => {
   const [alert, setAlert] = useState({ message: '', type: '', show: false });
   const [isLoading, setIsLoading] = useState(false);
 
-  // Demo credentials
   const demoCredentials = {
     Institute: { email: 'Institute@company.com', password: 'Institute123' },
     admin: { email: 'admin@company.com', password: 'admin123' },
     User: { email: 'User@company.com', password: 'User123' },
-    
   };
 
-  // Validation functions
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
@@ -38,7 +38,6 @@ const Login = () => {
     return password.length >= 8;
   };
 
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
@@ -46,13 +45,11 @@ const Login = () => {
       [name]: type === 'checkbox' ? checked : value
     }));
 
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
   };
 
-  // Handle input blur validation
   const handleBlur = (e) => {
     const { name, value } = e.target;
     let error = '';
@@ -66,7 +63,6 @@ const Login = () => {
     setErrors(prev => ({ ...prev, [name]: error }));
   };
 
-  // Show alert message
   const showAlert = (message, type) => {
     setAlert({ message, type, show: true });
     setTimeout(() => {
@@ -74,23 +70,21 @@ const Login = () => {
     }, 5000);
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate all fields
     const newErrors = {};
-    
+
     if (!formData.role) {
       newErrors.role = 'Please select a role';
     }
-    
+
     if (!formData.email) {
       newErrors.email = 'Email is required';
     } else if (!validateEmail(formData.email)) {
       newErrors.email = 'Please enter a valid email address';
     }
-    
+
     if (!formData.password) {
       newErrors.password = 'Password is required';
     } else if (!validatePassword(formData.password)) {
@@ -99,58 +93,71 @@ const Login = () => {
 
     setErrors(newErrors);
 
-    // If there are errors, don't submit
     if (Object.keys(newErrors).length > 0) {
       return;
     }
 
-    // Simulate API call
     setIsLoading(true);
 
-    setTimeout(() => {
-      const roleCredentials = demoCredentials[formData.role];
-      
-      if (roleCredentials && 
-          formData.email === roleCredentials.email && 
-          formData.password === roleCredentials.password) {
-        
-        showAlert('Login successful! Redirecting...', 'success');
-        
-        const loginData = {
-          role: formData.role,
+    if (formData.role === 'admin') {
+      try {
+        const response = await axios.post('http://localhost:4000/api/admins/login', {
           email: formData.email,
-          rememberMe: formData.rememberMe,
-          loginTime: new Date().toISOString()
-        };
-        
-        console.log('Login Data:', loginData);
-        
-        // Redirect after 1.5 seconds
+          password: formData.password,
+        });
+        showAlert('Login successful! Redirecting...', 'success');
+
         setTimeout(() => {
-          // In real app: navigate to dashboard based on role
-          // For now, just alert
-          alert(`Welcome ${formData.role}! You would be redirected to ${formData.role} dashboard.`);
-          
-          // Reset form
+  // Store user info for protected routing
+  localStorage.setItem("user", JSON.stringify({
+    role: "admin",
+    email: formData.email,
+    name: response.data.admin?.name || ""
+  }));
+  navigate('/dashboard/admin');
+  window.location.reload();
+  setFormData({
+    role: '',
+    email: '',
+    password: '',
+    rememberMe: false,
+  });
+
+}, 1500);
+
+      } catch (error) {
+        showAlert('Invalid credentials. Please check your role, email and password.', 'error');
+      }
+    } else {
+      // Use demo credentials for other roles until backend implementation
+      const roleCredentials = demoCredentials[formData.role];
+
+      if (
+        roleCredentials &&
+        formData.email === roleCredentials.email &&
+        formData.password === roleCredentials.password
+      ) {
+        showAlert('Login successful! Redirecting...', 'success');
+        setTimeout(() => {
           setFormData({
             role: '',
             email: '',
             password: '',
-            rememberMe: false
+            rememberMe: false,
           });
+          navigate('/');
         }, 1500);
       } else {
         showAlert('Invalid credentials. Please check your role, email and password.', 'error');
       }
-      
-      setIsLoading(false);
-    }, 1000);
+    }
+
+    setIsLoading(false);
   };
 
-  // Handle forgot password
   const handleForgotPassword = (e) => {
     e.preventDefault();
-    
+
     if (formData.email && validateEmail(formData.email)) {
       showAlert(`Password reset link sent to ${formData.email}`, 'success');
     } else {
@@ -158,13 +165,11 @@ const Login = () => {
     }
   };
 
-  // Handle signup link
   const handleSignupClick = (e) => {
     e.preventDefault();
-    alert('Please contact your system administrator at admin@company.com to create a new account.');
+    window.alert('Please contact your system administrator at admin@company.com to create a new account.');
   };
 
-  // Log demo credentials on component mount
   React.useEffect(() => {
     console.log('=== DEMO CREDENTIALS ===');
     console.log('Institute: Institute@company.com / Institute123');
@@ -190,9 +195,7 @@ const Login = () => {
 
           <form onSubmit={handleSubmit} noValidate>
             <div className="form-group">
-              <label htmlFor="role">
-                Login As <span className="required">*</span>
-              </label>
+              <label htmlFor="role">Login As <span className="required">*</span></label>
               <select
                 id="role"
                 name="role"
@@ -202,20 +205,15 @@ const Login = () => {
                 required
               >
                 <option value="">Select Role</option>
-                 <option value="Institute">Institute</option>
+                <option value="Institute">Institute</option>
                 <option value="admin">Administrator</option>
                 <option value="User">User</option>
-               
               </select>
-              {errors.role && (
-                <div className="error-message show">{errors.role}</div>
-              )}
+              {errors.role && <div className="error-message show">{errors.role}</div>}
             </div>
 
             <div className="form-group">
-              <label htmlFor="email">
-                Email Address <span className="required">*</span>
-              </label>
+              <label htmlFor="email">Email Address <span className="required">*</span></label>
               <input
                 type="email"
                 id="email"
@@ -228,15 +226,11 @@ const Login = () => {
                 autoComplete="email"
                 required
               />
-              {errors.email && (
-                <div className="error-message show">{errors.email}</div>
-              )}
+              {errors.email && <div className="error-message show">{errors.email}</div>}
             </div>
 
             <div className="form-group">
-              <label htmlFor="password">
-                Password <span className="required">*</span>
-              </label>
+              <label htmlFor="password">Password <span className="required">*</span></label>
               <div className="input-wrapper">
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -256,12 +250,10 @@ const Login = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   aria-label="Toggle password visibility"
                 >
-                  {showPassword ? '😶‍🌫️' : '👁️'}
+                  {showPassword ? '🙈' : '👁️'}
                 </button>
               </div>
-              {errors.password && (
-                <div className="error-message show">{errors.password}</div>
-              )}
+              {errors.password && <div className="error-message show">{errors.password}</div>}
             </div>
 
             <div className="form-options">
@@ -279,6 +271,7 @@ const Login = () => {
                 Forgot password?
               </a>
             </div>
+
             <button type="submit" className="btn" disabled={isLoading}>
               {isLoading ? 'Signing in...' : 'Sign In'}
             </button>
