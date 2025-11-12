@@ -1,6 +1,8 @@
 import express from "express"
 import cors from "cors"
 import { connectDB } from "./config/db.js"
+import adminRoutes from './routes/adminRoutes.js';
+// other imports...
 
 
 //app config
@@ -25,5 +27,10 @@ app.listen(port,()=>{
 })
 
 //mongodb+srv://prajayfaldesai987_db_user:sw1Q2wdIw5ElcQvP@safhon.lv9v368.mongodb.net/?appName=SAFHON
+
+
+
+app.use("/api/admins", adminRoutes);
+
 
 
