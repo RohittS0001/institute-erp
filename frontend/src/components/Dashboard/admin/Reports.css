@@ -61,3 +61,71 @@
   border-top: 1px solid #eee;
   padding-top: 20px;
 }
+
+
+@media (max-width: 700px) {
+  .page-content {
+    padding: 12px 4vw;
+    border-radius: 6px;
+    min-width: 0;
+    min-height: calc(100vh - 32px);
+    margin: 0 auto;
+  }
+  .page-content h1 {
+    font-size: 1.23rem;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .report-form {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+    margin-bottom: 18px;
+  }
+  .report-form label {
+    font-size: 0.95rem;
+  }
+  .report-form select,
+  .report-form input[type="date"] {
+    width: 100%;
+    min-width: auto;
+    padding: 8px 12px;
+    font-size: 0.95rem;
+    box-sizing: border-box;
+  }
+  .generate-btn {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 1rem;
+  }
+  .report-placeholder {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .page-content {
+    padding: 6px 2vw;
+    border-radius: 3px;
+    min-height: calc(100vh - 16px);
+  }
+  .page-content h1 {
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+  }
+  .report-form label {
+    font-size: 0.88rem;
+  }
+  .report-form select,
+  .report-form input[type="date"] {
+    font-size: 0.87rem;
+    padding: 6px 10px;
+  }
+  .generate-btn {
+    font-size: 0.95rem;
+    padding: 8px 0;
+  }
+  .report-placeholder {
+    font-size: 0.95rem;
+  }
+}

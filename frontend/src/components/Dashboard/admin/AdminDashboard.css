@@ -178,3 +178,65 @@
 .delete-btn:hover {
   background-color: #d32f2f;
 }
+
+/* Responsive Dashboard: Add below at the end of your file */
+
+@media (max-width: 900px) {
+  .dashboard-content {
+    padding: 16px 5px;
+  }
+  .widgets-section {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+}
+@media (max-width: 700px) {
+  .dashboard-header h1 {
+    font-size: 1.5rem;
+  }
+  .search-input {
+    width: 100%;
+    max-width: 98vw;
+    font-size: 0.95rem;
+  }
+  .widgets-section {
+    flex-direction: column;
+    gap: 14px;
+  }
+  .widget-card {
+    min-width: 0;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 10px;
+    font-size: 0.9rem;
+  }
+  .institutes-table-section {
+    padding: 14px 3px;
+    border-radius: 7px;
+  }
+}
+
+@media (max-width: 500px) {
+  .dashboard-content {
+    padding: 5px 2px;
+  }
+  .sidebar.collapsed {
+    width: 50px;
+    min-width: 50px;
+  }
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 9px;
+    margin-bottom: 18px;
+  }
+  .institutes-table th,
+  .institutes-table td {
+    padding: 7px 6px;
+    font-size: 0.85em;
+  }
+  .widgets-section {
+    flex-direction: column;
+    gap: 12px;
+  }
+}

@@ -205,8 +205,8 @@ const Login = () => {
                 required
               >
                 <option value="">Select Role</option>
-                <option value="Institute">Institute</option>
-                <option value="admin">Administrator</option>
+                <option value="Institute">Administrator</option>
+                <option value="admin">Institute</option>
                 <option value="User">User</option>
               </select>
               {errors.role && <div className="error-message show">{errors.role}</div>}

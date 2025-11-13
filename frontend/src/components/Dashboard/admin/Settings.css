@@ -77,3 +77,57 @@ input[type="checkbox"] {
 .save-btn:hover {
   background-color: #2c387e;
 }
+
+
+/* Mobile Responsive Styles */
+@media (max-width: 600px) {
+  .page-content {
+    padding: 14px 4px;
+    border-radius: 0;
+    min-height: calc(100vh - 40px);
+  }
+
+  .page-content h1 {
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+  }
+
+  fieldset {
+    padding: 10px 2px;
+  }
+
+  legend {
+    font-size: 1rem;
+    padding: 0 2px;
+  }
+
+  label {
+    margin-bottom: 8px;
+    font-size: 0.93rem;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="email"] {
+    font-size: 0.93rem;
+    padding: 7px 6px;
+  }
+
+  .checkbox-label {
+    gap: 4px;
+    font-size: 0.93rem;
+  }
+
+  input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+  }
+
+  .save-btn {
+    font-size: 1rem;
+    padding: 11px 0;
+    width: 100%;
+    max-width: 100%;
+    align-self: stretch;
+  }
+}

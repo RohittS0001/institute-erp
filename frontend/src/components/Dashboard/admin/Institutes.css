@@ -102,3 +102,115 @@
   color: #f44336;
   font-weight: 700;
 }
+
+
+@media (max-width: 700px) {
+  .page-content {
+    padding: 12px 4vw;
+    border-radius: 6px;
+    min-width: 0;
+    min-height: calc(100vh - 32px);
+    margin: 0 auto;
+  }
+  .page-content h1 {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .header-top {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+  .institutes-search {
+    width: 100%;
+    max-width: 99vw;
+    margin-bottom: 8px;
+    font-size: 0.97rem;
+    box-sizing: border-box;
+  }
+  .add-btn {
+    width: 98vw;
+    max-width: 250px;
+    margin: 0 auto 8px auto;
+    font-size: 1rem;
+    padding: 8px 12px;
+  }
+  .add-form {
+    flex-direction: column;
+    gap: 9px;
+    align-items: stretch;
+  }
+  .add-form input,
+  .add-form select {
+    width: 100%;
+    font-size: 0.95rem;
+    flex: 1 1 90px;
+    box-sizing: border-box;
+  }
+  .submit-btn {
+    width: 100%;
+    font-size: 1rem;
+    padding: 8px 0;
+  }
+  .institutes-table {
+    font-size: 0.97rem;
+    width: 100vw;
+    display: block;
+    overflow-x: auto;
+  }
+  .institutes-table th,
+  .institutes-table td {
+    padding: 6px 8px;
+    font-size: 0.89em;
+  }
+}
+
+@media (max-width: 500px) {
+  .page-content {
+    padding: 5px 1vw;
+    border-radius: 3px;
+    min-height: calc(100vh - 14px);
+  }
+  .page-content h1 {
+    font-size: 1.1rem;
+    margin-bottom: 7px;
+    text-align: center;
+  }
+  .header-top {
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .institutes-search {
+    width: 100%;
+    max-width: 99vw;
+    padding: 7px 8px;
+    font-size: 0.87rem;
+  }
+  .add-btn {
+    font-size: 0.94rem;
+    max-width: none;
+    width: 99vw;
+  }
+  .add-form input,
+  .add-form select {
+    font-size: 0.88rem;
+    padding: 7px 8px;
+    border-radius: 5px;
+  }
+  .submit-btn {
+    font-size: 0.97rem;
+    padding: 8px 0;
+  }
+  .institutes-table {
+    font-size: 0.9rem;
+    width: 99vw;
+    overflow-x: auto;
+    display: block;
+  }
+  .institutes-table th,
+  .institutes-table td {
+    padding: 4px 6px;
+    font-size: 0.78em;
+  }
+}
