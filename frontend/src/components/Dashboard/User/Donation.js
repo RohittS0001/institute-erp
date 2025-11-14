@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Donation.css";
 
 export default function Donation() {
   const navigate = useNavigate();
-  const [donations, setDonations] = useState([]);
+  const [donations, setDonations] = useState([
+    { donor: "Ajay", amount: 5000, date: "2025-09-10", purpose: "Scholarship", _id: 1 }
+  ]);
   const [form, setForm] = useState({
     donor: "",
     amount: "",
@@ -12,27 +14,15 @@ export default function Donation() {
     purpose: ""
   });
 
-  // Fetch donation data from backend
-  useEffect(() => {
-    fetch("http://localhost:4000/api/donation")
-      .then(res => res.json())
-      .then(data => setDonations(data));
-  }, []);
-
-  // Handle form input changes
-  const handleChange = (e) =>
+  const handleChange = e =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  // Submit new donation to backend
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
-    fetch("http://localhost:4000/api/donation", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form)
-    })
-      .then(res => res.json())
-      .then(data => setDonations(prev => [...prev, data]));
+    setDonations(prev => [
+      ...prev,
+      { ...form, _id: Date.now() }
+    ]);
     setForm({ donor: "", amount: "", date: "", purpose: "" });
   };
 
@@ -48,7 +38,6 @@ export default function Donation() {
           ⬅ Back to Dashboard
         </button>
       </header>
-
       <main className="donation-content">
         <section className="donation-campaigns">
           <h2>Active Campaigns</h2>
@@ -58,7 +47,6 @@ export default function Donation() {
             <li>🌍 Community Outreach Program</li>
           </ul>
         </section>
-
         <section className="donation-actions">
           <h2>Make a Donation</h2>
           <form onSubmit={handleSubmit} className="donation-form">
@@ -98,7 +86,7 @@ export default function Donation() {
           <h2>Previous Donations</h2>
           <ul>
             {donations.length > 0 ? (
-              donations.map((item) => (
+              donations.map(item => (
                 <li key={item._id}>
                   {item.donor} donated ₹{item.amount} on {item.date} ({item.purpose})
                 </li>
@@ -113,56 +101,3 @@ export default function Donation() {
   );
 }
 
-
-
-// import React from "react";
-// import { useNavigate } from "react-router-dom";
-// import "./Donation.css";
-
-// export default function Donation() {
-//   const navigate = useNavigate();
-
-//   return (
-//     <div className="donation-page">
-//       {/* Header Section */}
-//       <header className="donation-header">
-//         <h1>💖 Donation</h1>
-//         <p>
-//           Support our foundation’s mission. Every contribution helps fund
-//           scholarships, research, and student development.
-//         </p>
-//         <button className="back-btn" onClick={() => navigate(-1)}>
-//           ⬅ Back to Dashboard
-//         </button>
-//       </header>
-
-//       {/* Content Section */}
-//       <main className="donation-content">
-//         <section className="donation-campaigns">
-//           <h2>Active Campaigns</h2>
-//           <ul>
-//             <li>🎓 Scholarship Fund 2025</li>
-//             <li>🔬 Research Innovation Drive</li>
-//             <li>🌍 Community Outreach Program</li>
-//           </ul>
-//         </section>
-
-//         <section className="donation-actions">
-//           <h2>Quick Actions</h2>
-//           <button
-//             className="donate-btn"
-//             onClick={() => alert("Make a Donation clicked")}
-//           >
-//             💰 Make a Donation
-//           </button>
-//           <button
-//             className="donate-btn secondary"
-//             onClick={() => alert("View Donation History clicked")}
-//           >
-//             📜 View Donation History
-//           </button>
-//         </section>
-//       </main>
-//     </div>
-//   );
-// }
