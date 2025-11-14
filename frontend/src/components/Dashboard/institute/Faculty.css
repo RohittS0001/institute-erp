@@ -1,0 +1,79 @@
+.faculty-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.faculty-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.faculty-btn {
+  background: #2643e9;
+  color: #fff;
+  border: none;
+  padding: 9px 16px;
+  border-radius: 7px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.17s;
+}
+.faculty-btn:hover {
+  background: #2ca7fa;
+  color: #fffba9;
+}
+
+.add-faculty-form {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.add-faculty-form input {
+  padding: 8px 14px;
+  border: 1.5px solid #2ca7fa;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.faculty-topbar {
+  display: flex;
+  justify-content: end;
+  margin-bottom: 22px;
+}
+
+.faculty-search {
+  min-width: 210px;
+  padding: 8px 16px;
+  border: 2px solid #2643e9;
+  border-radius: 8px;
+  font-size: 1.02rem;
+  background: #f4f8ff;
+  color: #2643e9;
+}
+
+.faculty-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fbfbff;
+  box-shadow: 0 2px 8px #2643e915;
+  border-radius: 9px;
+  overflow: hidden;
+}
+
+.faculty-table th,
+.faculty-table td {
+  padding: 12px 10px;
+  text-align: left;
+  border-bottom: 1px solid #e6eaf5;
+}
+
+.faculty-table th {
+  background: #2643e9;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+}

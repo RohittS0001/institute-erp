@@ -1,0 +1,79 @@
+.notif-page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 38px 16px;
+}
+.notif-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.notif-btn {
+  background: #2643e9;
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-left: 7px;
+  transition: background 0.165s;
+}
+.notif-btn:hover {
+  background: #2ca7fa;
+  color: #fffba9;
+}
+.notif-add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 16px;
+  background: #fbfbff;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 2px 8px #2643e90f;
+}
+.notif-add-form input,
+.notif-add-form textarea {
+  font-size: 1rem;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1.5px solid #2ca7fa;
+  resize: vertical;
+}
+.notif-list {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+.notif-card {
+  background: #fbfbff;
+  border-radius: 12px;
+  padding: 19px 17px 14px 17px;
+  box-shadow: 0 1px 8px #2643e91a;
+  margin-bottom: 1px;
+}
+.notif-title {
+  font-size: 1.11rem;
+  font-weight: 700;
+  color: #2643e9;
+  margin-bottom: 7px;
+}
+.notif-msg {
+  font-size: 1rem;
+  color: #3c3c3c;
+  margin-bottom: 8px;
+}
+.notif-time {
+  color: #1d8744;
+  font-size: 0.92rem;
+  text-align: right;
+}
+.notif-empty {
+  color: #999;
+  font-size: 1.09rem;
+  margin-top: 24px;
+  text-align: center;
+}
