@@ -1,36 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./Institutes.css";
-
-const dummyInstitutes = [
-  {
-    id: 1,
-    name: "Institute A",
-    location: "New York",
-    status: "Active",
-    contactPerson: "John Doe",
-    email: "john@insta.com",
-  },
-  {
-    id: 2,
-    name: "Institute B",
-    location: "California",
-    status: "Inactive",
-    contactPerson: "Alice Smith",
-    email: "alice@instb.com",
-  },
-  {
-    id: 3,
-    name: "Institute C",
-    location: "Texas",
-    status: "Active",
-    contactPerson: "Richard Roe",
-    email: "richard@instc.com",
-  },
-];
 
 const Institutes = () => {
   const [search, setSearch] = useState("");
-  const [institutes, setInstitutes] = useState(dummyInstitutes);
+  const [institutes, setInstitutes] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [newInstitute, setNewInstitute] = useState({
     name: "",
@@ -40,7 +14,19 @@ const Institutes = () => {
     email: "",
   });
 
-  // Handle filter
+  useEffect(() => {
+    const fetchInstitutes = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/api/institutes");
+        setInstitutes(response.data);
+      } catch (error) {
+        console.error("Error fetching institutes:", error);
+        setInstitutes([]);
+      }
+    };
+    fetchInstitutes();
+  }, []);
+
   const filtered = institutes.filter(
     (inst) =>
       inst.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -50,34 +36,37 @@ const Institutes = () => {
       inst.email.toLowerCase().includes(search.toLowerCase())
   );
 
-  // Handle input changes for the form
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewInstitute((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle form submission adding a new institute
-  const handleAddInstitute = (e) => {
+  const handleAddInstitute = async (e) => {
     e.preventDefault();
     if (!newInstitute.name.trim()) {
       alert("Institute Name is required");
       return;
     }
-    setInstitutes((prev) => [
-      ...prev,
-      { ...newInstitute, id: prev.length + 1 },
-    ]);
-    setNewInstitute({
-      name: "",
-      location: "",
-      status: "Active",
-      contactPerson: "",
-      email: "",
-    });
-    setShowAddForm(false);
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/api/institutes",
+        newInstitute
+      );
+      setInstitutes((prev) => [...prev, response.data]);
+      setNewInstitute({
+        name: "",
+        location: "",
+        status: "Active",
+        contactPerson: "",
+        email: "",
+      });
+      setShowAddForm(false);
+    } catch (error) {
+      console.error("Failed to add institute:", error);
+      alert("Failed to add institute. Please try again.");
+    }
   };
 
-  // Toggle Add Form
   const toggleForm = () => setShowAddForm((prev) => !prev);
 
   return (
@@ -151,7 +140,7 @@ const Institutes = () => {
         <tbody>
           {filtered.length ? (
             filtered.map((instit) => (
-              <tr key={instit.id}>
+              <tr key={instit.id || instit._id}>
                 <td>{instit.name}</td>
                 <td>{instit.location}</td>
                 <td>

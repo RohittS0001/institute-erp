@@ -69,3 +69,76 @@
 .status-label.failed {
   background-color: #f44336;
 }
+
+@media (max-width: 700px) {
+  .page-content {
+    padding: 12px 4vw;
+    border-radius: 6px;
+    min-width: 0;
+    min-height: calc(100vh - 32px);
+    margin: 0 auto;
+  }
+  .page-content h1 {
+    font-size: 1.35rem;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .filter-bar {
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
+  }
+  .filter-bar label {
+    margin-bottom: 4px;
+  }
+  .filter-bar select {
+    font-size: 0.97rem;
+    padding: 8px 10px;
+    width: 100%;
+    max-width: 99vw;
+  }
+  .transactions-table {
+    font-size: 0.97rem;
+    width: 100vw;
+    display: block;
+    overflow-x: auto;
+  }
+  .transactions-table th,
+  .transactions-table td {
+    padding: 6px 8px;
+    font-size: 0.87em;
+  }
+}
+
+@media (max-width: 500px) {
+  .page-content {
+    padding: 5px 1vw;
+    border-radius: 3px;
+    min-height: calc(100vh - 14px);
+  }
+  .page-content h1 {
+    font-size: 1.12rem;
+    margin-bottom: 7px;
+  }
+  .filter-bar {
+    font-size: 0.97rem;
+    gap: 4px;
+  }
+  .filter-bar select {
+    font-size: 0.89rem;
+    padding: 6px 8px;
+  }
+  .transactions-table {
+    font-size: 0.9rem;
+    width: 99vw;
+    overflow-x: auto;
+    display: block;
+  }
+  .transactions-table th,
+  .transactions-table td {
+    padding: 4px 8px;
+    font-size: 0.75em;
+  }
+}

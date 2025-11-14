@@ -18,8 +18,7 @@ const Admin = () => {
       <main className="dashboard-content">
         <Routes>
           <Route index element={<AdminDashboard />} />
-{/* 
-          <Route path="admin" element={<AdminDashboard />} /> */}
+          <Route path="admin" element={<AdminDashboard />} /> 
           <Route path="institutes" element={<Institutes />} />
           <Route path="users" element={<Users />} />
           <Route path="courses" element={<Courses />} />

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./Reports.css";
 
 const reportTypes = ["Attendance", "Enrollment", "Financial", "Performance", "Custom"];
@@ -6,19 +7,40 @@ const reportTypes = ["Attendance", "Enrollment", "Financial", "Performance", "Cu
 const Reports = () => {
   const [selectedReport, setSelectedReport] = useState(reportTypes[0]);
   const [dateRange, setDateRange] = useState({ from: "", to: "" });
+  const [loading, setLoading] = useState(false);
+  const [reportData, setReportData] = useState(null);
+  const [error, setError] = useState(null);
 
   const handleReportChange = (e) => {
     setSelectedReport(e.target.value);
+    setReportData(null);
+    setError(null);
   };
 
   const handleDateChange = (e) => {
     setDateRange({ ...dateRange, [e.target.name]: e.target.value });
+    setReportData(null);
+    setError(null);
   };
 
-  const handleGenerate = (e) => {
+  const handleGenerate = async (e) => {
     e.preventDefault();
-    alert(`Generating ${selectedReport} report from ${dateRange.from} to ${dateRange.to}`);
-    // In real app, trigger API call here
+    setLoading(true);
+    setError(null);
+    setReportData(null);
+
+    try {
+      const response = await axios.post("http://localhost:4000/api/reports", {
+        type: selectedReport,
+        from: dateRange.from,
+        to: dateRange.to,
+      });
+      setReportData(response.data);
+    } catch (err) {
+      setError("Failed to generate report. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -46,16 +68,21 @@ const Reports = () => {
           <input type="date" name="to" value={dateRange.to} onChange={handleDateChange} required />
         </label>
 
-        <button type="submit" className="generate-btn">
-          Generate Report
+        <button type="submit" className="generate-btn" disabled={loading}>
+          {loading ? "Generating..." : "Generate Report"}
         </button>
       </form>
 
       <section className="report-placeholder">
-        <p>
-          Generated reports will appear here once implemented.  
-          Use the form above to select report type and date range.
-        </p>
+        {error && <p className="error-msg">{error}</p>}
+        {reportData ? (
+          <pre>{JSON.stringify(reportData, null, 2)}</pre> // Replace with formatted report UI
+        ) : (
+          <p>
+            Generated reports will appear here once implemented.
+            Use the form above to select report type and date range.
+          </p>
+        )}
       </section>
     </div>
   );

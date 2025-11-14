@@ -1,32 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./Users.css";
 
-const initialUsers = [
-  {
-    id: 1,
-    name: "John Doe",
-    email: "john@example.com",
-    role: "Institute Admin",
-    status: "Active",
-  },
-  {
-    id: 2,
-    name: "Alice Smith",
-    email: "alice@example.com",
-    role: "User",
-    status: "Inactive",
-  },
-  {
-    id: 3,
-    name: "Bob Johnson",
-    email: "bob@example.com",
-    role: "Admin",
-    status: "Active",
-  },
-];
-
 const Users = () => {
-  const [users, setUsers] = useState(initialUsers);
+  const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [showAddForm, setShowAddForm] = useState(false);
   const [newUser, setNewUser] = useState({
@@ -36,7 +13,19 @@ const Users = () => {
     status: "Active",
   });
 
-  // Search filter
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/api/users");
+        setUsers(response.data);
+      } catch (error) {
+        console.error("Failed to fetch users:", error);
+        setUsers([]);
+      }
+    };
+    fetchUsers();
+  }, []);
+
   const filteredUsers = users.filter(
     (user) =>
       user.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -45,29 +34,29 @@ const Users = () => {
       user.status.toLowerCase().includes(search.toLowerCase())
   );
 
-  // Handle form input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewUser((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Add new user
-  const handleAddUser = (e) => {
+  const handleAddUser = async (e) => {
     e.preventDefault();
     if (!newUser.name || !newUser.email) {
       alert("Name and Email are required");
       return;
     }
-    setUsers((prev) => [
-      ...prev,
-      { ...newUser, id: prev.length + 1 },
-    ]);
-    setNewUser({ name: "", email: "", role: "User", status: "Active" });
-    setShowAddForm(false);
+    try {
+      const response = await axios.post("http://localhost:4000/api/users", newUser);
+      setUsers((prev) => [...prev, response.data]);
+      setNewUser({ name: "", email: "", role: "User", status: "Active" });
+      setShowAddForm(false);
+    } catch (error) {
+      console.error("Failed to add user:", error);
+      alert("Failed to add user. Please try again.");
+    }
   };
 
-  // Toggle form display
-  const toggleForm = () => setShowAddForm(!showAddForm);
+  const toggleForm = () => setShowAddForm((prev) => !prev);
 
   return (
     <div className="page-content">
@@ -130,7 +119,7 @@ const Users = () => {
         <tbody>
           {filteredUsers.length ? (
             filteredUsers.map((user) => (
-              <tr key={user.id} className={user.status.toLowerCase()}>
+              <tr key={user.id || user._id} className={user.status.toLowerCase()}>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
                 <td>{user.role}</td>

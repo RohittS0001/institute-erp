@@ -102,3 +102,97 @@
   color: #f44336;
   font-weight: 700;
 }
+
+@media (max-width: 700px) {
+  .page-content {
+    padding: 10px 4vw;
+    border-radius: 5px;
+    min-width: 0;
+    min-height: calc(100vh - 32px);
+    box-shadow: 0px 1px 6px rgb(0 0 0 / 0.13);
+    margin: 0 auto;
+  }
+  .page-content h1 {
+    font-size: 1.35rem;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .header-top {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+  .courses-search {
+    width: 100%;
+    max-width: 99vw;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+  }
+  .add-btn {
+    width: 98vw;
+    max-width: 260px;
+    margin: 0 auto 8px auto;
+    font-size: 1rem;
+    padding: 8px 10px;
+  }
+  .add-form {
+    flex-direction: column;
+    gap: 9px;
+    align-items: stretch;
+  }
+  .add-form input,
+  .add-form select {
+    width: 100%;
+    font-size: 0.95rem;
+    flex: 1 1 80px;
+  }
+  .submit-btn {
+    width: 100%;
+    font-size: 1rem;
+    padding: 8px 0;
+  }
+}
+
+@media (max-width: 500px) {
+  .page-content {
+    padding: 5px 1vw;
+    min-height: calc(100vh - 14px);
+    border-radius: 3px;
+    margin: 0;
+  }
+  .header-top {
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .courses-search {
+    width: 100%;
+    max-width: 98vw;
+    padding: 7px 8px;
+    font-size: 0.87rem;
+  }
+  .add-btn {
+    font-size: 0.94rem;
+  }
+  .add-form input,
+  .add-form select {
+    font-size: 0.88rem;
+    padding: 7px 8px;
+    border-radius: 5px;
+  }
+  .submit-btn {
+    font-size: 0.97rem;
+    padding: 8px 0;
+  }
+  .courses-table {
+    font-size: 0.91rem;
+    width: 99vw;
+    overflow-x: auto;
+    display: block;
+  }
+  .courses-table th,
+  .courses-table td {
+    padding: 5px 8px;
+    font-size: 0.82em;
+  }
+}
