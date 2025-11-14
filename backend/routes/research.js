@@ -1,9 +1,0 @@
-import express from "express";
-import { getResearches, createResearch } from "../controllers/researchController.js";
-
-const router = express.Router();
-
-router.get("/", getResearches);
-router.post("/", createResearch);
-
-export default router;
