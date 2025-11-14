@@ -1,8 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/Login/Login";
-
-// Dashboard containers (containers with nested routes)
 import Admin from "./components/Dashboard/admin/admin";
 import UserDashboard from "./components/Dashboard/User/User";
 import InstituteDashboard from "./components/Dashboard/institute/institute";

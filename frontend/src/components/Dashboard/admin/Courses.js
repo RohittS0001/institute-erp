@@ -14,10 +14,10 @@ const Courses = () => {
   });
 
   useEffect(() => {
-    // Fetch courses from backend API on component mount
+    // Fetch courses from backend API
     const fetchCourses = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/courses");
+        const response = await axios.get("http://localhost:4000/api/admin/courses");
         setCourses(response.data);
       } catch (error) {
         console.error("Error fetching courses:", error);
@@ -48,12 +48,9 @@ const Courses = () => {
       alert("Course title is required");
       return;
     }
-    // Send data to backend API to save in database
     try {
-      const response = await axios.post("http://localhost:4000/api/courses", newCourse);
-      // Add the newly created course to local list
+      const response = await axios.post("http://localhost:4000/api/admin/courses", newCourse);
       setCourses((prev) => [...prev, response.data]);
-      // Reset form
       setNewCourse({ title: "", duration: "", instructor: "", status: "Active" });
       setShowAddForm(false);
     } catch (error) {

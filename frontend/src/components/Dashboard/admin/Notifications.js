@@ -19,7 +19,7 @@ const Notifications = () => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/notifications");
+        const response = await axios.get("http://localhost:4000/api/admin/notifications");
         setNotifications(response.data);
       } catch (error) {
         console.error("Error fetching notifications:", error);
@@ -29,13 +29,20 @@ const Notifications = () => {
     fetchNotifications();
   }, []);
 
-  const toggleReadStatus = (id) => {
+  const toggleReadStatus = async (id) => {
+    // Optimistic UI update
     setNotifications((prev) =>
       prev.map((notif) =>
-        notif.id === id ? { ...notif, read: !notif.read } : notif
+        notif.id === id || notif._id === id ? { ...notif, read: !notif.read } : notif
       )
     );
-    // For persistence, call backend API here on toggle if needed
+    // Persist change to backend
+    try {
+      await axios.put(`http://localhost:4000/api/admin/notifications/${id}/toggle-read`);
+    } catch (error) {
+      console.error("Failed to update read status:", error);
+      // Optionally revert UI change or refetch notifications here
+    }
   };
 
   return (
@@ -45,11 +52,11 @@ const Notifications = () => {
         {notifications.length === 0 ? (
           <li className="no-notifications">No notifications</li>
         ) : (
-          notifications.map(({ id, type, message, date, read }) => (
+          notifications.map(({ id, _id, type, message, date, read }) => (
             <li
-              key={id || id._id}
+              key={id || _id}
               className={`notification-item ${read ? "read" : "unread"}`}
-              onClick={() => toggleReadStatus(id)}
+              onClick={() => toggleReadStatus(id || _id)}
             >
               <div className="notif-type">{type}</div>
               <div className="notif-message">{message}</div>

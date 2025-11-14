@@ -17,7 +17,7 @@ const Institutes = () => {
   useEffect(() => {
     const fetchInstitutes = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/institutes");
+        const response = await axios.get("http://localhost:4000/api/admin/institutes");
         setInstitutes(response.data);
       } catch (error) {
         console.error("Error fetching institutes:", error);
@@ -30,10 +30,10 @@ const Institutes = () => {
   const filtered = institutes.filter(
     (inst) =>
       inst.name.toLowerCase().includes(search.toLowerCase()) ||
-      inst.location.toLowerCase().includes(search.toLowerCase()) ||
-      inst.status.toLowerCase().includes(search.toLowerCase()) ||
-      inst.contactPerson.toLowerCase().includes(search.toLowerCase()) ||
-      inst.email.toLowerCase().includes(search.toLowerCase())
+      (inst.location && inst.location.toLowerCase().includes(search.toLowerCase())) ||
+      (inst.status && inst.status.toLowerCase().includes(search.toLowerCase())) ||
+      (inst.contactPerson && inst.contactPerson.toLowerCase().includes(search.toLowerCase())) ||
+      (inst.email && inst.email.toLowerCase().includes(search.toLowerCase()))
   );
 
   const handleChange = (e) => {
@@ -49,7 +49,7 @@ const Institutes = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/institutes",
+        "http://localhost:4000/api/admin/institutes",
         newInstitute
       );
       setInstitutes((prev) => [...prev, response.data]);

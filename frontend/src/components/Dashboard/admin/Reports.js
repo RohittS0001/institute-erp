@@ -30,7 +30,7 @@ const Reports = () => {
     setReportData(null);
 
     try {
-      const response = await axios.post("http://localhost:4000/api/reports", {
+      const response = await axios.post("http://localhost:4000/api/admin/reports", {
         type: selectedReport,
         from: dateRange.from,
         to: dateRange.to,
