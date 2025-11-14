@@ -30,7 +30,7 @@ app.listen(port,()=>{
 
 
 
-app.use("/api/admins", adminRoutes);
+app.use("/api/admin", adminRoutes);
 
 
 

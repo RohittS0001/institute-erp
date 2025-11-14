@@ -101,7 +101,7 @@ const Login = () => {
 
     if (formData.role === 'admin') {
       try {
-        const response = await axios.post('http://localhost:4000/api/admins/login', {
+        const response = await axios.post('http://localhost:4000/api/admin/login', {
           email: formData.email,
           password: formData.password,
         });
@@ -205,8 +205,8 @@ const Login = () => {
                 required
               >
                 <option value="">Select Role</option>
-                <option value="Institute">Administrator</option>
-                <option value="admin">Institute</option>
+                <option value="admin">Administrator</option>
+                <option value="Institute">Institute</option>
                 <option value="User">User</option>
               </select>
               {errors.role && <div className="error-message show">{errors.role}</div>}
@@ -250,7 +250,7 @@ const Login = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   aria-label="Toggle password visibility"
                 >
-                  {showPassword ? '🙈' : '👁️'}
+                  {showPassword ? '😶‍🌫️' : '👁️'}
                 </button>
               </div>
               {errors.password && <div className="error-message show">{errors.password}</div>}
