@@ -1,4 +1,77 @@
-.page-container {
+.awards-page {
+  padding: 2rem;
+  font-family: "Poppins", sans-serif;
+  background: #f9fafc;
+  color: #333;
+}
+
+.awards-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.awards-header h1 {
+  font-size: 2rem;
+  color: #4e73df;
+}
+
+.awards-header p {
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+.back-btn {
+  margin-top: 1rem;
+  padding: 10px 20px;
+  background-color: #4e73df;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.back-btn:hover {
+  background-color: #375ac0;
+}
+
+.awards-content {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.awards-list, .awards-actions {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  width: 45%;
+}
+
+.awards-list h2, .awards-actions h2 {
+  color: #4e73df;
+}
+
+.awards-actions button {
+  display: block;
+  margin: 10px 0;
+  padding: 10px 15px;
+  border: none;
+  background-color: #36b9cc;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.awards-actions button:hover {
+  background-color: #2aa6b8;
+}
+
+
+/* .page-container {
   padding: 40px 60px;
   background-color: #f8fafc;
   min-height: 100vh;
@@ -44,4 +117,4 @@
   transform: translateY(-4px);
   box-shadow: 0 6px 18px rgba(0, 119, 182, 0.15);
   background-color: #f0f8ff;
-}
+} */

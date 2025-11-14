@@ -1,4 +1,289 @@
+/* ================================================
+   🎨 THEME VARIABLES — Change colors here only!
+   ================================================ */
+:root {
+  --primary-color: #eaa119;         /* Main orange */
+  --primary-hover: #cc8f16;         /* Slightly darker for hover (optional) */
+  --secondary-color: #f7f6f4;       /* Page background */
+  --text-light: #ffffff;            /* White text on orange */
+  --border-color: #e5e7eb;
+  --shadow-light: rgba(0, 0, 0, 0.05);
+  --shadow-dark: rgba(0, 0, 0, 0.1);
+}
+
+/* ================================================
+   🧭 Base Container
+   ================================================ */
 .user-dashboard {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 20px;
+  background: var(--secondary-color);
+  font-family: "Poppins", sans-serif;
+  color: var(--text-light);
+}
+
+/* ================================================
+   🏷 Header
+   ================================================ */
+.user-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  background: var(--primary-color);
+  padding: 15px 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px var(--shadow-light);
+}
+
+.user-header h1 {
+  font-size: 1.6rem;
+  margin: 0;
+  color: var(--text-light);
+}
+
+.user-sub {
+  font-size: 0.95rem;
+  color: #fff6d5;
+  margin-top: 3px;
+}
+
+.user-search {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  width: 280px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.user-search:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 5px rgba(234, 161, 25, 0.35);
+}
+
+/* ================================================
+   🔗 Navigation Links (Always Orange)
+   ================================================ */
+.user-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0;
+  justify-content: center;
+}
+
+.user-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  background: var(--primary-color);      /* Orange */
+  border: 1px solid var(--primary-color);
+  padding: 10px 18px;
+  border-radius: 10px;
+  color: var(--text-light);              /* White text */
+  font-weight: 500;
+  box-shadow: 0 2px 4px var(--shadow-light);
+  transition: none;                      /* No hover transition */
+}
+
+.user-link:hover {
+  background: var(--primary-color);      /* Keep same on hover */
+  color: var(--text-light);
+  transform: none;
+}
+
+.link-icon {
+  font-size: 1.2rem;
+  color: var(--text-light);
+}
+
+/* ================================================
+   📊 Widgets Section (All Orange)
+   ================================================ */
+.user-main {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.dashboard-widgets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.widget {
+  background: var(--primary-color); /* Orange */
+  color: var(--text-light);         /* White text */
+  padding: 18px 22px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px var(--shadow-light);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px;
+  transition: none;                  /* No hover change */
+}
+
+.widget:hover {
+  background: var(--primary-color);
+  color: var(--text-light);
+  transform: none;
+  box-shadow: 0 3px 10px var(--shadow-light);
+}
+
+.widget-icon {
+  font-size: 2rem;
+  color: var(--text-light);
+}
+
+.widget h2,
+.widget p {
+  color: var(--text-light);
+  margin: 0;
+}
+
+/* Ensure titles are readable */
+.widget h2 {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+/* ================================================
+   🕒 Recent Activity (Orange + White)
+   ================================================ */
+.recent-activity {
+  background: var(--primary-color); /* Orange */
+  color: var(--text-light);         /* White */
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px var(--shadow-light);
+}
+
+.recent-activity h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: var(--text-light);
+}
+
+.recent-activity ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recent-activity li {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.18);
+  font-size: 0.95rem;
+  color: var(--text-light);
+}
+
+.recent-activity li:last-child {
+  border-bottom: none;
+}
+
+.time {
+  color: #fff6d5;
+  font-size: 0.85rem;
+}
+
+/* ================================================
+   🚪 Logout Button (kept distinct)
+   ================================================ */
+.logout-btn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background-color: #e74a3b;
+  color: #fff;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(231, 74, 59, 0.4);
+  transition: background-color 0.2s ease, transform 0.12s ease;
+  z-index: 1000;
+}
+
+.logout-btn:hover {
+  background-color: #c0392b;
+  transform: none;
+}
+
+/* ================================================
+   📱 Responsive Design
+   ================================================ */
+@media (max-width: 768px) {
+  .user-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .user-search {
+    width: 100%;
+  }
+
+  .dashboard-widgets {
+    grid-template-columns: 1fr;
+  }
+
+  .widget {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  .user-link {
+    flex: 1 1 45%;
+    justify-content: center;
+  }
+
+  .logout-btn {
+    position: static;
+    margin: 20px auto;
+    display: block;
+    width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-header h1 {
+    font-size: 1.3rem;
+  }
+
+  .widget-icon {
+    font-size: 1.6rem;
+  }
+
+  .widget h2 {
+    font-size: 1rem;
+  }
+
+  .user-link {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+
+  .logout-btn {
+    font-size: 14px;
+    padding: 10px 18px;
+  }
+}
+
+
+
+
+/* 
+
+/* .user-dashboard {
   font-family: 'Segoe UI', Arial, sans-serif;
   background-color: #cdcdcd;
   min-height: 100vh;
@@ -134,4 +419,4 @@
 .time {
   font-size: 0.92rem;
   color: #36b9cc;
-}
+} */

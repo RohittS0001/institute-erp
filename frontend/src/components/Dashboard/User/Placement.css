@@ -1,44 +1,87 @@
-.placement-container {
-  padding: 30px 50px;
-  background: #f9fbfd;
-  min-height: 100vh;
+.placement-page {
+  padding: 2rem;
+  font-family: "Poppins", sans-serif;
+  background-color: #f9fafc;
+  color: #333;
 }
 
 .placement-header {
-  color: #36b9cc;
-  font-weight: 600;
-  margin-bottom: 15px;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
-.placement-list {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+.placement-header h1 {
+  font-size: 2rem;
+  color: #1c3ec8;
 }
 
-.placement-card {
-  background: #ffffff;
-  border-left: 5px solid #36b9cc;
-  border-radius: 14px;
-  padding: 20px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-}
-
-.placement-card h4 {
-  margin: 0;
-  color: #222;
-}
-
-.placement-card p {
+.placement-header p {
   color: #555;
-  margin-top: 5px;
+  margin-top: 0.5rem;
 }
 
-.interview-highlight {
-  background: #eaf7fb;
-  padding: 10px;
+.back-btn {
+  margin-top: 1rem;
+  padding: 10px 20px;
+  background-color: #1c3ec8;
+  color: white;
+  border: none;
   border-radius: 8px;
-  color: #0c5460;
-  margin-top: 10px;
-  border: 1px solid #bee5eb;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s ease-in;
+}
+
+.back-btn:hover {
+  background-color: #0f2d96;
+}
+
+.placement-content {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.placement-info,
+.placement-actions {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 45%;
+}
+
+.placement-info h2,
+.placement-actions h2 {
+  color: #1c3ec8;
+  margin-bottom: 1rem;
+}
+
+.placement-info ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.placement-info li {
+  margin: 10px 0;
+  font-weight: 500;
+}
+
+.placement-btn {
+  margin-top: 1rem;
+  padding: 10px 15px;
+  border: none;
+  background-color: #36b9cc;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  width: 100%;
+  transition: background-color 0.2s ease-in;
+}
+
+.placement-btn:hover {
+  background-color: #2a96a5;
 }
