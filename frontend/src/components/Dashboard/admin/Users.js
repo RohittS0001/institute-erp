@@ -16,7 +16,7 @@ const Users = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/users");
+        const response = await axios.get("http://localhost:4000/api/admin/users");
         setUsers(response.data);
       } catch (error) {
         console.error("Failed to fetch users:", error);
@@ -46,7 +46,7 @@ const Users = () => {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:4000/api/users", newUser);
+      const response = await axios.post("http://localhost:4000/api/admin/users", newUser);
       setUsers((prev) => [...prev, response.data]);
       setNewUser({ name: "", email: "", role: "User", status: "Active" });
       setShowAddForm(false);

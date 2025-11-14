@@ -9,7 +9,7 @@ const Financials = () => {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/transactions");
+        const response = await axios.get("http://localhost:4000/api/admin/financials");
         setTransactions(response.data);
       } catch (error) {
         console.error("Error fetching transactions:", error);
@@ -37,7 +37,7 @@ const Financials = () => {
           onChange={(e) => setFilterStatus(e.target.value)}
         >
           <option value="All">All</option>
-          <option value="Completed">Completed</option>
+          <option value="Paid">Completed</option>
           <option value="Pending">Pending</option>
           <option value="Failed">Failed</option>
         </select>
@@ -60,7 +60,7 @@ const Financials = () => {
                 <td>{txn.type}</td>
                 <td>{txn.institute}</td>
                 <td>${txn.amount.toFixed(2)}</td>
-                <td>{txn.date}</td>
+                <td>{new Date(txn.date).toLocaleDateString()}</td>
                 <td>
                   <span className={`status-label ${txn.status.toLowerCase()}`}>
                     {txn.status}

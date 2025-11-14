@@ -101,29 +101,36 @@ const Login = () => {
 
     if (formData.role === 'admin') {
       try {
-        const response = await axios.post('http://localhost:4000/api/admin/login', {
+        const response = await axios.post(`http://localhost:4000/api/${formData.role.toLowerCase()}/login`, {
           email: formData.email,
           password: formData.password,
         });
         showAlert('Login successful! Redirecting...', 'success');
 
         setTimeout(() => {
-  // Store user info for protected routing
-  localStorage.setItem("user", JSON.stringify({
-    role: "admin",
-    email: formData.email,
-    name: response.data.admin?.name || ""
-  }));
-  navigate('/dashboard/admin');
-  window.location.reload();
-  setFormData({
-    role: '',
-    email: '',
-    password: '',
-    rememberMe: false,
-  });
+          localStorage.setItem("user", JSON.stringify({
+            role: formData.role,
+            email: formData.email,
+            name: response.data?.name || response.data?.admin?.name || ""
+          }));
 
-}, 1500);
+          if (formData.role === 'admin') {
+            navigate('/dashboard/admin');
+          } else if (formData.role === 'Institute') {
+            navigate('/dashboard/institute');
+          } else if (formData.role === 'User') {
+            navigate('/dashboard/user');
+          } else {
+            navigate('/');
+          }
+          window.location.reload();
+          setFormData({
+            role: '',
+            email: '',
+            password: '',
+            rememberMe: false,
+          });
+        }, 1500);
 
       } catch (error) {
         showAlert('Invalid credentials. Please check your role, email and password.', 'error');
@@ -205,8 +212,8 @@ const Login = () => {
                 required
               >
                 <option value="">Select Role</option>
+                 <option value="Institute">Institute</option>
                 <option value="admin">Administrator</option>
-                <option value="Institute">Institute</option>
                 <option value="User">User</option>
               </select>
               {errors.role && <div className="error-message show">{errors.role}</div>}
