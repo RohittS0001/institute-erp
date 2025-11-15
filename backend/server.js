@@ -21,6 +21,7 @@ import mouRoutes from './routes/user/mouRoutes.js';
 import placementRoutes from './routes/user/placementRoutes.js';
 import profileRoutes from './routes/user/profileRoutes.js';
 import researchRoutes from './routes/user/researchRoutes.js';
+import userRoutes from "./routes/user/userRoutes.js";
 
 
 
@@ -63,6 +64,7 @@ app.use("/api/mou", mouRoutes);
 app.use("/api/placement", placementRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/research", researchRoutes);
+app.use('/api/users', userRoutes);
 
 
 
