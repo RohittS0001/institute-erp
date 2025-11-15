@@ -1,20 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Awards.css";
 
 export default function Awards() {
   const navigate = useNavigate();
-  // Example static awards
-  const [awards, setAwards] = useState([
-    { title: "Best Research Paper", recipient: "Jane", date: "2025-06-01", _id: 1 }
-  ]);
+  const [awards, setAwards] = useState([]);
   const [form, setForm] = useState({ title: "", recipient: "", date: "" });
 
-  // UI-only form handler
+  // Fetch awards from backend
+  useEffect(() => {
+    fetch("http://localhost:4000/api/awards")
+      .then(res => res.json())
+      .then(setAwards);
+  }, []);
+
+  // Form handler to add new award using backend API
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
   const handleSubmit = e => {
     e.preventDefault();
-    setAwards(prev => [...prev, { ...form, _id: Date.now() }]);
+    fetch("http://localhost:4000/api/awards", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form)
+    })
+      .then(res => res.json())
+      .then(newAward => setAwards(prev => [...prev, newAward]));
     setForm({ title: "", recipient: "", date: "" });
   };
 
@@ -42,7 +52,7 @@ export default function Awards() {
             ) : (
               <>
                 <li>🏆 Best Research Paper - AI in Education</li>
-                <li>🎖️ Leadership Recognition - Saathaihum Foundation</li>
+                <li>🎖 Leadership Recognition - Saathaihum Foundation</li>
                 <li>⭐ 2 Awards Received in 2025</li>
               </>
             )}
@@ -76,7 +86,7 @@ export default function Awards() {
             <button type="submit">Add Award</button>
           </form>
           <button onClick={() => alert("View Certificates clicked")}>📜 View Certificates</button>
-          <button onClick={() => alert("Download Report clicked")}>⬇️ Download Report</button>
+          <button onClick={() => alert("Download Report clicked")}>⬇ Download Report</button>
         </section>
       </main>
     </div>

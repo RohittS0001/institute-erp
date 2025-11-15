@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Admissions.css";
 
 export default function Admissions() {
   const navigate = useNavigate();
-  // Static, example data
-  const admissions = [
-    { name: "John Doe", course: "B.Tech", date: "2025-07-10", _id: 1 },
-    { name: "Akash Raj", course: "PhD", date: "2025-05-15", _id: 2 },
-  ];
+  const [admissions, setAdmissions] = useState([]);
+
+  // Fetch from backend on mount
+  useEffect(() => {
+    fetch("http://localhost:4000/api/admissions")
+      .then(res => res.json())
+      .then(setAdmissions);
+  }, []);
 
   return (
     <div className="admission-page">
@@ -53,5 +56,7 @@ export default function Admissions() {
     </div>
   );
 }
+
+
 
 

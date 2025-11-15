@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Placement.css";
 
 export default function Placement() {
   const navigate = useNavigate();
+  const [placements, setPlacements] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:4000/api/placement")
+      .then(res => res.json())
+      .then(setPlacements);
+  }, []);
+
+  // Derive dynamic "Current Updates" e.g. latest company, next placement date
+  const latestPlacement = placements.length > 0 ? placements[placements.length - 1] : null;
+  const companiesShortlisted = placements.length; // Simplified example
 
   return (
     <div className="placement-page">
@@ -24,8 +35,8 @@ export default function Placement() {
         <section className="placement-info">
           <h2>Current Updates</h2>
           <ul>
-            <li>✅ 3 Companies Shortlisted</li>
-            <li>🕒 Next Interview: Tomorrow, 11:00 AM</li>
+            <li>✅ {companiesShortlisted} Companies Shortlisted</li>
+            <li>🕒 Next Interview: {latestPlacement ? new Date(latestPlacement.dateOfPlacement).toLocaleString() : "Tomorrow, 11:00 AM"}</li>
             <li>👨‍💼 Placement Coordinator: Mr. Rajesh Singh</li>
           </ul>
         </section>

@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Donation.css";
 
 export default function Donation() {
   const navigate = useNavigate();
-  const [donations, setDonations] = useState([
-    { donor: "Ajay", amount: 5000, date: "2025-09-10", purpose: "Scholarship", _id: 1 }
-  ]);
+  const [donations, setDonations] = useState([]);
   const [form, setForm] = useState({
     donor: "",
     amount: "",
@@ -14,15 +12,25 @@ export default function Donation() {
     purpose: ""
   });
 
+  // Fetch from backend on mount
+  useEffect(() => {
+    fetch("http://localhost:4000/api/donation")
+      .then(res => res.json())
+      .then(setDonations);
+  }, []);
+
   const handleChange = e =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = e => {
     e.preventDefault();
-    setDonations(prev => [
-      ...prev,
-      { ...form, _id: Date.now() }
-    ]);
+    fetch("http://localhost:4000/api/donation", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    })
+      .then(res => res.json())
+      .then(newDonation => setDonations(prev => [...prev, newDonation]));
     setForm({ donor: "", amount: "", date: "", purpose: "" });
   };
 
@@ -100,4 +108,3 @@ export default function Donation() {
     </div>
   );
 }
-

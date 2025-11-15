@@ -1,19 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Immersion.css";
 
 export default function Immersion() {
   const navigate = useNavigate();
-  const [immersions, setImmersions] = useState([
-    {
-      program: "Data Analytics Training",
-      institution: "DeltaX Labs",
-      startDate: "2025-07-01",
-      endDate: "2025-11-19",
-      description: "A project-focused immersion in modern analytics.",
-      _id: 1
-    }
-  ]);
+  const [immersions, setImmersions] = useState([]);
   const [form, setForm] = useState({
     program: "",
     institution: "",
@@ -22,15 +13,27 @@ export default function Immersion() {
     description: ""
   });
 
+  // Fetch from backend on mount
+  useEffect(() => {
+    fetch("http://localhost:4000/api/immersion")
+      .then(res => res.json())
+      .then(setImmersions);
+  }, []);
+
   const handleChange = e =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = e => {
     e.preventDefault();
-    setImmersions(prev => [
-      ...prev,
-      { ...form, _id: Date.now() }
-    ]);
+    fetch("http://localhost:4000/api/immersion", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    })
+      .then(res => res.json())
+      .then(newImmersion =>
+        setImmersions(prev => [...prev, newImmersion])
+      );
     setForm({
       program: "",
       institution: "",
@@ -130,5 +133,3 @@ export default function Immersion() {
     </div>
   );
 }
-
-
