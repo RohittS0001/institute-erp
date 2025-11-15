@@ -3,13 +3,8 @@ import { registerAdmin, getAdmins, loginAdmin } from "../controllers/adminContro
 
 const router = express.Router();
 
-// POST /api/admin/register
 router.post("/register", registerAdmin);
-
-// GET /api/admin/
 router.get("/", getAdmins);
-
-// POST /api/admin/login
 router.post("/login", loginAdmin);
 
 export default router;

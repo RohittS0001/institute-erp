@@ -1,10 +1,8 @@
 import express from "express";
 import cors from "cors";
 import { connectDB } from "./config/db.js";
-
-// Updated imports (based on remote main branch)
-
-//port adminRoutes from './routes/adminRoutes.js';
+// admin
+import adminRoutes from './routes/adminRoutes.js';
 import adminCoursesRoutes from './routes/admin/coursesRoutes.js'; 
 import adminFinancialsRoutes from './routes/admin/financialsRoutes.js';
 import adminInstitutesRoutes from './routes/admin/institutesRoutes.js';
@@ -44,7 +42,7 @@ app.get("/", (req, res) => {
 });
 
 // Register routes
-//p.use("/api/admin", adminRoutes);
+app.use("/api/admin", adminRoutes);
 app.use('/api/admin/courses', adminCoursesRoutes);
 app.use('/api/admin/financials', adminFinancialsRoutes);
 app.use('/api/admin/institutes', adminInstitutesRoutes);

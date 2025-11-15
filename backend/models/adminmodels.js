@@ -12,7 +12,6 @@ const AdminSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // Optionally add: name, createdAt, role, etc.
 }, { timestamps: true });
 
 export const Admin = mongoose.model("Admin", AdminSchema);

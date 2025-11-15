@@ -213,7 +213,7 @@ const Login = () => {
               >
                 <option value="">Select Role</option>
                  <option value="Institute">Institute</option>
-                <option value="admin">Administrator</option>
+                <option value="admin">Admin</option>
                 <option value="User">User</option>
               </select>
               {errors.role && <div className="error-message show">{errors.role}</div>}
