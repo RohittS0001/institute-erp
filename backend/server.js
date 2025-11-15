@@ -10,6 +10,9 @@ import adminNotificationsRoutes from './routes/admin/notificationsRoutes.js';
 import adminReportsRoutes from './routes/admin/reportsRoutes.js';
 import adminUsersRoutes from './routes/admin/usersRoutes.js';
 import adminDashboardRoutes from './routes/admin/dashboardRoutes.js';
+import adminSettingsRoutes from "./routes/admin/settingsRoutes.js";
+
+
 
 // user
 //port userRoutes from './routes/user/userRoutes.js';
@@ -50,7 +53,7 @@ app.use('/api/admin/notifications', adminNotificationsRoutes);
 app.use('/api/admin/reports', adminReportsRoutes);
 app.use('/api/admin/users', adminUsersRoutes);
 app.use('/api/admin/dashboard', adminDashboardRoutes);
-
+app.use("/api/admin/settings", adminSettingsRoutes);
 
 
 //user

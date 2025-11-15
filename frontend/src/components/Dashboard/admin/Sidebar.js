@@ -52,7 +52,7 @@ const Sidebar = () => {
             {/* <img src="/avatar.png" alt="User Avatar" className="avatar" /> */}
             <div>
               <p className="user-name">Admin User</p>
-              <button className="logout-btn" onClick={handleLogout}>Logout</button>
+              {/* <button className="logout-btn" onClick={handleLogout}>Logout</button> */}
             </div>
           </div>
         </div>
