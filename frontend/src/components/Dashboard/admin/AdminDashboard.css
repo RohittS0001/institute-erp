@@ -221,8 +221,8 @@
     padding: 5px 2px;
   }
   .sidebar.collapsed {
-    /* width: 50px;
-    min-width: 50px; */
+    width: 50px;
+    min-width: 50px;
   }
   .dashboard-header {
     flex-direction: column;
