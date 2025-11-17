@@ -23,12 +23,6 @@ const Login = () => {
   const [alert, setAlert] = useState({ message: '', type: '', show: false });
   const [isLoading, setIsLoading] = useState(false);
 
-  const demoCredentials = {
-    Institute: { email: 'Institute@company.com', password: 'Institute123' },
-    admin: { email: 'admin@company.com', password: 'admin123' },
-    User: { email: 'User@company.com', password: 'User123' },
-  };
-
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
@@ -99,64 +93,49 @@ const Login = () => {
 
     setIsLoading(true);
 
-    if (formData.role === 'admin') {
-      try {
-        const response = await axios.post(`http://localhost:4000/api/${formData.role.toLowerCase()}/login`, {
+    // Actual API call for all roles
+    try {
+      const response = await axios.post(
+        `http://localhost:4000/api/${formData.role.toLowerCase()}/login`,
+        {
           email: formData.email,
           password: formData.password,
-        });
-        showAlert('Login successful! Redirecting...', 'success');
+        }
+      );
 
-        setTimeout(() => {
-          localStorage.setItem("user", JSON.stringify({
-            role: formData.role,
-            email: formData.email,
-            name: response.data?.name || response.data?.admin?.name || ""
-          }));
+      showAlert('Login successful! Redirecting...', 'success');
 
-          if (formData.role === 'admin') {
-            navigate('/dashboard/admin');
-          } else if (formData.role === 'Institute') {
-            navigate('/dashboard/institute');
-          } else if (formData.role === 'User') {
-            navigate('/dashboard/user');
-          } else {
-            navigate('/');
-          }
-          window.location.reload();
-          setFormData({
-            role: '',
-            email: '',
-            password: '',
-            rememberMe: false,
-          });
-        }, 1500);
+      setTimeout(() => {
+        localStorage.setItem("user", JSON.stringify({
+          role: formData.role.toLowerCase(),
+          email: formData.email,
+          name:
+            response.data?.name ||
+            response.data?.user?.name ||
+            response.data?.admin?.name ||
+            ""
+        }));
 
-      } catch (error) {
-        showAlert('Invalid credentials. Please check your role, email and password.', 'error');
-      }
-    } else {
-      // Use demo credentials for other roles until backend implementation
-      const roleCredentials = demoCredentials[formData.role];
-
-      if (
-        roleCredentials &&
-        formData.email === roleCredentials.email &&
-        formData.password === roleCredentials.password
-      ) {
-        showAlert('Login successful! Redirecting...', 'success');
-        setTimeout(() => {
-          setFormData({
-            role: '',
-            email: '',
-            password: '',
-            rememberMe: false,
-          });
+        if (formData.role === 'admin') {
+          navigate('/dashboard/admin');
+        } else if (formData.role === 'Institute') {
+          navigate('/dashboard/institute');
+        } else if (formData.role === 'User') {
+          navigate('/dashboard/user');
+        } else {
           navigate('/');
-        }, 1500);
-      } else {
-        showAlert('Invalid credentials. Please check your role, email and password.', 'error');
-      }
+        }
+        window.location.reload();
+        setFormData({
+          role: '',
+          email: '',
+          password: '',
+          rememberMe: false,
+        });
+      }, 1500);
+
+    } catch (error) {
+      showAlert('Invalid credentials. Please check your role, email and password.', 'error');
     }
 
     setIsLoading(false);
@@ -164,7 +143,6 @@ const Login = () => {
 
   const handleForgotPassword = (e) => {
     e.preventDefault();
-
     if (formData.email && validateEmail(formData.email)) {
       showAlert(`Password reset link sent to ${formData.email}`, 'success');
     } else {
@@ -174,15 +152,8 @@ const Login = () => {
 
   const handleSignupClick = (e) => {
     e.preventDefault();
-    window.alert('Please contact your system administrator at admin@company.com to create a new account.');
+    window.alert('Please contact your system administrator at [admin@company.com](mailto:admin@company.com) to create a new account.');
   };
-
-  React.useEffect(() => {
-    console.log('=== DEMO CREDENTIALS ===');
-    console.log('Institute: Institute@company.com / Institute123');
-    console.log('Admin: admin@company.com / admin123');
-    console.log('User: User@company.com / User123');
-  }, []);
 
   return (
     <div className="login-body">
@@ -212,8 +183,8 @@ const Login = () => {
                 required
               >
                 <option value="">Select Role</option>
-                 <option value="Institute">Institute</option>
-                <option value="admin">Administrator</option>
+                <option value="Institute">Institute</option>
+                <option value="admin">Admin</option>
                 <option value="User">User</option>
               </select>
               {errors.role && <div className="error-message show">{errors.role}</div>}

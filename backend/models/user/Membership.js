@@ -7,6 +7,8 @@ const membershipSchema = new mongoose.Schema({
   startDate: { type: Date, required: true },
   endDate: { type: Date }, // Optional: could be null for ongoing memberships
   status: { type: String, default: "active" }, // E.g., active, expired, pending
-});
+},{ timestamps: true,
+      collection: 'UserMembership'
+  });
 
 export default mongoose.models.Membership || mongoose.model("Membership", membershipSchema);

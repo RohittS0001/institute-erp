@@ -6,5 +6,7 @@ const ReportSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
   createdBy: String,
   status: { type: String, default: "Active" }
-});
+}, { timestamps: true,
+      collection: 'AdminReports'
+ });
 export default mongoose.model("Report", ReportSchema);

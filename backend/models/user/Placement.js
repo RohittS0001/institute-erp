@@ -7,6 +7,8 @@ const placementSchema = new mongoose.Schema({
   package: { type: Number }, // e.g. annual CTC offered
   dateOfPlacement: { type: Date, required: true },
   status: { type: String, default: "placed" } // placed, pending, rejected
-});
+},{ timestamps: true,
+      collection: 'UserPlacement'
+  });
 
 export default mongoose.models.Placement || mongoose.model("Placement", placementSchema);

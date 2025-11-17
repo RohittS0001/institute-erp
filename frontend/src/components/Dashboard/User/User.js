@@ -12,7 +12,7 @@ import MOU from "./MOU";
 import Membership from "./Membership";
 import UserDashboard from "./UserDashboard"; // <-- Correct import here!
 
-import "./User.css";
+import "./UserDashboard";
 
 const User = () => {
   return (

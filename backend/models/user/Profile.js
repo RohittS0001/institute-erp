@@ -11,6 +11,8 @@ const profileSchema = new mongoose.Schema({
     phone: { type: String },
   },
   updatedAt: { type: Date, default: Date.now }
-});
+},{ timestamps: true,
+      collection: 'UserProfile'
+  });
 
 export default mongoose.models.Profile || mongoose.model("Profile", profileSchema);

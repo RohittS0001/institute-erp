@@ -6,5 +6,7 @@ const FinancialSchema = new mongoose.Schema({
   date: { type: Date, required: true },
   description: String,
   status: { type: String, default: "Paid" }
-});
+}, { timestamps: true,
+      collection: 'AdminFinancials'
+ });
 export default mongoose.model("Financial", FinancialSchema);

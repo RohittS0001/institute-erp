@@ -6,5 +6,7 @@ const UserSchema = new mongoose.Schema({
   role: { type: String, default: "User" },   // e.g., User, Institute, etc.
   status: { type: String, default: "Active" },
   createdAt: { type: Date, default: Date.now }
-});
+}, { timestamps: true,
+      collection: 'AdminUsers'
+ });
 export default mongoose.model("User", UserSchema);

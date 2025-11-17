@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/Login/Login";
+import Register from "./components/Login/Register";          // <-- Import this!
+import ForgotPassword from "./components/Login/ForgotPassword"; // <-- And this!
 import Admin from "./components/Dashboard/admin/admin";
 import UserDashboard from "./components/Dashboard/User/User";
 import InstituteDashboard from "./components/Dashboard/institute/institute";
@@ -27,6 +29,18 @@ function App() {
           element={
             user ? <Navigate to={`/dashboard/${user.role}`} /> : <Login />
           }
+        />
+
+        {/* Registration page */}
+        <Route
+          path="/register"
+          element={<Register />}
+        />
+
+        {/* Forgot password page */}
+        <Route
+          path="/forgot-password"
+          element={<ForgotPassword />}
         />
 
         {/* Admin Dashboard Container - with nested routing */}
@@ -57,16 +71,12 @@ function App() {
 export default App;
 
 
-
 // import React from "react";
 // import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 // import Login from "./components/Login/Login";
 // import Admin from "./components/Dashboard/admin/admin";
-
 // import UserDashboard from "./components/Dashboard/User/User";
 // import InstituteDashboard from "./components/Dashboard/institute/institute";
-
-
 // import "./App.css";
 
 // function App() {
@@ -87,8 +97,9 @@ export default App;
 //         {/* Login or Redirect */}
 //         <Route
 //           path="/"
-// element={user ? <Navigate to={`/dashboard/${user.role}`} /> : <Login />}
-
+//           element={
+//             user ? <Navigate to={`/dashboard/${user.role}`} /> : <Login />
+//           }
 //         />
 
 //         {/* Admin Dashboard Container - with nested routing */}
@@ -109,7 +120,6 @@ export default App;
 //           element={<ProtectedRoute element={<UserDashboard />} />}
 //         />
 
-
 //         {/* Fallback */}
 //         <Route path="*" element={<Navigate to="/" />} />
 //       </Routes>
@@ -118,3 +128,6 @@ export default App;
 // }
 
 // export default App;
+
+
+

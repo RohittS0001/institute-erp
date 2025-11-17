@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./User.css";
+import "./UserDashboard.css";
 
 const UserDashboard = () => {
   const [search, setSearch] = useState("");
@@ -31,11 +31,11 @@ const UserDashboard = () => {
   }, []);
 
   const widgetsData = [
-    { title: "Admissions Assistance", value: admissions.length, icon: "📚", color: "#36b9cc", link: "/dashboard/user/admissions" },
-    { title: "Awards & Recognition", value: awards.length, icon: "🏅", color: "#4e73df", link: "/dashboard/user/awards" },
-    { title: "Research Support", value: researches.length, icon: "🧠", color: "#1cc88a", link: "/dashboard/user/research" },
-    { title: "Academic–Industry Immersion", value: immersions.length > 0 ? "92%" : "0%", icon: "📊", color: "#f6c23e", link: "/dashboard/user/immersion" },
-    { title: "Placement Support", value: placements.length, icon: "🎓", color: "#1c3ec8", link: "/dashboard/user/placement" },
+    { title: "Admissions Assistance", value: admissions.length, icon: "", color: "#36b9cc", link: "/dashboard/user/admissions" },
+    { title: "Awards & Recognition", value: awards.length, icon: "", color: "#4e73df", link: "/dashboard/user/awards" },
+    { title: "Research Support", value: researches.length, icon: "", color: "#1cc88a", link: "/dashboard/user/research" },
+    { title: "Academic–Industry Immersion", value: immersions.length > 0 ? "92%" : "0%", icon: "", color: "#f6c23e", link: "/dashboard/user/immersion" },
+    { title: "Placement Support", value: placements.length, icon: "", color: "#1c3ec8", link: "/dashboard/user/placement" },
   ];
 
   const quickLinks = [
@@ -54,7 +54,7 @@ const UserDashboard = () => {
     <div className="user-dashboard">
       <header className="user-header">
         <div>
-          <h1>🎓 User Dashboard</h1>
+          <h1> User Dashboard</h1>
           <p className="user-sub">Welcome to Saathaihum Foundation, Student!</p>
         </div>
         <input
