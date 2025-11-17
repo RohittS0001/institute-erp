@@ -16,6 +16,8 @@ const SettingSchema = new mongoose.Schema({
   backupEnabled: { type: Boolean, default: true },
   backupSchedule: { type: String, default: "weekly" },
   auditLogging: { type: Boolean, default: true },
-});
+}, { timestamps: true,
+      collection: 'AdminSettings'
+ });
 
 export const Setting = mongoose.model("Setting", SettingSchema);
