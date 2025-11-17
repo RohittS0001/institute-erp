@@ -107,7 +107,7 @@ const Login = () => {
 
       setTimeout(() => {
         localStorage.setItem("user", JSON.stringify({
-          role: formData.role,
+          role: formData.role.toLowerCase(),
           email: formData.email,
           name:
             response.data?.name ||
@@ -121,7 +121,7 @@ const Login = () => {
         } else if (formData.role === 'Institute') {
           navigate('/dashboard/institute');
         } else if (formData.role === 'User') {
-          navigate('/dashboard/User');
+          navigate('/dashboard/user');
         } else {
           navigate('/');
         }
