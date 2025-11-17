@@ -1,0 +1,16 @@
+import express from "express";
+const router = express.Router();
+
+import {
+  addStudent,
+  getStudents,
+  updateStudent,
+  deleteStudent
+} from "../../controllers/institute/studentmanagementController.js"; // .js required for ESM
+
+router.post("/add", addStudent);
+router.get("/all", getStudents);
+router.put("/update/:id", updateStudent);
+router.delete("/delete/:id", deleteStudent);
+
+export default router;
