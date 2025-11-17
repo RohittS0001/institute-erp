@@ -15,7 +15,7 @@ import adminSettingsRoutes from "./routes/admin/settingsRoutes.js";
 
 
 // user
-//port userRoutes from './routes/user/userRoutes.js';
+import userRoutes from './routes/user/userRoutes.js';
 import awardRoutes from './routes/user/awardRoutes.js';
 import donationRoutes from './routes/user/donationRoutes.js';
 import immersionRoutes from './routes/user/immersionRoutes.js';
@@ -58,7 +58,7 @@ app.use("/api/admin/settings", adminSettingsRoutes);
 
 
 //user
-//p.use("/api/user", userRoutes);
+app.use("/api/user", userRoutes);
 app.use("/api/awards", awardRoutes);
 app.use("/api/donation", donationRoutes);
 app.use("/api/immersion", immersionRoutes);
