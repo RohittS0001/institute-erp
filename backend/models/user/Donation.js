@@ -5,6 +5,8 @@ const donationSchema = new mongoose.Schema({
   amount: { type: Number, required: true },
   date: { type: Date, required: true },
   purpose: { type: String },
-});
+},{ timestamps: true,
+      collection: 'UserDonation'
+  });
 
 export default mongoose.model("Donation", donationSchema);

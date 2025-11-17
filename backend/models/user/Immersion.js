@@ -6,6 +6,8 @@ const immersionSchema = new mongoose.Schema({
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
   description: { type: String },
-});
+},{ timestamps: true,
+      collection: 'UserImmersion'
+  });
 
 export default mongoose.model("Immersion", immersionSchema);

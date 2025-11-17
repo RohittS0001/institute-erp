@@ -7,6 +7,8 @@ const mouSchema = new mongoose.Schema({
   endDate: { type: Date }, // Can be ongoing
   description: { type: String },
   status: { type: String, default: "active" }, // active, expired, pending
-});
+},{ timestamps: true,
+      collection: 'UserMOU'
+  });
 
 export default mongoose.models.MOU || mongoose.model("MOU", mouSchema);
