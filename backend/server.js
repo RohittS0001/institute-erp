@@ -15,7 +15,7 @@ import adminSettingsRoutes from "./routes/admin/settingsRoutes.js";
 
 
 // user
-import userRoutes from './routes/user/userDashboardRoutes.js';
+import userRoutes from './routes/user/userRoutes.js';
 import awardRoutes from './routes/user/awardRoutes.js';
 import donationRoutes from './routes/user/donationRoutes.js';
 import immersionRoutes from './routes/user/immersionRoutes.js';
