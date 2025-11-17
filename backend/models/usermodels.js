@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema({
     required: true,
   }
 }, { timestamps: true,
-      collection: 'customUsers'
+      collection: 'UsersIDs'
  });
 
 export const User = mongoose.model("user", UserSchema);

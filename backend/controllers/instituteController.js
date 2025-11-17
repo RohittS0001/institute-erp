@@ -1,3 +1,4 @@
+
 import { Institute } from "../models/institutemodels.js";
 
 // Register new institute
@@ -12,14 +13,15 @@ export const registerInstitute = async (req, res) => {
 };
 
 // Get all institutes
-export const getInstitutes = async (req, res) => {
+export const getInstituteInfo = async (req, res) => {
   try {
-    const institutes = await Institute.find();
-    res.json(institutes);
+    const data = await Institute.findOne();
+    res.json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
+
 
 // institute login
 export const loginInstitute = async (req, res) => {

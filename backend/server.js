@@ -1,6 +1,9 @@
 import express from "express";
 import cors from "cors";
 import { connectDB } from "./config/db.js";
+
+
+
 // admin
 import adminRoutes from './routes/adminRoutes.js';
 import adminCoursesRoutes from './routes/admin/coursesRoutes.js'; 
@@ -11,6 +14,7 @@ import adminReportsRoutes from './routes/admin/reportsRoutes.js';
 import adminUsersRoutes from './routes/admin/usersRoutes.js';
 import adminDashboardRoutes from './routes/admin/dashboardRoutes.js';
 import adminSettingsRoutes from "./routes/admin/settingsRoutes.js";
+
 
 
 
@@ -27,26 +31,32 @@ import researchRoutes from './routes/user/researchRoutes.js';
 import userDashboardRoutes from './routes/user/userDashboardRoutes.js';
 
 
+// institute
+import attendenceRoute from './routes/institute/attendenceRoute.js';
+import courseRoute from './routes/institute/courseRoute.js';
+import dashboardRoute from './routes/institute/dashboardRoute.js';
+import eventRoute from './routes/institute/eventRoute.js';
+import facultyRoute from './routes/institute/facultyRoute.js';
+import instituteRoute from './routes/institute/instituteRoute.js';
+import profileRouteInstitute from './routes/institute/profileRoute.js';
+import reportsRoute from './routes/institute/reportsRoute.js';
+import studentManagementRoute from './routes/institute/studentmanagementRoute.js';
+import notificationRoute from './routes/institute/notificationRoute.js';
 
 
-
-// App config
 const app = express();
 const port = 4000;
 
-// Middleware
 app.use(express.json());
 app.use(cors());
 
-// DB connect
 connectDB();
 
-// Simple API test route
 app.get("/", (req, res) => {
   res.send("API WORKING");
 });
 
-// Register routes
+
 app.use("/api/admin", adminRoutes);
 app.use('/api/admin/courses', adminCoursesRoutes);
 app.use('/api/admin/financials', adminFinancialsRoutes);
@@ -71,15 +81,18 @@ app.use("/api/research", researchRoutes);
 app.use("/api/userdashboard", userDashboardRoutes);
 
 
+// Institute routes
+app.use("/api/institute/attendance", attendenceRoute);
+app.use("/api/institute/course", courseRoute);
+app.use("/api/institute/dashboard", dashboardRoute);
+app.use("/api/institute/events", eventRoute);
+app.use("/api/institute/faculty", facultyRoute);
+app.use("/api/institute/info", instituteRoute);
+app.use("/api/institute/notifications", notificationRoute);
+app.use("/api/institute/profile", profileRouteInstitute);
+app.use("/api/institute/reports", reportsRoute);
+app.use("/api/institute/students", studentManagementRoute);
 
-
-
-
-
-
-
-// Start server
 app.listen(port, () => {
   console.log(`Server Started on http://localhost:${port}`);
 });
-
