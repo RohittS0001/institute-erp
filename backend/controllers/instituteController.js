@@ -1,10 +1,10 @@
 
-import { Institute } from "../models/institutemodels.js";
+import { InstituteRecord } from "../models/institutemodels.js";
 
 // Register new institute
 export const registerInstitute = async (req, res) => {
   try {
-    const institute = new Institute(req.body);
+    const institute = new InstituteRecord(req.body);
     await institute.save();
     res.status(201).json(institute);
   } catch (err) {
@@ -13,9 +13,9 @@ export const registerInstitute = async (req, res) => {
 };
 
 // Get all institutes
-export const getInstituteInfo = async (req, res) => {
+export const getInstitutes = async (req, res) => {
   try {
-    const data = await Institute.findOne();
+    const data = await InstituteRecord.find();
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -27,7 +27,7 @@ export const getInstituteInfo = async (req, res) => {
 export const loginInstitute = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const institute = await Institute.findOne({ email: { $regex: new RegExp(`^${email}$`, "i") } });
+    const institute = await InstituteRecord.findOne({ email: { $regex: new RegExp(`^${email}$`, "i") } });
     if (!institute || institute.password !== password) {
       return res.status(401).json({ error: "Invalid credentials" });
     }

@@ -12,8 +12,11 @@ const InstituteSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-}, { timestamps: true,
-      collection: 'InstituteIDs'
- });
+}, { 
+  timestamps: true, 
+  collection: 'InstituteIDs'   // Your chosen MongoDB collection name
+});
 
-export const Institute = mongoose.model("Institute", InstituteSchema);
+const InstituteRecord = mongoose.models.InstituteRecord || mongoose.model("InstituteRecord", InstituteSchema);
+
+export { InstituteRecord };

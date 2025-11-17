@@ -32,6 +32,7 @@ import userDashboardRoutes from './routes/user/userDashboardRoutes.js';
 
 
 // institute
+import instituteRoutes from './routes/instituteRoutes.js';
 import attendenceRoute from './routes/institute/attendenceRoute.js';
 import courseRoute from './routes/institute/courseRoute.js';
 import dashboardRoute from './routes/institute/dashboardRoute.js';
@@ -82,6 +83,7 @@ app.use("/api/userdashboard", userDashboardRoutes);
 
 
 // Institute routes
+app.use('/api/institute', instituteRoutes);
 app.use("/api/institute/attendance", attendenceRoute);
 app.use("/api/institute/course", courseRoute);
 app.use("/api/institute/dashboard", dashboardRoute);

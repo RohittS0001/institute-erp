@@ -1,5 +1,5 @@
 import express from "express";
-import { registerInstitute, getInstitutes, loginInstitute } from "../controllers/adminController.js";
+import { registerInstitute, getInstitutes, loginInstitute } from "../controllers/instituteController.js";
 
 const router = express.Router();
 router.post("/register", registerInstitute);
