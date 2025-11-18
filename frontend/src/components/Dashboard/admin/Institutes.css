@@ -37,6 +37,84 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+/* Action buttons styling */
+.edit-btn, .delete-btn, .cancel-btn, .submit-btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  margin-left: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.edit-B {
+  background: #5c71e7;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 4px;
+  border: none;
+  margin-right: 4px;
+  cursor: pointer;
+}
+.delete-B {
+  background: #f50057;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+.edit-btn:hover {
+  background-color: #303f9f;
+}
+
+/* Delete button: matches inactive status red */
+.delete-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* Cancel button: neutral gray */
+.cancel-btn {
+  background-color: #999999;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background-color: #777777;
+}
+
+/* Submit button: teal (similar to your .submit-btn) */
+.submit-btn {
+  background-color: #009688;
+  color: white;
+}
+
+.submit-btn:hover {
+  background-color: #00796b;
+}
+
+/* Align buttons inside table cells */
+.institutes-table td > button {
+  min-width: 75px;
+}
+
+/* Inputs and select fields in edit mode */
+.institutes-table td input,
+.institutes-table td select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
 
 .add-btn:hover {
   background-color: #303f9f;

@@ -79,6 +79,68 @@
   border-collapse: collapse;
   font-size: 1rem;
 }
+/* Buttons shared styles */
+.edit-btn,
+.delete-btn,
+.cancel-btn {
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  margin-left: 8px;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+}
+
+
+
+.edit-B {
+  background: #5c71e7;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 4px;
+  border: none;
+  margin-right: 4px;
+  cursor: pointer;
+}
+.delete-B {
+  background: #f50057;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background-color: #303f9f;
+}
+.delete-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* Cancel button */
+.cancel-btn {
+  background-color: #999999;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background-color: #777777;
+}
+
+/* Align buttons neatly in a row within table cells */
+.users-table td > button {
+  min-width: 80px;
+}
+
+/* Optional: add spacing between inline inputs in edit mode */
+.users-table td input,
+.users-table td select {
+  width: 100%;
+  box-sizing: border-box;
+}
 
 .users-table th,
 .users-table td {

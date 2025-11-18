@@ -12,6 +12,13 @@ const Users = () => {
     role: "User",
     status: "Active",
   });
+  const [editId, setEditId] = useState(null);
+  const [editUser, setEditUser] = useState({
+    name: "",
+    email: "",
+    role: "",
+    status: "",
+  });
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -34,6 +41,7 @@ const Users = () => {
       user.status.toLowerCase().includes(search.toLowerCase())
   );
 
+  // Add form handlers
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewUser((prev) => ({ ...prev, [name]: value }));
@@ -56,7 +64,49 @@ const Users = () => {
     }
   };
 
+  // Edit handlers
+  const handleEdit = (user) => {
+    setEditId(user.id || user._id);
+    setEditUser({
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      status: user.status,
+    });
+  };
+
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditUser((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSave = async (id) => {
+    try {
+      const response = await axios.put(`http://localhost:4000/api/admin/users/${id}`, editUser);
+      setUsers((prev) =>
+        prev.map((user) => (user.id || user._id) === id ? response.data : user)
+      );
+      setEditId(null);
+    } catch (error) {
+      console.error("Failed to update user:", error);
+      alert("Failed to update user. Please try again.");
+    }
+  };
+
+  // Delete handler
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this user?")) return;
+    try {
+      await axios.delete(`http://localhost:4000/api/admin/users/${id}`);
+      setUsers((prev) => prev.filter((user) => (user.id || user._id) !== id));
+    } catch (error) {
+      console.error("Failed to delete user:", error);
+      alert("Failed to delete user. Please try again.");
+    }
+  };
+
   const toggleForm = () => setShowAddForm((prev) => !prev);
+  const cancelEdit = () => setEditId(null);
 
   return (
     <div className="page-content">
@@ -101,9 +151,7 @@ const Users = () => {
             <option value="Active">Active</option>
             <option value="Inactive">Inactive</option>
           </select>
-          <button type="submit" className="submit-btn">
-            Add User
-          </button>
+          <button type="submit" className="submit-btn">Add User</button>
         </form>
       )}
 
@@ -114,21 +162,66 @@ const Users = () => {
             <th>Email</th>
             <th>Role</th>
             <th>Status</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {filteredUsers.length ? (
-            filteredUsers.map((user) => (
-              <tr key={user.id || user._id} className={user.status.toLowerCase()}>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>{user.role}</td>
-                <td>{user.status}</td>
-              </tr>
-            ))
+            filteredUsers.map((user) =>
+              editId === (user.id || user._id) ? (
+                <tr key={user.id || user._id} className={user.status.toLowerCase()}>
+                  <td>
+                    <input
+                      type="text"
+                      name="name"
+                      value={editUser.name}
+                      onChange={handleEditChange}
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="email"
+                      name="email"
+                      value={editUser.email}
+                      onChange={handleEditChange}
+                      required
+                    />
+                  </td>
+                  <td>
+                    <select name="role" value={editUser.role} onChange={handleEditChange}>
+                      <option value="User">User</option>
+                      <option value="Institute Admin">Institute Admin</option>
+                      <option value="Admin">Admin</option>
+                    </select>
+                  </td>
+                  <td>
+                    <select name="status" value={editUser.status} onChange={handleEditChange}>
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                    </select>
+                  </td>
+                  <td>
+                    <button className="submit-btn" onClick={() => handleSave(user.id || user._id)}>Save</button>
+                    <button className="cancel-btn" onClick={cancelEdit}>Cancel</button>
+                  </td>
+                </tr>
+              ) : (
+                <tr key={user.id || user._id} className={user.status.toLowerCase()}>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                  <td>{user.role}</td>
+                  <td>{user.status}</td>
+                  <td>
+                    <button className="edit-B" onClick={() => handleEdit(user)}>Edit</button>
+                    <button className="delete-B" onClick={() => handleDelete(user.id || user._id)}>Delete</button>
+                  </td>
+                </tr>
+              )
+            )
           ) : (
             <tr>
-              <td colSpan="4" style={{ textAlign: "center", padding: "20px" }}>
+              <td colSpan="5" style={{ textAlign: "center", padding: "20px" }}>
                 No users found.
               </td>
             </tr>

@@ -73,6 +73,24 @@
 .submit-btn:hover {
   background-color: #00796b;
 }
+.edit-B {
+  background: #5c71e7;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 4px;
+  border: none;
+  margin-right: 4px;
+  cursor: pointer;
+}
+.delete-B {
+  background: #f50057;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
 
 .courses-table {
   width: 100%;
@@ -165,6 +183,7 @@
     gap: 6px;
     margin-bottom: 8px;
   }
+
   .courses-search {
     width: 100%;
     max-width: 98vw;

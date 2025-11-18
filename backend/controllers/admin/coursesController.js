@@ -1,5 +1,6 @@
 import Course from '../../models/admin/Course.js';
 
+// Get all courses
 export const getAllCourses = async (req, res) => {
   try {
     const courses = await Course.find();
@@ -9,6 +10,7 @@ export const getAllCourses = async (req, res) => {
   }
 };
 
+// Create a new course
 export const createCourse = async (req, res) => {
   try {
     const course = new Course(req.body);
@@ -16,5 +18,29 @@ export const createCourse = async (req, res) => {
     res.json(saved);
   } catch (err) {
     res.status(400).json({ error: 'Failed to add course' });
+  }
+};
+
+// Edit/update a course by ID
+export const updateCourse = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updated = await Course.findByIdAndUpdate(id, req.body, { new: true });
+    if (!updated) return res.status(404).json({ error: 'Course not found' });
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update course' });
+  }
+};
+
+// Delete a course by ID
+export const deleteCourse = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleted = await Course.findByIdAndDelete(id);
+    if (!deleted) return res.status(404).json({ error: 'Course not found' });
+    res.json({ message: 'Course deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete course' });
   }
 };

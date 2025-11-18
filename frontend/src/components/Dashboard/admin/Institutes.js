@@ -8,10 +8,18 @@ const Institutes = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [newInstitute, setNewInstitute] = useState({
     name: "",
-    location: "",
+    address: "",
     status: "Active",
-    contactPerson: "",
-    email: "",
+    contactPhone: "",
+    contactEmail: "",
+  });
+  const [editId, setEditId] = useState(null);
+  const [editInstitute, setEditInstitute] = useState({
+    name: "",
+    address: "",
+    status: "Active",
+    contactPhone: "",
+    contactEmail: "",
   });
 
   useEffect(() => {
@@ -30,12 +38,13 @@ const Institutes = () => {
   const filtered = institutes.filter(
     (inst) =>
       inst.name.toLowerCase().includes(search.toLowerCase()) ||
-      (inst.location && inst.location.toLowerCase().includes(search.toLowerCase())) ||
+      (inst.address && inst.address.toLowerCase().includes(search.toLowerCase())) ||
       (inst.status && inst.status.toLowerCase().includes(search.toLowerCase())) ||
-      (inst.contactPerson && inst.contactPerson.toLowerCase().includes(search.toLowerCase())) ||
-      (inst.email && inst.email.toLowerCase().includes(search.toLowerCase()))
+      (inst.contactPhone && inst.contactPhone.toLowerCase().includes(search.toLowerCase())) ||
+      (inst.contactEmail && inst.contactEmail.toLowerCase().includes(search.toLowerCase()))
   );
 
+  // Add form handlers
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewInstitute((prev) => ({ ...prev, [name]: value }));
@@ -48,17 +57,14 @@ const Institutes = () => {
       return;
     }
     try {
-      const response = await axios.post(
-        "http://localhost:4000/api/admin/institutes",
-        newInstitute
-      );
+      const response = await axios.post("http://localhost:4000/api/admin/institutes", newInstitute);
       setInstitutes((prev) => [...prev, response.data]);
       setNewInstitute({
         name: "",
-        location: "",
+        address: "",
         status: "Active",
-        contactPerson: "",
-        email: "",
+        contactPhone: "",
+        contactEmail: "",
       });
       setShowAddForm(false);
     } catch (error) {
@@ -67,7 +73,53 @@ const Institutes = () => {
     }
   };
 
+  // Delete handler
+  const handleDeleteInstitute = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this institute?")) return;
+    try {
+      await axios.delete(`http://localhost:4000/api/admin/institutes/${id}`);
+      setInstitutes((prev) => prev.filter((instit) => (instit.id || instit._id) !== id));
+    } catch (error) {
+      console.error("Failed to delete institute:", error);
+      alert("Failed to delete institute. Please try again.");
+    }
+  };
+
+  // Edit handlers
+  const handleEdit = (instit) => {
+    setEditId(instit.id || instit._id);
+    setEditInstitute({
+      name: instit.name,
+      address: instit.address,
+      status: instit.status,
+      contactPhone: instit.contactPhone,
+      contactEmail: instit.contactEmail,
+    });
+  };
+
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditInstitute((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSave = async (id) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:4000/api/admin/institutes/${id}`,
+        editInstitute
+      );
+      setInstitutes((prev) =>
+        prev.map((instit) => (instit.id || instit._id) === id ? response.data : instit)
+      );
+      setEditId(null);
+    } catch (error) {
+      console.error("Failed to update institute:", error);
+      alert("Failed to update institute. Please try again.");
+    }
+  };
+
   const toggleForm = () => setShowAddForm((prev) => !prev);
+  const cancelEdit = () => setEditId(null);
 
   return (
     <div className="page-content">
@@ -95,9 +147,9 @@ const Institutes = () => {
             required
           />
           <input
-            name="location"
-            placeholder="Location"
-            value={newInstitute.location}
+            name="address"
+            placeholder="Address"
+            value={newInstitute.address}
             onChange={handleChange}
           />
           <select
@@ -109,21 +161,19 @@ const Institutes = () => {
             <option value="Inactive">Inactive</option>
           </select>
           <input
-            name="contactPerson"
-            placeholder="Contact Person"
-            value={newInstitute.contactPerson}
+            name="contactPhone"
+            placeholder="Contact Phone"
+            value={newInstitute.contactPhone}
             onChange={handleChange}
           />
           <input
-            name="email"
+            name="contactEmail"
             placeholder="Email"
-            value={newInstitute.email}
+            value={newInstitute.contactEmail}
             onChange={handleChange}
             type="email"
           />
-          <button type="submit" className="submit-btn">
-            Save Institute
-          </button>
+          <button type="submit" className="submit-btn">Save Institute</button>
         </form>
       )}
 
@@ -131,36 +181,86 @@ const Institutes = () => {
         <thead>
           <tr>
             <th>Name</th>
-            <th>Location</th>
+            <th>Address</th>
             <th>Status</th>
-            <th>Contact Person</th>
+            <th>Contact Phone</th>
             <th>Email</th>
+            <th>Actions</th> {/* New column for Edit/Delete buttons */}
           </tr>
         </thead>
         <tbody>
           {filtered.length ? (
-            filtered.map((instit) => (
-              <tr key={instit.id || instit._id}>
-                <td>{instit.name}</td>
-                <td>{instit.location}</td>
-                <td>
-                  <span
-                    className={
-                      instit.status === "Active"
-                        ? "status-active"
-                        : "status-inactive"
-                    }
-                  >
-                    {instit.status}
-                  </span>
-                </td>
-                <td>{instit.contactPerson}</td>
-                <td>{instit.email}</td>
-              </tr>
-            ))
+            filtered.map((instit) =>
+              editId === (instit.id || instit._id) ? (
+                <tr key={instit.id || instit._id}>
+                  <td>
+                    <input
+                      name="name"
+                      value={editInstitute.name}
+                      onChange={handleEditChange}
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      name="address"
+                      value={editInstitute.address}
+                      onChange={handleEditChange}
+                    />
+                  </td>
+                  <td>
+                    <select
+                      name="status"
+                      value={editInstitute.status}
+                      onChange={handleEditChange}
+                    >
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input
+                      name="contactPhone"
+                      value={editInstitute.contactPhone}
+                      onChange={handleEditChange}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      name="contactEmail"
+                      value={editInstitute.contactEmail}
+                      onChange={handleEditChange}
+                      type="email"
+                    />
+                  </td>
+                  <td>
+                    <button className="submit-btn" onClick={() => handleSave(instit.id || instit._id)}>Save</button>
+                    <button className="cancel-btn" onClick={cancelEdit}>Cancel</button>
+                  </td>
+                </tr>
+              ) : (
+                <tr key={instit.id || instit._id}>
+                  <td>{instit.name}</td>
+                  <td>{instit.address}</td>
+                  <td>
+                    <span className={instit.status === "Active" ? "status-active" : "status-inactive"}>
+                      {instit.status}
+                    </span>
+                  </td>
+                  <td>{instit.contactPhone}</td>
+                  <td>{instit.contactEmail}</td>
+                  <td>
+                    <button className="edit-B" onClick={() => handleEdit(instit)}>Edit</button>
+                    <button className="delete-B" onClick={() => handleDeleteInstitute(instit.id || instit._id)}>Delete</button>
+                  </td>
+                </tr>
+              )
+            )
           ) : (
             <tr>
-              <td colSpan="5">No institutes found matching your criteria.</td>
+              <td colSpan="6" style={{ textAlign: "center", padding: "20px" }}>
+                No institutes found matching your criteria.
+              </td>
             </tr>
           )}
         </tbody>

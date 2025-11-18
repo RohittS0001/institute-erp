@@ -12,9 +12,15 @@ const Courses = () => {
     instructor: "",
     status: "Active",
   });
+  const [editId, setEditId] = useState(null);
+  const [editCourse, setEditCourse] = useState({
+    title: "",
+    duration: "",
+    instructor: "",
+    status: "",
+  });
 
   useEffect(() => {
-    // Fetch courses from backend API
     const fetchCourses = async () => {
       try {
         const response = await axios.get("http://localhost:4000/api/admin/courses");
@@ -28,17 +34,23 @@ const Courses = () => {
   }, []);
 
   // Filter courses based on search input
-  const filteredSessions = courses.filter(
+  const filteredCourses = courses.filter(
     (course) =>
-      course.title.toLowerCase().includes(search.toLowerCase()) ||
-      course.instructor.toLowerCase().includes(search.toLowerCase()) ||
-      course.status.toLowerCase().includes(search.toLowerCase())
+      course.title?.toLowerCase().includes(search.toLowerCase()) ||
+      course.instructor?.toLowerCase().includes(search.toLowerCase()) ||
+      course.status?.toLowerCase().includes(search.toLowerCase())
   );
 
   // Handle input change for new course form
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewCourse((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Handle input change for edit course form
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditCourse((prev) => ({ ...prev, [name]: value }));
   };
 
   // Handle form submission to add new course
@@ -49,13 +61,58 @@ const Courses = () => {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:4000/api/admin/courses", newCourse);
+      const response = await axios.post(
+        "http://localhost:4000/api/admin/courses",
+        newCourse
+      );
       setCourses((prev) => [...prev, response.data]);
       setNewCourse({ title: "", duration: "", instructor: "", status: "Active" });
       setShowAddForm(false);
     } catch (error) {
       console.error("Failed to add course:", error);
       alert("Failed to add course. Please try again.");
+    }
+  };
+
+  // Handle course deletion
+  const handleDeleteCourse = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this course?")) return;
+    try {
+      await axios.delete(`http://localhost:4000/api/admin/courses/${id}`);
+      setCourses((prev) => prev.filter((course) => (course.id || course._id) !== id));
+    } catch (error) {
+      console.error("Failed to delete course:", error);
+      alert("Failed to delete course. Please try again.");
+    }
+  };
+
+  // Enter edit mode for a course
+  const handleEdit = (course) => {
+    setEditId(course.id || course._id);
+    setEditCourse({
+      title: course.title,
+      duration: course.duration,
+      instructor: course.instructor,
+      status: course.status,
+    });
+  };
+
+  // Save edited course
+  const handleEditSave = async (id) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:4000/api/admin/courses/${id}`,
+        editCourse
+      );
+      setCourses((prev) =>
+        prev.map((course) =>
+          (course.id || course._id) === id ? response.data : course
+        )
+      );
+      setEditId(null);
+    } catch (error) {
+      console.error("Failed to edit course:", error);
+      alert("Failed to update course. Please try again.");
     }
   };
 
@@ -115,21 +172,90 @@ const Courses = () => {
             <th>Duration</th>
             <th>Instructor</th>
             <th>Status</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {filteredSessions.length ? (
-            filteredSessions.map((course) => (
-              <tr key={course.id || course._id} className={course.status.toLowerCase()}>
-                <td>{course.title}</td>
-                <td>{course.duration}</td>
-                <td>{course.instructor}</td>
-                <td>{course.status}</td>
-              </tr>
-            ))
+          {filteredCourses.length ? (
+            filteredCourses.map((course) =>
+              editId === (course.id || course._id) ? (
+                <tr key={course.id || course._id}>
+                  <td>
+                    <input
+                      name="title"
+                      value={editCourse.title}
+                      onChange={handleEditChange}
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      name="duration"
+                      value={editCourse.duration}
+                      onChange={handleEditChange}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      name="instructor"
+                      value={editCourse.instructor}
+                      onChange={handleEditChange}
+                    />
+                  </td>
+                  <td>
+                    <select
+                      name="status"
+                      value={editCourse.status}
+                      onChange={handleEditChange}
+                    >
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                    </select>
+                  </td>
+                  <td>
+                    <button
+                      className="submit-btn"
+                      onClick={() => handleEditSave(course.id || course._id)}
+                    >
+                      Save
+                    </button>
+                    <button
+                      className="cancel-btn"
+                      onClick={() => setEditId(null)}
+                    >
+                      Cancel
+                    </button>
+                  </td>
+                </tr>
+              ) : (
+                <tr key={course.id || course._id} className={course.status.toLowerCase()}>
+                  <td>{course.title}</td>
+                  <td>{course.duration}</td>
+                  <td>{course.instructor}</td>
+                  <td>{course.status}</td>
+                  <td>
+                 <td>
+  <button
+    className="edit-B"
+    onClick={() => handleEdit(course)}
+  >
+    Edit
+  </button>
+  <button
+    className="delete-B"
+    onClick={() => handleDeleteCourse(course.id || course._id)}
+  >
+    Delete
+  </button>
+</td>
+
+                  </td>
+                </tr>
+              )
+            )
           ) : (
             <tr>
-              <td colSpan="4" style={{ textAlign: "center", padding: "20px" }}>
+              <td colSpan="5" style={{ textAlign: "center", padding: "20px" }}>
                 No courses found matching your search.
               </td>
             </tr>

@@ -18,7 +18,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchInstitutes = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/institutes");
+        const response = await axios.get("http://localhost:4000/api/admin/institutes");
         setInstitutes(response.data);
       } catch (error) {
         console.error("Error fetching institutes:", error);
@@ -28,12 +28,13 @@ const AdminDashboard = () => {
     fetchInstitutes();
   }, []);
 
-  const filteredInstitutes = institutes.filter(
-    (inst) =>
-      inst.name.toLowerCase().includes(search.toLowerCase()) ||
-      inst.location.toLowerCase().includes(search.toLowerCase()) ||
-      inst.status.toLowerCase().includes(search.toLowerCase())
-  );
+ const filteredInstitutes = institutes.filter(
+  (inst) =>
+    inst.name?.toLowerCase().includes(search.toLowerCase()) ||
+    inst.address?.toLowerCase().includes(search.toLowerCase()) ||
+    inst.status?.toLowerCase().includes(search.toLowerCase())
+);
+
 
   return (
     <main className="dashboard-content">
@@ -75,7 +76,7 @@ const AdminDashboard = () => {
               <th>Name</th>
               <th>Location</th>
               <th>Status</th>
-              <th>Actions</th>
+              {/* <th>Actions</th> */}
             </tr>
           </thead>
           <tbody>
@@ -83,17 +84,13 @@ const AdminDashboard = () => {
               filteredInstitutes.map((inst) => (
                 <tr key={inst.id || inst._id}>
                   <td>{inst.name}</td>
-                  <td>{inst.location}</td>
+                  <td>{inst.address}</td>
                   <td>
                     <span className={`status-indicator ${inst.status.toLowerCase()}`}>
                       {inst.status}
                     </span>
                   </td>
-                  <td>
-                    <button className="btn view-btn">View</button>
-                    <button className="btn edit-btn">Edit</button>
-                    <button className="btn delete-btn">Delete</button>
-                  </td>
+                 
                 </tr>
               ))
             ) : (

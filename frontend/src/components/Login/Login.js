@@ -161,7 +161,7 @@ const Login = () => {
         <div className="login-card">
           <div className="login-header">
             <div className="logo"></div>
-            <h1>WELCOME TO SAFHON</h1>
+            <h1>WELCOME TO SAHFON</h1>
             <p className="subtitle">Sign in to your account to continue</p>
           </div>
 
