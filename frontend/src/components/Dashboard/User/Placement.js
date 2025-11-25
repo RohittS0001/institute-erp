@@ -36,7 +36,12 @@ export default function Placement() {
           <h2>Current Updates</h2>
           <ul>
             <li>✅ {companiesShortlisted} Companies Shortlisted</li>
-            <li>🕒 Next Interview: {latestPlacement ? new Date(latestPlacement.dateOfPlacement).toLocaleString() : "Tomorrow, 11:00 AM"}</li>
+            <li>
+              🕒 Next Interview:{" "}
+              {latestPlacement
+                ? new Date(latestPlacement.dateOfPlacement).toLocaleString()
+                : "Tomorrow, 11:00 AM"}
+            </li>
             <li>👨‍💼 Placement Coordinator: Mr. Rajesh Singh</li>
           </ul>
         </section>

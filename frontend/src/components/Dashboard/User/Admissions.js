@@ -30,7 +30,7 @@ export default function Admissions() {
           <ul>
             {admissions.length > 0 ? (
               admissions.map(item => (
-                <li key={item._id}>
+                <li key={item.id}>
                   {item.name} — {item.course} — {item.date}
                 </li>
               ))
@@ -56,7 +56,3 @@ export default function Admissions() {
     </div>
   );
 }
-
-
-
-

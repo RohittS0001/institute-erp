@@ -60,7 +60,7 @@ export default function Immersion() {
           <ul>
             {immersions.length > 0 ? (
               immersions.map(item => (
-                <li key={item._id}>
+                <li key={item.id}>
                   <strong>{item.program}</strong> at {item.institution} from{" "}
                   {item.startDate} to {item.endDate}
                   <br />

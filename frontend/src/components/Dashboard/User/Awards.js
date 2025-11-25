@@ -45,7 +45,7 @@ export default function Awards() {
           <ul>
             {awards.length > 0 ? (
               awards.map(item => (
-                <li key={item._id}>
+                <li key={item.id}>
                   🏆 {item.title} — {item.recipient} — {item.date}
                 </li>
               ))
@@ -92,5 +92,3 @@ export default function Awards() {
     </div>
   );
 }
-
-
