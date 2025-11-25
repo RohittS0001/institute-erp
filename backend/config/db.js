@@ -1,27 +1,24 @@
-import { Sequelize } from "sequelize";
+// db.js (MySQL version)
+import mysql from "mysql2/promise";
 
-// Create Sequelize instance (MySQL connection)
-export const sequelize = new Sequelize(
-  "INSTITUTE_ERP",        // Database name
-  "root",                 // MySQL username
-  "your_mysql_password",  // MySQL password
-  {
-    host: "localhost",
-    dialect: "mysql",
-    logging: false,
-  }
-);
+// Configuration for your MySQL connection
+const pool = mysql.createPool({
+  host: 'localhost',           // e.g. 'localhost' or cPanel host
+  user: 'root',
+  password: '#myprajay@17',
+  database: 'sahfonn'
+});
 
-// Connect DB + Sync Tables
 export const connectDB = async () => {
   try {
-    await sequelize.authenticate();
-    console.log("✅ MySQL Connected Successfully!");
-
-    await sequelize.sync({ alter: true });
-    console.log("✅ All Models Synced to MySQL!");
+    // Simple test to verify connection; you use pool for queries elsewhere
+    await pool.getConnection();
+    console.log("DB Connected");
   } catch (error) {
-    console.error("❌ MySQL Connection Error:", error.message);
-    process.exit(1);
+    console.error("Error connecting to MySQL:", error.message);
+    process.exit(1); // Exit the app if DB connection fails
   }
 };
+
+// Export pool so other files can use for queries
+export default pool;
