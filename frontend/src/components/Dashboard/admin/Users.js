@@ -66,7 +66,7 @@ const Users = () => {
 
   // Edit handlers
   const handleEdit = (user) => {
-    setEditId(user.id || user._id);
+    setEditId(user.id);
     setEditUser({
       name: user.name,
       email: user.email,
@@ -84,7 +84,7 @@ const Users = () => {
     try {
       const response = await axios.put(`http://localhost:4000/api/admin/users/${id}`, editUser);
       setUsers((prev) =>
-        prev.map((user) => (user.id || user._id) === id ? response.data : user)
+        prev.map((user) => user.id === id ? response.data : user)
       );
       setEditId(null);
     } catch (error) {
@@ -98,7 +98,7 @@ const Users = () => {
     if (!window.confirm("Are you sure you want to delete this user?")) return;
     try {
       await axios.delete(`http://localhost:4000/api/admin/users/${id}`);
-      setUsers((prev) => prev.filter((user) => (user.id || user._id) !== id));
+      setUsers((prev) => prev.filter((user) => user.id !== id));
     } catch (error) {
       console.error("Failed to delete user:", error);
       alert("Failed to delete user. Please try again.");
@@ -168,8 +168,8 @@ const Users = () => {
         <tbody>
           {filteredUsers.length ? (
             filteredUsers.map((user) =>
-              editId === (user.id || user._id) ? (
-                <tr key={user.id || user._id} className={user.status.toLowerCase()}>
+              editId === user.id ? (
+                <tr key={user.id} className={user.status.toLowerCase()}>
                   <td>
                     <input
                       type="text"
@@ -202,19 +202,19 @@ const Users = () => {
                     </select>
                   </td>
                   <td>
-                    <button className="submit-btn" onClick={() => handleSave(user.id || user._id)}>Save</button>
+                    <button className="submit-btn" onClick={() => handleSave(user.id)}>Save</button>
                     <button className="cancel-btn" onClick={cancelEdit}>Cancel</button>
                   </td>
                 </tr>
               ) : (
-                <tr key={user.id || user._id} className={user.status.toLowerCase()}>
+                <tr key={user.id} className={user.status.toLowerCase()}>
                   <td>{user.name}</td>
                   <td>{user.email}</td>
                   <td>{user.role}</td>
                   <td>{user.status}</td>
                   <td>
                     <button className="edit-B" onClick={() => handleEdit(user)}>Edit</button>
-                    <button className="delete-B" onClick={() => handleDelete(user.id || user._id)}>Delete</button>
+                    <button className="delete-B" onClick={() => handleDelete(user.id)}>Delete</button>
                   </td>
                 </tr>
               )

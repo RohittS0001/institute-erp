@@ -76,7 +76,7 @@ const Reports = () => {
       <section className="report-placeholder">
         {error && <p className="error-msg">{error}</p>}
         {reportData ? (
-          <pre>{JSON.stringify(reportData, null, 2)}</pre> // Replace with formatted report UI
+          <pre>{JSON.stringify(reportData, null, 2)}</pre>
         ) : (
           <p>
             Generated reports will appear here once implemented.

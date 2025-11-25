@@ -1,10 +1,13 @@
-import { Admin } from "../models/adminmodels.js";
+import {
+  createAdmin,
+  getAllAdmins,
+  getAdminByEmail
+} from "../models/adminmodels.js";
 
 // Register new admin
-export const registerAdmin = async (req, res) => {
+export const registerAdminHandler = async (req, res) => {
   try {
-    const admin = new Admin(req.body);
-    await admin.save();
+    const admin = await createAdmin(req.body);
     res.status(201).json(admin);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -12,9 +15,9 @@ export const registerAdmin = async (req, res) => {
 };
 
 // Get all admins
-export const getAdmins = async (req, res) => {
+export const getAdminsHandler = async (req, res) => {
   try {
-    const admins = await Admin.find();
+    const admins = await getAllAdmins();
     res.json(admins);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -22,10 +25,10 @@ export const getAdmins = async (req, res) => {
 };
 
 // Admin login
-export const loginAdmin = async (req, res) => {
+export const loginAdminHandler = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const admin = await Admin.findOne({ email: { $regex: new RegExp(`^${email}$`, "i") } });
+    const admin = await getAdminByEmail(email);
     if (!admin || admin.password !== password) {
       return res.status(401).json({ error: "Invalid credentials" });
     }

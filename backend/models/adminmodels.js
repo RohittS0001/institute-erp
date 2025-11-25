@@ -1,19 +1,41 @@
-import mongoose from "mongoose";
+// backend/models/adminmodels.js
+import pool from "../config/db.js";
 
-const AdminSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    lowercase: true,
-    trim: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-}, { timestamps: true,
-      collection: 'AdminsIDs'
- });
+// Get all admins
+export async function getAllAdmins() {
+  const [rows] = await pool.query('SELECT * FROM AdminsIDs');
+  return rows;
+}
 
-export const Admin = mongoose.model("Admin", AdminSchema);
+// Get admin by email
+export async function getAdminByEmail(email) {
+  const [rows] = await pool.query('SELECT * FROM AdminsIDs WHERE email = ?', [email.toLowerCase().trim()]);
+  return rows[0] || null;
+}
+
+// Create a new admin
+export async function createAdmin(data) {
+  const { email, password } = data;
+  const [result] = await pool.query(
+    'INSERT INTO AdminsIDs (email, password) VALUES (?, ?)',
+    [email.toLowerCase().trim(), password]
+  );
+  return { id: result.insertId, email, password };
+}
+
+// Update admin by ID
+export async function updateAdminById(id, data) {
+  const { email, password } = data;
+  const [result] = await pool.query(
+    'UPDATE AdminsIDs SET email = ?, password = ? WHERE id = ?',
+    [email.toLowerCase().trim(), password, id]
+  );
+  if (result.affectedRows === 0) return null;
+  return { id, email, password };
+}
+
+// Delete admin by ID
+export async function deleteAdminById(id) {
+  const [result] = await pool.query('DELETE FROM AdminsIDs WHERE id = ?', [id]);
+  return result.affectedRows > 0;
+}
