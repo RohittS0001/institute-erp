@@ -1,32 +1,38 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../../config/db.js";
 
-const Faculty = sequelize.define("Faculty", {
+const Student = sequelize.define("Student", {
   name: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
 
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
+    unique: true,
   },
 
   phone: {
     type: DataTypes.STRING,
-    allowNull: true
+  },
+
+  rollNumber: {
+    type: DataTypes.STRING,
+    unique: true,
   },
 
   department: {
     type: DataTypes.STRING,
-    allowNull: true
   },
 
-  role: {
+  course: {
     type: DataTypes.STRING,
-    allowNull: true
+  },
+
+  address: {
+    type: DataTypes.TEXT,
   }
 });
 
-export default Faculty;
+export default Student;

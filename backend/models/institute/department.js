@@ -1,32 +1,24 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../../config/db.js";
 
-const Faculty = sequelize.define("Faculty", {
+const Department = sequelize.define("Department", {
   name: {
     type: DataTypes.STRING,
     allowNull: false
   },
 
-  email: {
+  code: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true
   },
 
-  phone: {
-    type: DataTypes.STRING,
-    allowNull: true
-  },
-
-  department: {
-    type: DataTypes.STRING,
-    allowNull: true
-  },
-
-  role: {
-    type: DataTypes.STRING,
+  description: {
+    type: DataTypes.TEXT,
     allowNull: true
   }
 });
 
-export default Faculty;
+export default Department;
+
+ 

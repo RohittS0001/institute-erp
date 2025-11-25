@@ -1,21 +1,31 @@
-import mongoose from "mongoose";
+import { DataTypes } from "sequelize";
+import { sequelize } from "../../config/db.js";
 
-const notificationSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  message: { type: String, required: true },
-  date: { type: String },
+const Notification = sequelize.define("Notification", {
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+
+  message: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+
+  date: {
+    type: DataTypes.STRING, 
+    allowNull: true,
+  },
+
   target: {
-    type: String,
-    enum: ["All", "Students", "Faculty"],
-    default: "All",
+    type: DataTypes.ENUM("All", "Students", "Faculty"),
+    defaultValue: "All",
   },
-  createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Faculty",
-  },
-});
 
-// Prevent OverwriteModelError
-const Notification = mongoose.model("Notifications", notificationSchema);
+  createdBy: {
+    type: DataTypes.INTEGER,   // foreign key (Faculty ID)
+    allowNull: true,
+  }
+});
 
 export default Notification;

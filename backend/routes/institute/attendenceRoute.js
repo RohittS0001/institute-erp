@@ -1,12 +1,12 @@
 import express from "express";
 import {
   markAttendance,
-  getAllAttendance,
-} from "../controllers/attendanceController.js";
+  getAllAttendance
+} from "../../controllers/institute/attendanceController.js";
 
 const router = express.Router();
 
-router.post("/mark", markAttendance);
+router.post("/add", markAttendance);
 router.get("/all", getAllAttendance);
 
 export default router;

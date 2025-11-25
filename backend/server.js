@@ -4,10 +4,10 @@ import cors from "cors";
 import { connectDB } from "./config/db.js";
 
 import departmentRoutes from "./routes/institute/departmentRoute.js";
-import studentRoutes from "./routes/institute/studentRoute.js";
+import studentRoutes from "./routes/institute/studentmanagementRoute.js";
 import facultyRoutes from "./routes/institute/facultyRoute.js";
 import courseRoutes from "./routes/institute/courseRoute.js";
-import attendanceRoutes from "./routes/institute/attendanceRoute.js";
+import attendanceRoutes from "./routes/institute/attendenceRoute.js";
 import eventRoutes from "./routes/institute/eventRoute.js";
 import profileRoutes from "./routes/institute/profileRoute.js";
 import notificationRoutes from "./routes/institute/notificationRoute.js";

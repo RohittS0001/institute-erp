@@ -1,10 +1,12 @@
-// backend/routes/departmentRoutes.js
 import express from "express";
-import { addDepartment, getDepartments } from "../controllers/departmentController.js";
+import {
+  addDepartment,
+  getDepartments
+} from "../../controllers/institute/departmentController.js";
 
 const router = express.Router();
 
-// Add a department
+// Add new department
 router.post("/add", addDepartment);
 
 // Get all departments

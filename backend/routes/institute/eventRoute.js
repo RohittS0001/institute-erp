@@ -1,15 +1,16 @@
-// backend/routes/eventRoutes.js
-
 import express from "express";
-import { getAllEvents, createEvent } from "../controllers/eventController.js";
+import {
+  addEvent,
+  getEvents,
+  updateEvent,
+  deleteEvent
+} from "../../controllers/institute/eventController.js";
 
 const router = express.Router();
 
-// GET all events
-router.get("/all", getAllEvents);
-
-// CREATE event
-router.post("/create", createEvent);
+router.post("/add", addEvent);
+router.get("/all", getEvents);
+router.put("/update/:id", updateEvent);
+router.delete("/delete/:id", deleteEvent);
 
 export default router;
- 

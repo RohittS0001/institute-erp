@@ -1,29 +1,23 @@
-import db from "../../config/db.js";
+import { sequelize } from "../../config/db.js";
+import Department from "../../models/institute/Department.js";
+import Faculty from "../../models/institute/Faculty.js";
+import Course from "../../models/institute/Course.js";
+import Student from "../../models/institute/Student.js";
 
 export const getDashboardStats = async (req, res) => {
   try {
-    // Count Students
-    const [studentCount] = await db.execute(
-      "SELECT COUNT(*) AS totalStudents FROM students"
-    );
-
-    // Count Faculty
-    const [facultyCount] = await db.execute(
-      "SELECT COUNT(*) AS totalFaculty FROM faculty"
-    );
-
-    // Count Courses
-    const [courseCount] = await db.execute(
-      "SELECT COUNT(*) AS totalCourses FROM courses"
-    );
+    const departments = await Department.count();
+    const faculty = await Faculty.count();
+    const courses = await Course.count();
+    const students = await Student.count();
 
     res.json({
-      totalStudents: studentCount[0].totalStudents,
-      totalFaculty: facultyCount[0].totalFaculty,
-      totalCourses: courseCount[0].totalCourses,
+      departments,
+      faculty,
+      courses,
+      students
     });
-
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
