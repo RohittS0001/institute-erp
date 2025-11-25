@@ -1,10 +1,10 @@
 import mysql from "mysql2/promise";
 
 const pool = mysql.createPool({
-  host: 'your-mysql-host',           // e.g. 'localhost' or cPanel host
-  user: 'your-mysql-username',
-  password: 'your-mysql-password',
-  database: 'your-database-name'
+  host: 'localhost',           // e.g. 'localhost' or cPanel host
+  user: 'root',
+  password: '#myprajay@17',
+  database: 'sahfonn'
 });
 
 export const connectDB = async () => {
