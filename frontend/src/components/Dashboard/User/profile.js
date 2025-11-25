@@ -13,7 +13,7 @@ export default function Profile() {
   });
 
   // Simulate getting current userId from localStorage or auth context
-  const userId = JSON.parse(localStorage.getItem("user"))?._id;
+  const userId = JSON.parse(localStorage.getItem("user"))?.id; // changed from _id to id
 
   // Fetch profile from backend on mount
   useEffect(() => {
@@ -98,4 +98,3 @@ export default function Profile() {
     </div>
   );
 }
-

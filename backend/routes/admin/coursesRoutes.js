@@ -1,16 +1,16 @@
 import express from 'express';
 import { 
-  getAllCourses, 
-  createCourse, 
-  updateCourse,     // Import the update controller
-  deleteCourse      // Import the delete controller
+  getAllCoursesHandler, 
+  createCourseHandler, 
+  updateCourseHandler,     
+  deleteCourseHandler     
 } from '../../controllers/admin/coursesController.js';
 
 const router = express.Router();
 
-router.get('/', getAllCourses);                // Get all courses
-router.post('/', createCourse);                // Add new course
-router.put('/:id', updateCourse);              // Edit course by ID
-router.delete('/:id', deleteCourse);           // Delete course by ID
+router.get('/', getAllCoursesHandler);          // Get all courses
+router.post('/', createCourseHandler);          // Add new course
+router.put('/:id', updateCourseHandler);        // Edit course by ID
+router.delete('/:id', deleteCourseHandler);     // Delete course by ID
 
 export default router;

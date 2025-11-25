@@ -1,9 +1,14 @@
-import Financial from "../../models/admin/Financial.js";
+import {
+  getAllFinancials,
+  createFinancialRecord,
+  updateFinancialById,
+  deleteFinancialById
+} from "../../models/admin/Financial.js";
 
 // Get all financial records
-export const getAllFinancials = async (req, res) => {
+export const getAllFinancialsHandler = async (req, res) => {
   try {
-    const financials = await Financial.find();
+    const financials = await getAllFinancials();
     res.json(financials);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch financial records" });
@@ -11,10 +16,9 @@ export const getAllFinancials = async (req, res) => {
 };
 
 // Add a new financial record
-export const createFinancial = async (req, res) => {
+export const createFinancialHandler = async (req, res) => {
   try {
-    const record = new Financial(req.body);
-    const saved = await record.save();
+    const saved = await createFinancialRecord(req.body);
     res.json(saved);
   } catch (err) {
     res.status(400).json({ error: "Failed to add financial record" });
@@ -22,10 +26,10 @@ export const createFinancial = async (req, res) => {
 };
 
 // Update a financial record by ID
-export const updateFinancial = async (req, res) => {
+export const updateFinancialHandler = async (req, res) => {
   try {
     const { id } = req.params;
-    const updated = await Financial.findByIdAndUpdate(id, req.body, { new: true });
+    const updated = await updateFinancialById(id, req.body);
     if (!updated) return res.status(404).json({ error: "Financial record not found" });
     res.json(updated);
   } catch (err) {
@@ -34,10 +38,10 @@ export const updateFinancial = async (req, res) => {
 };
 
 // Delete a financial record by ID
-export const deleteFinancial = async (req, res) => {
+export const deleteFinancialHandler = async (req, res) => {
   try {
     const { id } = req.params;
-    const deleted = await Financial.findByIdAndDelete(id);
+    const deleted = await deleteFinancialById(id);
     if (!deleted) return res.status(404).json({ error: "Financial record not found" });
     res.json({ message: "Financial record deleted successfully" });
   } catch (err) {

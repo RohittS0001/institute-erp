@@ -1,23 +1,111 @@
-import mongoose from "mongoose";
+// backend/models/admin/Setting.js
+import pool from "../../config/db.js";
 
-const SettingSchema = new mongoose.Schema({
-  systemName: String,
-  logoUrl: String,
-  theme: { type: String, default: "light" },
-  language: { type: String, default: "en" },
-  passwordExpiryDays: { type: Number, default: 90 },
-  twoFactorAuth: { type: Boolean, default: false },
-  allowedLoginIPs: String,
-  integrationEmail: String,
-  integrationSMS: { type: Boolean, default: true },
-  enableAPIAccess: { type: Boolean, default: false },
-  apiKey: String,
-  notificationFrequency: { type: String, default: "daily" },
-  backupEnabled: { type: Boolean, default: true },
-  backupSchedule: { type: String, default: "weekly" },
-  auditLogging: { type: Boolean, default: true },
-}, { timestamps: true,
-      collection: 'AdminSettings'
- });
+// Get all settings (assuming single settings document)
+export async function getSettings() {
+  const [rows] = await pool.query('SELECT * FROM AdminSettings LIMIT 1');
+  return rows[0] || null;
+}
 
-export const Setting = mongoose.model("Setting", SettingSchema);
+// Create or update settings (upsert logic)
+export async function upsertSettings(data) {
+  const {
+    systemName,
+    logoUrl,
+    theme = "light",
+    language = "en",
+    passwordExpiryDays = 90,
+    twoFactorAuth = false,
+    allowedLoginIPs,
+    integrationEmail,
+    integrationSMS = true,
+    enableAPIAccess = false,
+    apiKey,
+    notificationFrequency = "daily",
+    backupEnabled = true,
+    backupSchedule = "weekly",
+    auditLogging = true,
+  } = data;
+
+  // Check if settings exist
+  const existing = await getSettings();
+  if (existing) {
+    const [result] = await pool.query(
+      `UPDATE AdminSettings SET
+        systemName=?,
+        logoUrl=?,
+        theme=?,
+        language=?,
+        passwordExpiryDays=?,
+        twoFactorAuth=?,
+        allowedLoginIPs=?,
+        integrationEmail=?,
+        integrationSMS=?,
+        enableAPIAccess=?,
+        apiKey=?,
+        notificationFrequency=?,
+        backupEnabled=?,
+        backupSchedule=?,
+        auditLogging=?
+      WHERE id=?`,
+      [
+        systemName,
+        logoUrl,
+        theme,
+        language,
+        passwordExpiryDays,
+        twoFactorAuth,
+        allowedLoginIPs,
+        integrationEmail,
+        integrationSMS,
+        enableAPIAccess,
+        apiKey,
+        notificationFrequency,
+        backupEnabled,
+        backupSchedule,
+        auditLogging,
+        existing.id,
+      ]
+    );
+    return { id: existing.id, ...data };
+  } else {
+    // Insert new row
+    const [result] = await pool.query(
+      `INSERT INTO AdminSettings (
+        systemName,
+        logoUrl,
+        theme,
+        language,
+        passwordExpiryDays,
+        twoFactorAuth,
+        allowedLoginIPs,
+        integrationEmail,
+        integrationSMS,
+        enableAPIAccess,
+        apiKey,
+        notificationFrequency,
+        backupEnabled,
+        backupSchedule,
+        auditLogging
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        systemName,
+        logoUrl,
+        theme,
+        language,
+        passwordExpiryDays,
+        twoFactorAuth,
+        allowedLoginIPs,
+        integrationEmail,
+        integrationSMS,
+        enableAPIAccess,
+        apiKey,
+        notificationFrequency,
+        backupEnabled,
+        backupSchedule,
+        auditLogging,
+      ]
+    );
+    return { id: result.insertId, ...data };
+  }
+}

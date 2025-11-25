@@ -1,19 +1,19 @@
 import express from "express";
 import {
-  getPlacements,
-  createPlacement,
-  getPlacementById,
-  updatePlacement,
-  deletePlacement
+  getPlacementsHandler,
+  createPlacementHandler,
+  getPlacementByIdHandler,
+  updatePlacementHandler,
+  deletePlacementHandler
 } from "../../controllers/user/placementController.js";
 
 const router = express.Router();
 
-router.get("/", getPlacements);
-router.post("/", createPlacement);
+router.get("/", getPlacementsHandler);
+router.post("/", createPlacementHandler);
 
-router.get("/:id", getPlacementById);
-router.put("/:id", updatePlacement);
-router.delete("/:id", deletePlacement);
+router.get("/:id", getPlacementByIdHandler);
+router.put("/:id", updatePlacementHandler);
+router.delete("/:id", deletePlacementHandler);
 
 export default router;

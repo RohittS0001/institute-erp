@@ -33,7 +33,7 @@ const Notifications = () => {
     // Optimistic UI update
     setNotifications((prev) =>
       prev.map((notif) =>
-        notif.id === id || notif._id === id ? { ...notif, read: !notif.read } : notif
+        notif.id === id ? { ...notif, read: !notif.read } : notif
       )
     );
     // Persist change to backend
@@ -52,11 +52,11 @@ const Notifications = () => {
         {notifications.length === 0 ? (
           <li className="no-notifications">No notifications</li>
         ) : (
-          notifications.map(({ id, _id, type, message, date, read }) => (
+          notifications.map(({ id, type, message, date, read }) => (
             <li
-              key={id || _id}
+              key={id}
               className={`notification-item ${read ? "read" : "unread"}`}
-              onClick={() => toggleReadStatus(id || _id)}
+              onClick={() => toggleReadStatus(id)}
             >
               <div className="notif-type">{type}</div>
               <div className="notif-message">{message}</div>

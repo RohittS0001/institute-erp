@@ -66,7 +66,7 @@ export default function MOU() {
           <ul>
             {mous.length > 0 ? (
               mous.slice(-3).reverse().map(m => (
-                <li key={m._id}>
+                <li key={m.id}>
                   {m.title} with {m.partnerOrganization} ({m.status})
                   <br/>
                   Valid: {m.startDate?.slice(0,10)} to {m.endDate ? m.endDate.slice(0,10) : "ongoing"}
@@ -136,4 +136,3 @@ export default function MOU() {
     </div>
   );
 }
-

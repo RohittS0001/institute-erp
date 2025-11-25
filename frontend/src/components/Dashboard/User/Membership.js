@@ -44,8 +44,8 @@ export default function Membership() {
       <h2>Memberships</h2>
       <ul>
         {memberships.map(m => (
-          <li key={m._id}>
-            User: {typeof m.userId === "object" ? m.userId.name : m.userId} | {m.organization} | {m.membershipType} | {m.status}
+          <li key={m.id}>
+            User: {m.name} ({m.email}) | {m.organization} | {m.membershipType} | {m.status}
           </li>
         ))}
       </ul>

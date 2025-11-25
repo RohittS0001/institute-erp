@@ -1,10 +1,10 @@
 import { Sequelize } from "sequelize";
 
-// MAIN SEQUELIZE INSTANCE
+// Create Sequelize instance (MySQL connection)
 export const sequelize = new Sequelize(
-  "INSTITUTE_ERP",      // Database name
-  "root",               // MySQL username
-  "your_mysql_password",// MySQL password
+  "INSTITUTE_ERP",        // Database name
+  "root",                 // MySQL username
+  "your_mysql_password",  // MySQL password
   {
     host: "localhost",
     dialect: "mysql",
@@ -12,16 +12,16 @@ export const sequelize = new Sequelize(
   }
 );
 
-// CONNECT DATABASE
+// Connect DB + Sync Tables
 export const connectDB = async () => {
   try {
     await sequelize.authenticate();
     console.log("✅ MySQL Connected Successfully!");
 
     await sequelize.sync({ alter: true });
-    console.log("✅ Models Synced Successfully!");
-  } catch (err) {
-    console.error("❌ MySQL Connection Error:", err.message);
+    console.log("✅ All Models Synced to MySQL!");
+  } catch (error) {
+    console.error("❌ MySQL Connection Error:", error.message);
     process.exit(1);
   }
 };

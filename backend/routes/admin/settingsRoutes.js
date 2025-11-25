@@ -1,8 +1,9 @@
 import express from "express";
-import { getSettings, saveSettings } from "../../controllers/admin/settingsController.js";
+import { getSettingsHandler, saveSettingsHandler } from "../../controllers/admin/settingsController.js";
+
 const router = express.Router();
 
-router.get("/", getSettings);
-router.post("/", saveSettings);
+router.get("/", getSettingsHandler);
+router.post("/", saveSettingsHandler);
 
 export default router;

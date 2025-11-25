@@ -79,7 +79,7 @@ const Courses = () => {
     if (!window.confirm("Are you sure you want to delete this course?")) return;
     try {
       await axios.delete(`http://localhost:4000/api/admin/courses/${id}`);
-      setCourses((prev) => prev.filter((course) => (course.id || course._id) !== id));
+      setCourses((prev) => prev.filter((course) => course.id !== id));
     } catch (error) {
       console.error("Failed to delete course:", error);
       alert("Failed to delete course. Please try again.");
@@ -88,7 +88,7 @@ const Courses = () => {
 
   // Enter edit mode for a course
   const handleEdit = (course) => {
-    setEditId(course.id || course._id);
+    setEditId(course.id);
     setEditCourse({
       title: course.title,
       duration: course.duration,
@@ -106,7 +106,7 @@ const Courses = () => {
       );
       setCourses((prev) =>
         prev.map((course) =>
-          (course.id || course._id) === id ? response.data : course
+          course.id === id ? response.data : course
         )
       );
       setEditId(null);
@@ -178,8 +178,8 @@ const Courses = () => {
         <tbody>
           {filteredCourses.length ? (
             filteredCourses.map((course) =>
-              editId === (course.id || course._id) ? (
-                <tr key={course.id || course._id}>
+              editId === course.id ? (
+                <tr key={course.id}>
                   <td>
                     <input
                       name="title"
@@ -215,7 +215,7 @@ const Courses = () => {
                   <td>
                     <button
                       className="submit-btn"
-                      onClick={() => handleEditSave(course.id || course._id)}
+                      onClick={() => handleEditSave(course.id)}
                     >
                       Save
                     </button>
@@ -228,27 +228,24 @@ const Courses = () => {
                   </td>
                 </tr>
               ) : (
-                <tr key={course.id || course._id} className={course.status.toLowerCase()}>
+                <tr key={course.id} className={course.status.toLowerCase()}>
                   <td>{course.title}</td>
                   <td>{course.duration}</td>
                   <td>{course.instructor}</td>
                   <td>{course.status}</td>
                   <td>
-                 <td>
-  <button
-    className="edit-B"
-    onClick={() => handleEdit(course)}
-  >
-    Edit
-  </button>
-  <button
-    className="delete-B"
-    onClick={() => handleDeleteCourse(course.id || course._id)}
-  >
-    Delete
-  </button>
-</td>
-
+                    <button
+                      className="edit-B"
+                      onClick={() => handleEdit(course)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="delete-B"
+                      onClick={() => handleDeleteCourse(course.id)}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               )

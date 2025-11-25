@@ -1,19 +1,19 @@
 import express from "express";
 import {
-  getProfiles,
-  createProfile,
-  getProfileById,
-  updateProfile,
-  deleteProfile
+  getProfilesHandler,
+  createProfileHandler,
+  getProfileByIdHandler,
+  updateProfileHandler,
+  deleteProfileHandler
 } from "../../controllers/user/profileController.js";
 
 const router = express.Router();
 
-router.get("/", getProfiles);
-router.post("/", createProfile);
+router.get("/", getProfilesHandler);
+router.post("/", createProfileHandler);
 
-router.get("/:id", getProfileById);
-router.put("/:id", updateProfile);
-router.delete("/:id", deleteProfile);
+router.get("/:id", getProfileByIdHandler);
+router.put("/:id", updateProfileHandler);
+router.delete("/:id", deleteProfileHandler);
 
 export default router;

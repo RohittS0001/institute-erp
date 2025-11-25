@@ -1,19 +1,19 @@
 import express from "express";
 import {
-  getResearches,
-  createResearch,
-  getResearchById,
-  updateResearch,
-  deleteResearch
+  getResearchesHandler,
+  createResearchHandler,
+  getResearchByIdHandler,
+  updateResearchHandler,
+  deleteResearchHandler
 } from "../../controllers/user/researchController.js";
 
 const router = express.Router();
 
-router.get("/", getResearches);
-router.post("/", createResearch);
+router.get("/", getResearchesHandler);
+router.post("/", createResearchHandler);
 
-router.get("/:id", getResearchById);
-router.put("/:id", updateResearch);
-router.delete("/:id", deleteResearch);
+router.get("/:id", getResearchByIdHandler);
+router.put("/:id", updateResearchHandler);
+router.delete("/:id", deleteResearchHandler);
 
 export default router;

@@ -1,16 +1,16 @@
 import express from "express";
 import {
-  getAllFinancials,
-  createFinancial,
-  updateFinancial,
-  deleteFinancial,
+  getAllFinancialsHandler,
+  createFinancialHandler,
+  updateFinancialHandler,
+  deleteFinancialHandler,
 } from "../../controllers/admin/financialsController.js";
 
 const router = express.Router();
 
-router.get("/", getAllFinancials);             // List all financial records
-router.post("/", createFinancial);             // Add new financial record
-router.put("/:id", updateFinancial);           // Update financial record by ID
-router.delete("/:id", deleteFinancial);        // Delete financial record by ID
+router.get("/", getAllFinancialsHandler);          // List all financial records
+router.post("/", createFinancialHandler);          // Add new financial record
+router.put("/:id", updateFinancialHandler);        // Update financial record by ID
+router.delete("/:id", deleteFinancialHandler);     // Delete financial record by ID
 
 export default router;

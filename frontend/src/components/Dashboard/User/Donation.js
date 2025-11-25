@@ -95,7 +95,7 @@ export default function Donation() {
           <ul>
             {donations.length > 0 ? (
               donations.map(item => (
-                <li key={item._id}>
+                <li key={item.id}>
                   {item.donor} donated ₹{item.amount} on {item.date} ({item.purpose})
                 </li>
               ))

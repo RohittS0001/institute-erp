@@ -1,58 +1,53 @@
-import Research from "../../models/user/Research.js";
+import {
+  createResearch,
+  getResearch,
+  findResearchById,
+  updateResearch,
+  deleteResearch
+} from "../../models/user/Research.js";
 
 // GET: all researches
-export const getResearches = async (req, res) => {
-  try {
-    const researches = await Research.find();
-    res.json(researches);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+export const getResearchesHandler = (req, res) => {
+  getResearch((err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
 };
 
 // POST: add research
-export const createResearch = async (req, res) => {
-  try {
-    const research = new Research(req.body);
-    await research.save();
-    res.status(201).json(research);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
+export const createResearchHandler = (req, res) => {
+  createResearch(req.body, (err, result) => {
+    if (err) return res.status(400).json({ error: err.message });
+    res.status(201).json({ id: result.insertId, ...req.body });
+  });
 };
 
 // GET: research by ID
-export const getResearchById = async (req, res) => {
-  try {
-    const research = await Research.findById(req.params.id);
-    if (!research)
+export const getResearchByIdHandler = (req, res) => {
+  findResearchById(req.params.id, (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (results.length === 0)
       return res.status(404).json({ error: "Research not found" });
-    res.json(research);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+    res.json(results[0]);
+  });
 };
 
 // PUT: update research
-export const updateResearch = async (req, res) => {
-  try {
-    const research = await Research.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!research)
+export const updateResearchHandler = (req, res) => {
+  updateResearch(req.params.id, req.body, (err, result) => {
+    if (err) return res.status(400).json({ error: err.message });
+    if (result.affectedRows === 0)
       return res.status(404).json({ error: "Research not found" });
-    res.json(research);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
+    res.json({ id: req.params.id, ...req.body });
+  });
 };
 
 // DELETE: remove research
-export const deleteResearch = async (req, res) => {
-  try {
-    const research = await Research.findByIdAndDelete(req.params.id);
-    if (!research)
+export const deleteResearchHandler = (req, res) => {
+  deleteResearch(req.params.id, (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (result.affectedRows === 0)
       return res.status(404).json({ error: "Research not found" });
     res.json({ message: "Research deleted" });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  });
 };

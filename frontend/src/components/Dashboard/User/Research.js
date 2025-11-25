@@ -79,7 +79,7 @@ export default function Research() {
           <ul>
             {researches.length > 0 ? (
               researches.map(item => (
-                <li key={item._id}>
+                <li key={item.id}>
                   <b>{item.topic}</b> by {item.author} ({item.publishedDate})
                   <br />
                   <i>{item.summary}</i>
@@ -129,8 +129,3 @@ export default function Research() {
     </div>
   );
 }
-
-
-
-
-

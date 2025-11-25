@@ -28,13 +28,12 @@ const AdminDashboard = () => {
     fetchInstitutes();
   }, []);
 
- const filteredInstitutes = institutes.filter(
-  (inst) =>
-    inst.name?.toLowerCase().includes(search.toLowerCase()) ||
-    inst.address?.toLowerCase().includes(search.toLowerCase()) ||
-    inst.status?.toLowerCase().includes(search.toLowerCase())
-);
-
+  const filteredInstitutes = institutes.filter(
+    (inst) =>
+      inst.name?.toLowerCase().includes(search.toLowerCase()) ||
+      inst.address?.toLowerCase().includes(search.toLowerCase()) ||
+      inst.status?.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <main className="dashboard-content">
@@ -61,7 +60,6 @@ const AdminDashboard = () => {
               {w.icon}
             </div>
             <div className="widget-info">
-              {/* <h3>{w.value.toLocaleString()}</h3> */}
               <p>{w.title}</p>
             </div>
           </div>
@@ -76,13 +74,12 @@ const AdminDashboard = () => {
               <th>Name</th>
               <th>Location</th>
               <th>Status</th>
-              {/* <th>Actions</th> */}
             </tr>
           </thead>
           <tbody>
             {filteredInstitutes.length ? (
               filteredInstitutes.map((inst) => (
-                <tr key={inst.id || inst._id}>
+                <tr key={inst.id}>
                   <td>{inst.name}</td>
                   <td>{inst.address}</td>
                   <td>
@@ -90,7 +87,6 @@ const AdminDashboard = () => {
                       {inst.status}
                     </span>
                   </td>
-                 
                 </tr>
               ))
             ) : (

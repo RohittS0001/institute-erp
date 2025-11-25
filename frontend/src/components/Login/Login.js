@@ -118,14 +118,18 @@ const Login = () => {
 
         if (formData.role === 'admin') {
           navigate('/dashboard/admin');
+            window.location.reload();
         } else if (formData.role === 'Institute') {
           navigate('/dashboard/institute');
+            window.location.reload();
         } else if (formData.role === 'User') {
           navigate('/dashboard/user');
+            window.location.reload();
         } else {
           navigate('/');
+            window.location.reload();
         }
-        window.location.reload();
+      
         setFormData({
           role: '',
           email: '',

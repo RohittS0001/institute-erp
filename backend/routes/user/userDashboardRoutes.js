@@ -1,10 +1,12 @@
 import express from "express";
-import { getDashboardData, getRecentActivity } from "../../controllers/user/userDashboardController.js";
+import {
+  getDashboardDataHandler,
+  getRecentActivityHandler
+} from "../../controllers/user/userDashboardController.js";
+
 const router = express.Router();
 
-router.get("/", getDashboardData);
-router.get("/activity", getRecentActivity);
+router.get("/", getDashboardDataHandler);
+router.get("/activity", getRecentActivityHandler);
 
 export default router;
-
-

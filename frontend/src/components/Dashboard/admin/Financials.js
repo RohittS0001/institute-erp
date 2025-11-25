@@ -82,7 +82,7 @@ const Financials = () => {
     if (!window.confirm("Are you sure you want to delete this transaction?")) return;
     try {
       await axios.delete(`http://localhost:4000/api/admin/financials/${id}`);
-      setTransactions((prev) => prev.filter((t) => (t.id || t._id) !== id));
+      setTransactions((prev) => prev.filter((t) => t.id !== id));
     } catch (error) {
       console.error("Failed to delete transaction:", error);
       alert("Failed to delete transaction");
@@ -91,7 +91,7 @@ const Financials = () => {
 
   // Enter edit mode
   const handleEdit = (txn) => {
-    setEditId(txn.id || txn._id);
+    setEditId(txn.id);
     setEditTransaction({
       type: txn.type,
       institute: txn.institute,
@@ -109,7 +109,7 @@ const Financials = () => {
         editTransaction
       );
       setTransactions((prev) =>
-        prev.map((txn) => (txn.id || txn._id) === id ? response.data : txn)
+        prev.map((txn) => txn.id === id ? response.data : txn)
       );
       setEditId(null);
     } catch (error) {
@@ -198,8 +198,8 @@ const Financials = () => {
         <tbody>
           {filteredTransactions.length ? (
             filteredTransactions.map((txn) =>
-              editId === (txn.id || txn._id) ? (
-                <tr key={txn.id || txn._id}>
+              editId === txn.id ? (
+                <tr key={txn.id}>
                   <td>
                     <input
                       name="type"
@@ -246,7 +246,7 @@ const Financials = () => {
                   <td>
                     <button
                       className="submit-btn"
-                      onClick={() => handleSave(txn.id || txn._id)}
+                      onClick={() => handleSave(txn.id)}
                     >
                       Save
                     </button>
@@ -256,11 +256,11 @@ const Financials = () => {
                   </td>
                 </tr>
               ) : (
-                <tr key={txn.id || txn._id}>
+                <tr key={txn.id}>
                   <td>{txn.type}</td>
                   <td>{txn.institute}</td>
-                  <td>${txn.amount.toFixed(2)}</td>
-                  <td>{new Date(txn.date).toLocaleDateString()}</td>
+                  <td>${Number(txn.amount).toFixed(2)}</td>
+                  <td>{txn.date ? new Date(txn.date).toLocaleDateString() : ""}</td>
                   <td>
                     <span className={`status-label ${txn.status.toLowerCase()}`}>
                       {txn.status}
@@ -270,7 +270,7 @@ const Financials = () => {
                     <button className="edit-B" onClick={() => handleEdit(txn)}>Edit</button>
                     <button
                       className="delete-B"
-                      onClick={() => handleDelete(txn.id || txn._id)}
+                      onClick={() => handleDelete(txn.id)}
                     >
                       Delete
                     </button>
