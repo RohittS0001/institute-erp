@@ -1,58 +1,53 @@
-import Placement from "../../models/user/Placement.js";
+import {
+  createPlacement,
+  getPlacements,
+  findPlacementById,
+  updatePlacement,
+  deletePlacement
+} from "../../models/user/Placement.js";
 
 // GET: all placements
-export const getPlacements = async (req, res) => {
-  try {
-    const placements = await Placement.find();
-    res.json(placements);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+export const getPlacementsHandler = (req, res) => {
+  getPlacements((err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
 };
 
 // POST: add new placement
-export const createPlacement = async (req, res) => {
-  try {
-    const placement = new Placement(req.body);
-    await placement.save();
-    res.status(201).json(placement);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
+export const createPlacementHandler = (req, res) => {
+  createPlacement(req.body, (err, result) => {
+    if (err) return res.status(400).json({ error: err.message });
+    res.status(201).json({ id: result.insertId, ...req.body });
+  });
 };
 
 // GET: placement by ID
-export const getPlacementById = async (req, res) => {
-  try {
-    const placement = await Placement.findById(req.params.id);
-    if (!placement)
+export const getPlacementByIdHandler = (req, res) => {
+  findPlacementById(req.params.id, (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (results.length === 0)
       return res.status(404).json({ error: "Placement not found" });
-    res.json(placement);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+    res.json(results[0]);
+  });
 };
 
 // PUT: update placement
-export const updatePlacement = async (req, res) => {
-  try {
-    const placement = await Placement.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!placement)
+export const updatePlacementHandler = (req, res) => {
+  updatePlacement(req.params.id, req.body, (err, result) => {
+    if (err) return res.status(400).json({ error: err.message });
+    if (result.affectedRows === 0)
       return res.status(404).json({ error: "Placement not found" });
-    res.json(placement);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
+    res.json({ id: req.params.id, ...req.body });
+  });
 };
 
 // DELETE: remove placement
-export const deletePlacement = async (req, res) => {
-  try {
-    const placement = await Placement.findByIdAndDelete(req.params.id);
-    if (!placement)
+export const deletePlacementHandler = (req, res) => {
+  deletePlacement(req.params.id, (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (result.affectedRows === 0)
       return res.status(404).json({ error: "Placement not found" });
     res.json({ message: "Placement deleted" });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  });
 };

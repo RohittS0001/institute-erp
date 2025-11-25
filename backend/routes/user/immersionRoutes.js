@@ -1,19 +1,19 @@
 import express from "express";
 import {
-  getImmersions,
-  createImmersion,
-  getImmersionById,
-  updateImmersion,
-  deleteImmersion
+  getImmersionsHandler,
+  createImmersionHandler,
+  getImmersionByIdHandler,
+  updateImmersionHandler,
+  deleteImmersionHandler
 } from "../../controllers/user/immersionController.js";
 
 const router = express.Router();
 
-router.get("/", getImmersions);
-router.post("/", createImmersion);
+router.get("/", getImmersionsHandler);
+router.post("/", createImmersionHandler);
 
-router.get("/:id", getImmersionById);
-router.put("/:id", updateImmersion);
-router.delete("/:id", deleteImmersion);
+router.get("/:id", getImmersionByIdHandler);
+router.put("/:id", updateImmersionHandler);
+router.delete("/:id", deleteImmersionHandler);
 
 export default router;

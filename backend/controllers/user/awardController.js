@@ -1,58 +1,53 @@
-import Award from "../../models/user/Award.js";
+import {
+  createAward,
+  getAwards,
+  findAwardById,
+  updateAward,
+  deleteAward
+} from "../../models/user/Award.js";
 
 // GET: all awards
-export const getAwards = async (req, res) => {
-  try {
-    const awards = await Award.find();
-    res.json(awards);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+export const getAwardsHandler = (req, res) => {
+  getAwards((err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
 };
 
 // POST: add award
-export const createAward = async (req, res) => {
-  try {
-    const award = new Award(req.body);
-    await award.save();
-    res.status(201).json(award);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
+export const createAwardHandler = (req, res) => {
+  createAward(req.body, (err, result) => {
+    if (err) return res.status(400).json({ error: err.message });
+    res.status(201).json({ id: result.insertId, ...req.body });
+  });
 };
 
 // GET: award by ID
-export const getAwardById = async (req, res) => {
-  try {
-    const award = await Award.findById(req.params.id);
-    if (!award)
+export const getAwardByIdHandler = (req, res) => {
+  findAwardById(req.params.id, (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (results.length === 0)
       return res.status(404).json({ error: "Award not found" });
-    res.json(award);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+    res.json(results[0]);
+  });
 };
 
 // PUT: update award
-export const updateAward = async (req, res) => {
-  try {
-    const award = await Award.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!award)
+export const updateAwardHandler = (req, res) => {
+  updateAward(req.params.id, req.body, (err, result) => {
+    if (err) return res.status(400).json({ error: err.message });
+    if (result.affectedRows === 0)
       return res.status(404).json({ error: "Award not found" });
-    res.json(award);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
+    res.json({ id: req.params.id, ...req.body });
+  });
 };
 
 // DELETE: remove award
-export const deleteAward = async (req, res) => {
-  try {
-    const award = await Award.findByIdAndDelete(req.params.id);
-    if (!award)
+export const deleteAwardHandler = (req, res) => {
+  deleteAward(req.params.id, (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (result.affectedRows === 0)
       return res.status(404).json({ error: "Award not found" });
     res.json({ message: "Award deleted" });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  });
 };

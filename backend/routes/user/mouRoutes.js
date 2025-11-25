@@ -1,19 +1,19 @@
 import express from "express";
 import {
-  getMOUs,
-  createMOU,
-  getMOUById,
-  updateMOU,
-  deleteMOU
+  getMOUsHandler,
+  createMOUHandler,
+  getMOUByIdHandler,
+  updateMOUHandler,
+  deleteMOUHandler
 } from "../../controllers/user/mouController.js";
 
 const router = express.Router();
 
-router.get("/", getMOUs);
-router.post("/", createMOU);
+router.get("/", getMOUsHandler);
+router.post("/", createMOUHandler);
 
-router.get("/:id", getMOUById);
-router.put("/:id", updateMOU);
-router.delete("/:id", deleteMOU);
+router.get("/:id", getMOUByIdHandler);
+router.put("/:id", updateMOUHandler);
+router.delete("/:id", deleteMOUHandler);
 
 export default router;

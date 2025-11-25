@@ -1,19 +1,19 @@
 import express from "express";
 import {
-  getAwards,
-  createAward,
-  getAwardById,
-  updateAward,
-  deleteAward
+  getAwardsHandler,
+  createAwardHandler,
+  getAwardByIdHandler,
+  updateAwardHandler,
+  deleteAwardHandler
 } from "../../controllers/user/awardController.js";
 
 const router = express.Router();
 
-router.get("/", getAwards);
-router.post("/", createAward);
+router.get("/", getAwardsHandler);
+router.post("/", createAwardHandler);
 
-router.get("/:id", getAwardById);
-router.put("/:id", updateAward);
-router.delete("/:id", deleteAward);
+router.get("/:id", getAwardByIdHandler);
+router.put("/:id", updateAwardHandler);
+router.delete("/:id", deleteAwardHandler);
 
 export default router;
