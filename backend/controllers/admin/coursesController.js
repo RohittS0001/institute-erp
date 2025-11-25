@@ -1,9 +1,14 @@
-import Course from '../../models/admin/Course.js';
+import {
+  getAllCourses,
+  createCourse,
+  updateCourseById,
+  deleteCourseById
+} from '../../models/admin/Course.js';
 
 // Get all courses
-export const getAllCourses = async (req, res) => {
+export const getAllCoursesHandler = async (req, res) => {
   try {
-    const courses = await Course.find();
+    const courses = await getAllCourses();
     res.json(courses);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch courses' });
@@ -11,10 +16,9 @@ export const getAllCourses = async (req, res) => {
 };
 
 // Create a new course
-export const createCourse = async (req, res) => {
+export const createCourseHandler = async (req, res) => {
   try {
-    const course = new Course(req.body);
-    const saved = await course.save();
+    const saved = await createCourse(req.body);
     res.json(saved);
   } catch (err) {
     res.status(400).json({ error: 'Failed to add course' });
@@ -22,10 +26,10 @@ export const createCourse = async (req, res) => {
 };
 
 // Edit/update a course by ID
-export const updateCourse = async (req, res) => {
+export const updateCourseHandler = async (req, res) => {
   try {
     const { id } = req.params;
-    const updated = await Course.findByIdAndUpdate(id, req.body, { new: true });
+    const updated = await updateCourseById(id, req.body);
     if (!updated) return res.status(404).json({ error: 'Course not found' });
     res.json(updated);
   } catch (err) {
@@ -34,10 +38,10 @@ export const updateCourse = async (req, res) => {
 };
 
 // Delete a course by ID
-export const deleteCourse = async (req, res) => {
+export const deleteCourseHandler = async (req, res) => {
   try {
     const { id } = req.params;
-    const deleted = await Course.findByIdAndDelete(id);
+    const deleted = await deleteCourseById(id);
     if (!deleted) return res.status(404).json({ error: 'Course not found' });
     res.json({ message: 'Course deleted successfully' });
   } catch (err) {

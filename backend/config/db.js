@@ -1,12 +1,10 @@
-// db.js (MySQL version)
 import mysql from "mysql2/promise";
 
-// Configuration for your MySQL connection
 const pool = mysql.createPool({
-  host: 'localhostt',           // e.g. 'localhost' or cPanel host
-  user: 'root',
-  password: '#myprajay@17',
-  database: 'sahfon'
+  host: 'your-mysql-host',           // e.g. 'localhost' or cPanel host
+  user: 'your-mysql-username',
+  password: 'your-mysql-password',
+  database: 'your-database-name'
 });
 
 export const connectDB = async () => {
@@ -22,4 +20,3 @@ export const connectDB = async () => {
 
 // Export pool so other files can use for queries
 export default pool;
-

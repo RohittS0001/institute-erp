@@ -78,7 +78,7 @@ const Institutes = () => {
     if (!window.confirm("Are you sure you want to delete this institute?")) return;
     try {
       await axios.delete(`http://localhost:4000/api/admin/institutes/${id}`);
-      setInstitutes((prev) => prev.filter((instit) => (instit.id || instit._id) !== id));
+      setInstitutes((prev) => prev.filter((instit) => instit.id !== id));
     } catch (error) {
       console.error("Failed to delete institute:", error);
       alert("Failed to delete institute. Please try again.");
@@ -87,7 +87,7 @@ const Institutes = () => {
 
   // Edit handlers
   const handleEdit = (instit) => {
-    setEditId(instit.id || instit._id);
+    setEditId(instit.id);
     setEditInstitute({
       name: instit.name,
       address: instit.address,
@@ -109,7 +109,7 @@ const Institutes = () => {
         editInstitute
       );
       setInstitutes((prev) =>
-        prev.map((instit) => (instit.id || instit._id) === id ? response.data : instit)
+        prev.map((instit) => instit.id === id ? response.data : instit)
       );
       setEditId(null);
     } catch (error) {
@@ -185,14 +185,14 @@ const Institutes = () => {
             <th>Status</th>
             <th>Contact Phone</th>
             <th>Email</th>
-            <th>Actions</th> {/* New column for Edit/Delete buttons */}
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {filtered.length ? (
             filtered.map((instit) =>
-              editId === (instit.id || instit._id) ? (
-                <tr key={instit.id || instit._id}>
+              editId === instit.id ? (
+                <tr key={instit.id}>
                   <td>
                     <input
                       name="name"
@@ -234,12 +234,12 @@ const Institutes = () => {
                     />
                   </td>
                   <td>
-                    <button className="submit-btn" onClick={() => handleSave(instit.id || instit._id)}>Save</button>
+                    <button className="submit-btn" onClick={() => handleSave(instit.id)}>Save</button>
                     <button className="cancel-btn" onClick={cancelEdit}>Cancel</button>
                   </td>
                 </tr>
               ) : (
-                <tr key={instit.id || instit._id}>
+                <tr key={instit.id}>
                   <td>{instit.name}</td>
                   <td>{instit.address}</td>
                   <td>
@@ -251,7 +251,7 @@ const Institutes = () => {
                   <td>{instit.contactEmail}</td>
                   <td>
                     <button className="edit-B" onClick={() => handleEdit(instit)}>Edit</button>
-                    <button className="delete-B" onClick={() => handleDeleteInstitute(instit.id || instit._id)}>Delete</button>
+                    <button className="delete-B" onClick={() => handleDeleteInstitute(instit.id)}>Delete</button>
                   </td>
                 </tr>
               )

@@ -1,11 +1,14 @@
-import { Setting } from "../../models/admin/Setting.js";
+import {
+  getSettings as getSettingsFromDb,
+  upsertSettings
+} from "../../models/admin/Setting.js";
 
-export const getSettings = async (req, res) => {
+export const getSettingsHandler = async (req, res) => {
   try {
-    let settings = await Setting.findOne();
+    let settings = await getSettingsFromDb();
     if (!settings) {
-      settings = new Setting(); // Defaults
-      await settings.save();
+      // Create default settings if none exist
+      settings = await upsertSettings({});
     }
     res.json(settings);
   } catch (err) {
@@ -13,16 +16,10 @@ export const getSettings = async (req, res) => {
   }
 };
 
-export const saveSettings = async (req, res) => {
+export const saveSettingsHandler = async (req, res) => {
   try {
-    let settings = await Setting.findOne();
-    if (!settings) {
-      settings = new Setting(req.body);
-    } else {
-      Object.assign(settings, req.body); // Update fields
-    }
-    await settings.save();
-    res.json(settings);
+    const updatedSettings = await upsertSettings(req.body);
+    res.json(updatedSettings);
   } catch (err) {
     res.status(500).json({ error: "Failed to save settings" });
   }

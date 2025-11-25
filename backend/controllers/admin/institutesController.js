@@ -1,9 +1,14 @@
-import Institute from "../../models/admin/Institute.js";
+import {
+  getAllInstitutes,
+  createInstitute,
+  updateInstituteById,
+  deleteInstituteById
+} from "../../models/admin/Institute.js";
 
 // Get all institutes
-export const getAllInstitutes = async (req, res) => {
+export const getAllInstitutesHandler = async (req, res) => {
   try {
-    const institutes = await Institute.find();
+    const institutes = await getAllInstitutes();
     res.json(institutes);
   } catch (err) {
     res.status(500).json({ error: "Error fetching institutes" });
@@ -11,10 +16,9 @@ export const getAllInstitutes = async (req, res) => {
 };
 
 // Create a new institute
-export const createInstitute = async (req, res) => {
+export const createInstituteHandler = async (req, res) => {
   try {
-    const institute = new Institute(req.body);
-    const saved = await institute.save();
+    const saved = await createInstitute(req.body);
     res.json(saved);
   } catch (err) {
     res.status(400).json({ error: "Failed to add institute" });
@@ -22,11 +26,9 @@ export const createInstitute = async (req, res) => {
 };
 
 // Update an institute by ID
-export const updateInstitute = async (req, res) => {
+export const updateInstituteHandler = async (req, res) => {
   try {
-    const updated = await Institute.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const updated = await updateInstituteById(req.params.id, req.body);
     if (!updated) {
       return res.status(404).json({ error: "Institute not found" });
     }
@@ -37,9 +39,9 @@ export const updateInstitute = async (req, res) => {
 };
 
 // Delete an institute by ID
-export const deleteInstitute = async (req, res) => {
+export const deleteInstituteHandler = async (req, res) => {
   try {
-    const deleted = await Institute.findByIdAndDelete(req.params.id);
+    const deleted = await deleteInstituteById(req.params.id);
     if (!deleted) {
       return res.status(404).json({ error: "Institute not found" });
     }
