@@ -16,7 +16,6 @@ const notificationSchema = new mongoose.Schema({
 });
 
 // Prevent OverwriteModelError
-const Notification =
-  mongoose.models.Notification || mongoose.model("Notification", notificationSchema);
+const Notification = mongoose.model("Notifications", notificationSchema);
 
 export default Notification;

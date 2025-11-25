@@ -1,16 +1,15 @@
+// backend/routes/eventRoutes.js
+
 import express from "express";
+import { getAllEvents, createEvent } from "../controllers/eventController.js";
+
 const router = express.Router();
 
-import {
-  addEvent,
-  getEvents,
-  // updateEvent,
-  deleteEvent
-} from "../../controllers/institute/eventsController.js"; // Add .js for ESM
+// GET all events
+router.get("/all", getAllEvents);
 
-router.post("/create", addEvent);
-router.get("/all", getEvents);
-// router.put("/update/:id", updateEvent);
-router.delete("/delete/:id", deleteEvent);
+// CREATE event
+router.post("/create", createEvent);
 
 export default router;
+ 

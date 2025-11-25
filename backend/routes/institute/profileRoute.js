@@ -1,12 +1,12 @@
 import express from "express";
-const router = express.Router();
-
 import {
   getProfile,
-  updateProfile
-} from "../../controllers/institute/profileController.js"; // Add .js for ESM
+  updateProfile,
+} from "../controllers/profileController.js";
 
-router.get("/:id", getProfile);
-router.put("/update/:id", updateProfile);
+const router = express.Router();
+
+router.get("/me", getProfile);
+router.put("/update", updateProfile);
 
 export default router;

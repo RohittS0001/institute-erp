@@ -1,12 +1,17 @@
 import express from "express";
+import {
+  getInstituteDashboard,
+  getInstituteProfile,
+  updateInstituteProfile
+} from "../controllers/instituteController.js";
+
 const router = express.Router();
 
-import {
-  getInstituteInfo,
-  updateInstituteInfo
-} from "../../controllers/institute/instituteController.js"; // Add .js for ESM
+// Dashboard Summary
+router.get("/dashboard", getInstituteDashboard);
 
-router.get("/info", getInstituteInfo);
-router.put("/update", updateInstituteInfo);
+// Institute Profile
+router.get("/profile", getInstituteProfile);
+router.put("/profile/update", updateInstituteProfile);
 
 export default router;

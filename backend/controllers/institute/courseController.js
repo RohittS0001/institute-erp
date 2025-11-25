@@ -1,42 +1,37 @@
-import Course from "../../models/institute/Course.js";
+import Course from "../models/Course.js";
 
 export const addCourse = async (req, res) => {
-  // console.log("course is adding")
   try {
-    const saved = await Course.create(req.body);
-    res.json(saved);
+    const course = await Course.create(req.body);
+    res.json({ success: true, course });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ success: false, message: err.message });
   }
 };
 
 export const getCourses = async (req, res) => {
   try {
-    const list = await Course.find();
-    res.json(list);
+    const courses = await Course.findAll();
+    res.json(courses);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
 export const updateCourse = async (req, res) => {
   try {
-    const updated = await Course.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
-    res.json(updated);
+    const [updated] = await Course.update(req.body, { where: { id: req.params.id }});
+    res.json({ success: true, updatedRows: updated });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
 export const deleteCourse = async (req, res) => {
   try {
-    await Course.findByIdAndDelete(req.params.id);
-    res.json({ message: "Course Deleted" });
+    const deleted = await Course.destroy({ where: { id: req.params.id }});
+    res.json({ success: true, deletedRows: deleted });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 };

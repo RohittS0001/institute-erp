@@ -1,28 +1,26 @@
-import Event from "../../models/institute/Event.js";
+// backend/controllers/eventController.js
 
-export const addEvent = async (req, res) => {
-  try {
-    const event = await Event.create(req.body);
-    res.json(event);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
+import Event from "../models/Event.js";
 
-export const getEvents = async (req, res) => {
+// GET ALL EVENTS
+export const getAllEvents = async (req, res) => {
   try {
-    const events = await Event.find();
+    const events = await Event.findAll({ order: [["id", "DESC"]] });
     res.json(events);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
   }
 };
 
-export const deleteEvent = async (req, res) => {
+// CREATE EVENT
+export const createEvent = async (req, res) => {
   try {
-    await Event.findByIdAndDelete(req.params.id);
-    res.json({ message: "Event Deleted" });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    const { title, date, location } = req.body;
+
+    const newEvent = await Event.create({ title, date, location });
+
+    res.json(newEvent);
+  } catch (error) {
+    res.status(500).json({ error: "Unable to create event" });
   }
 };

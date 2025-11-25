@@ -1,32 +1,24 @@
-import Student from "../../models/institute/studentmanagement.js";
-import Faculty from "../../models/institute/Faculty.js";
+import Profile from "../models/Profile.js";
 
 export const getProfile = async (req, res) => {
   try {
-    const { type, id } = req.params;
-
-    const data =
-      type === "student"
-        ? await Student.findById(id)
-        : await Faculty.findById(id);
-
-    res.json(data);
+    const profile = await Profile.findOne();
+    res.json(profile);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
 export const updateProfile = async (req, res) => {
   try {
-    const { type, id } = req.params;
-
-    const updated =
-      type === "student"
-        ? await Student.findByIdAndUpdate(id, req.body, { new: true })
-        : await Faculty.findByIdAndUpdate(id, req.body, { new: true });
-
-    res.json(updated);
+    let profile = await Profile.findOne();
+    if (!profile) {
+      profile = await Profile.create(req.body);
+    } else {
+      await profile.update(req.body);
+    }
+    res.json({ success: true, profile });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 };

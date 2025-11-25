@@ -1,9 +1,20 @@
 import express from "express";
-import { registerInstitute, getInstitutes, loginInstitute } from "../controllers/instituteController.js";
+import {
+  getInstituteDashboard,
+  getInstituteProfile,
+  updateInstituteProfile
+} from "../controllers/instituteController.js";
 
 const router = express.Router();
-router.post("/register", registerInstitute);
-router.get("/", getInstitutes);
-router.post("/login", loginInstitute);
+
+// 📌 Dashboard Summary API
+router.get("/dashboard", getInstituteDashboard);
+
+// 📌 Get Institute Profile
+router.get("/profile", getInstituteProfile);
+
+// 📌 Update Institute Profile
+router.put("/profile/update", updateInstituteProfile);
 
 export default router;
+ 

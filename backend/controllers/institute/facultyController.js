@@ -1,41 +1,37 @@
-import Faculty from "../../models/institute/Faculty.js";
+import Faculty from "../models/Faculty.js";
 
 export const addFaculty = async (req, res) => {
   try {
-    const saved = await Faculty.create(req.body);
-    res.json(saved);
+    const faculty = await Faculty.create(req.body);
+    res.json({ success: true, faculty });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ success: false, message: err.message });
   }
 };
 
 export const getFaculty = async (req, res) => {
   try {
-    const list = await Faculty.find();
-    res.json(list);
+    const facultyList = await Faculty.findAll();
+    res.json(facultyList);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ success: false, message: err.message });
   }
 };
 
 export const updateFaculty = async (req, res) => {
   try {
-    const updated = await Faculty.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
-    res.json(updated);
+    const [updated] = await Faculty.update(req.body, { where: { id: req.params.id }});
+    res.json({ success: true, updatedRows: updated });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
 export const deleteFaculty = async (req, res) => {
   try {
-    await Faculty.findByIdAndDelete(req.params.id);
-    res.json({ message: "Faculty Deleted" });
+    const deleted = await Faculty.destroy({ where: { id: req.params.id }});
+    res.json({ success: true, deletedRows: deleted });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 };

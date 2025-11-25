@@ -1,15 +1,31 @@
-import mongoose from "mongoose";
+// backend/models/Event.js
+import { DataTypes } from "sequelize";
+import { sequelize } from "../config/db.js";
 
-const eventSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  date: { type: String, required: true },
-  time: { type: String },
-  location: { type: String },
-  description: { type: String },
-  createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Faculty",
+const Event = sequelize.define(
+  "Event",
+  {
+    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
+    date: {
+      type: DataTypes.DATEONLY,
+      allowNull: false,
+    },
+
+    location: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    }
   },
-});
+  {
+    tableName: "events",
+    timestamps: true,
+  }
+);
 
-export default mongoose.model("Event", eventSchema);
+export default Event;

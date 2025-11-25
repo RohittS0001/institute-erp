@@ -1,41 +1,49 @@
-import Student from "../../models/institute/studentmanagement.js";
+import Student from "../models/Student.js";
 
 export const addStudent = async (req, res) => {
   try {
-    const saved = await Student.create(req.body);
-    res.json(saved);
+    const student = await Student.create(req.body);
+    res.json({ success: true, student });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ success: false, message: err.message });
   }
 };
 
 export const getStudents = async (req, res) => {
   try {
-    const list = await Student.find();
-    res.json(list);
+    const students = await Student.findAll();
+    res.json(students);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+export const getStudentById = async (req, res) => {
+  try {
+    const student = await Student.findByPk(req.params.id);
+    if (!student) return res.status(404).json({ message: "Student not found" });
+    res.json(student);
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
   }
 };
 
 export const updateStudent = async (req, res) => {
   try {
-    const updated = await Student.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
-    res.json(updated);
+    const [updated] = await Student.update(req.body, {
+      where: { id: req.params.id },
+    });
+    res.json({ success: true, updatedRows: updated });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ success: false, message: err.message });
   }
 };
 
 export const deleteStudent = async (req, res) => {
   try {
-    await Student.findByIdAndDelete(req.params.id);
-    res.json({ message: "Student deleted" });
+    const deleted = await Student.destroy({ where: { id: req.params.id } });
+    res.json({ success: true, deletedRows: deleted });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ success: false, message: err.message });
   }
 };

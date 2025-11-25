@@ -1,14 +1,12 @@
 import express from "express";
+import {
+  addReport,
+  getReports,
+} from "../controllers/reportController.js";
+
 const router = express.Router();
 
-import {
-  getAttendanceReport,
-  getCourseReport
-} from "../../controllers/institute/reportsController.js"; // Add .js for ESM
-
-router.get("/attendance", getAttendanceReport);
-router.get("/course-report", getCourseReport);
-// router.get("/students", studentReport);
-// router.get("/faculty", facultyReport);
+router.post("/add", addReport);
+router.get("/all", getReports);
 
 export default router;

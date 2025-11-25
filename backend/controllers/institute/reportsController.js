@@ -1,20 +1,19 @@
-import Attendance from "../../models/institute/Attendence.js";
-import Course from "../../models/institute/Course.js";
+import Report from "../models/Report.js";
 
-export const getAttendanceReport = async (req, res) => {
+export const addReport = async (req, res) => {
   try {
-    const report = await Attendance.find({ courseId: req.params.courseId });
-    res.json(report);
+    const report = await Report.create(req.body);
+    res.json({ success: true, report });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
-export const getCourseReport = async (req, res) => {
+export const getReports = async (req, res) => {
   try {
-    const course = await Course.findById(req.params.id);
-    res.json(course);
+    const reports = await Report.findAll();
+    res.json(reports);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 };

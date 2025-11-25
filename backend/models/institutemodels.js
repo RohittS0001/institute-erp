@@ -1,22 +1,30 @@
-import mongoose from "mongoose";
+import { DataTypes } from "sequelize";
+import { sequelize } from "../config/db.js";
 
-const InstituteSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    lowercase: true,
-    trim: true,
+const InstituteRecord = sequelize.define(
+  "InstituteRecord",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    }
   },
-  password: {
-    type: String,
-    required: true,
-  },
-}, { 
-  timestamps: true, 
-  collection: 'InstituteIDs'   // Your chosen MongoDB collection name
-});
+  {
+    tableName: "InstituteIDs",   // Same collection name you used in MongoDB
+    timestamps: true,            // Same as mongoose timestamps
+  }
+);
 
-const InstituteRecord = mongoose.models.InstituteRecord || mongoose.model("InstituteRecord", InstituteSchema);
-
-export { InstituteRecord };
+export default InstituteRecord;

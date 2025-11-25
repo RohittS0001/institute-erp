@@ -1,18 +1,28 @@
-import Student from "../../models/institute/studentmanagement.js";
-import Faculty from "../../models/institute/Faculty.js";
-import Course from "../../models/institute/Course.js";
+import db from "../../config/db.js";
 
 export const getDashboardStats = async (req, res) => {
   try {
-    const totalStudents = await Student.countDocuments();
-    const totalFaculty = await Faculty.countDocuments();
-    const totalCourses = await Course.countDocuments();
+    // Count Students
+    const [studentCount] = await db.execute(
+      "SELECT COUNT(*) AS totalStudents FROM students"
+    );
+
+    // Count Faculty
+    const [facultyCount] = await db.execute(
+      "SELECT COUNT(*) AS totalFaculty FROM faculty"
+    );
+
+    // Count Courses
+    const [courseCount] = await db.execute(
+      "SELECT COUNT(*) AS totalCourses FROM courses"
+    );
 
     res.json({
-      totalStudents,
-      totalFaculty,
-      totalCourses,
+      totalStudents: studentCount[0].totalStudents,
+      totalFaculty: facultyCount[0].totalFaculty,
+      totalCourses: courseCount[0].totalCourses,
     });
+
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
