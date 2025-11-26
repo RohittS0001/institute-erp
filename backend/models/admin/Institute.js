@@ -1,5 +1,18 @@
-// backend/models/admin/Institute.js
-import pool from "../../config/db.js";
+import { pool } from "../../config/db.js";
+
+// ADDED: Auto-create AdminInstitutes table if it doesn't exist
+export async function ensureInstituteTableExists() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS AdminInstitutes (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      address VARCHAR(255),
+      contactEmail VARCHAR(255),
+      contactPhone VARCHAR(100),
+      status VARCHAR(20) DEFAULT 'Active'
+    );
+  `);
+}
 
 // Get all institutes
 export async function getAllInstitutes() {

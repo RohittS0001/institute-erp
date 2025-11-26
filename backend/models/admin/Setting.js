@@ -1,5 +1,28 @@
-// backend/models/admin/Setting.js
-import pool from "../../config/db.js";
+import { pool } from "../../config/db.js";
+
+// ADDED: Auto-create AdminSettings table if it doesn't exist
+export async function ensureSettingTableExists() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS AdminSettings (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      systemName VARCHAR(255),
+      logoUrl VARCHAR(255),
+      theme VARCHAR(50) DEFAULT 'light',
+      language VARCHAR(20) DEFAULT 'en',
+      passwordExpiryDays INT DEFAULT 90,
+      twoFactorAuth BOOLEAN DEFAULT FALSE,
+      allowedLoginIPs TEXT,
+      integrationEmail VARCHAR(255),
+      integrationSMS BOOLEAN DEFAULT TRUE,
+      enableAPIAccess BOOLEAN DEFAULT FALSE,
+      apiKey VARCHAR(255),
+      notificationFrequency VARCHAR(50) DEFAULT 'daily',
+      backupEnabled BOOLEAN DEFAULT TRUE,
+      backupSchedule VARCHAR(50) DEFAULT 'weekly',
+      auditLogging BOOLEAN DEFAULT TRUE
+    );
+  `);
+}
 
 // Get all settings (assuming single settings document)
 export async function getSettings() {

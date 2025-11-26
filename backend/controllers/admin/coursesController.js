@@ -1,9 +1,11 @@
 import {
   getAllCourses,
+  getCourseCount,
   createCourse,
   updateCourseById,
   deleteCourseById
 } from '../../models/admin/Course.js';
+
 
 // Get all courses
 export const getAllCoursesHandler = async (req, res) => {
@@ -12,6 +14,16 @@ export const getAllCoursesHandler = async (req, res) => {
     res.json(courses);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch courses' });
+  }
+};
+
+// Get total course count
+export const getCourseCountHandler = async (req, res) => {
+  try {
+    const count = await getCourseCount();
+    res.json({ count });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch course count' });
   }
 };
 

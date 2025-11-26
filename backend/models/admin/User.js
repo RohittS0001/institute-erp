@@ -1,5 +1,18 @@
-// backend/models/admin/User.js
-import pool from "../../config/db.js";
+import { pool } from "../../config/db.js";
+
+// ADDED: Auto-create AdminUsers table if it doesn't exist
+export async function ensureUserTableExists() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS AdminUsers (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      email VARCHAR(255) NOT NULL,
+      role VARCHAR(50) DEFAULT 'User',
+      status VARCHAR(20) DEFAULT 'Active',
+      createdAt DATETIME
+    );
+  `);
+}
 
 // Get all users
 export async function getAllUsers() {

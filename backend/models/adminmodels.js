@@ -1,5 +1,15 @@
-// backend/models/adminmodels.js
-import pool from "../config/db.js";
+import { pool } from "../config/db.js";
+
+// ADDED: Auto-create AdminsIDs table if it doesn't exist
+export async function ensureAdminTableExists() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS AdminsIDs (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      email VARCHAR(255) NOT NULL,
+      password VARCHAR(255) NOT NULL
+    );
+  `);
+}
 
 // Get all admins
 export async function getAllAdmins() {

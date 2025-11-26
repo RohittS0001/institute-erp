@@ -1,5 +1,18 @@
-// backend/models/admin/Report.js
-import pool from "../../config/db.js";
+import { pool } from "../../config/db.js";
+
+// ADDED: Auto-create AdminReports table if it doesn't exist
+export async function ensureReportTableExists() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS AdminReports (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      type VARCHAR(100),
+      content TEXT,
+      createdAt DATETIME,
+      createdBy VARCHAR(255),
+      status VARCHAR(20) DEFAULT 'Active'
+    );
+  `);
+}
 
 // Get all reports
 export async function getAllReports() {

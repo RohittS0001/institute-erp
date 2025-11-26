@@ -1,5 +1,7 @@
+// backend/controllers/admin/financialsController.js
 import {
   getAllFinancials,
+  getFinancialTotal,
   createFinancialRecord,
   updateFinancialById,
   deleteFinancialById
@@ -12,6 +14,16 @@ export const getAllFinancialsHandler = async (req, res) => {
     res.json(financials);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch financial records" });
+  }
+};
+
+// Get total financial records sum
+export const getFinancialTotalHandler = async (req, res) => {
+  try {
+    const total = await getFinancialTotal();
+    res.json({ total });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch total financials" });
   }
 };
 

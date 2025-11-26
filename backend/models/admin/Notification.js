@@ -1,5 +1,18 @@
-// backend/models/admin/Notification.js
-import pool from "../../config/db.js";
+import { pool } from "../../config/db.js";
+
+// ADDED: Auto-create AdminNotifications table if it doesn't exist
+export async function ensureNotificationTableExists() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS AdminNotifications (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      title VARCHAR(255) NOT NULL,
+      message TEXT,
+      date DATETIME,
+      recipient VARCHAR(255),
+      status VARCHAR(20) DEFAULT 'Active'
+    );
+  `);
+}
 
 // Get all notifications
 export async function getAllNotifications() {

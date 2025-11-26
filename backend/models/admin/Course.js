@@ -1,10 +1,28 @@
-// Course.js (MySQL version)
-import pool from '../../config/db.js';
+import { pool } from '../../config/db.js';
+
+// ADDED: Auto-create AdminCourses table if it doesn't exist
+export async function ensureCourseTableExists() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS AdminCourses (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      title VARCHAR(255) NOT NULL,
+      duration VARCHAR(50),
+      instructor VARCHAR(100),
+      status VARCHAR(20) DEFAULT 'Active'
+    );
+  `);
+}
 
 // Get all courses
 export async function getAllCourses() {
   const [rows] = await pool.query('SELECT * FROM AdminCourses');
   return rows;
+}
+
+// Get total course count
+export async function getCourseCount() {
+  const [rows] = await pool.query('SELECT COUNT(*) as count FROM AdminCourses');
+  return rows[0].count;
 }
 
 // Create a new course
@@ -14,7 +32,6 @@ export async function createCourse(data) {
     'INSERT INTO AdminCourses (title, duration, instructor, status) VALUES (?, ?, ?, ?)',
     [title, duration, instructor, status]
   );
-  // Return the inserted course (optionally fetch by ID)
   return { id: result.insertId, title, duration, instructor, status };
 }
 

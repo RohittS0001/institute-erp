@@ -1,10 +1,29 @@
-// backend/models/admin/Financial.js
-import pool from "../../config/db.js";
+import { pool } from "../../config/db.js";
+
+// ADDED: Auto-create AdminFinancials table
+export async function ensureFinancialTableExists() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS AdminFinancials (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      category VARCHAR(100),
+      amount DECIMAL(12,2) NOT NULL,
+      date DATE,
+      description VARCHAR(255),
+      status VARCHAR(20) DEFAULT 'Paid'
+    );
+  `);
+}
 
 // Get all financial records
 export async function getAllFinancials() {
   const [rows] = await pool.query('SELECT * FROM AdminFinancials');
   return rows;
+}
+
+// Get total financials value for dashboard/statistics
+export async function getFinancialTotal() {
+  const [rows] = await pool.query('SELECT SUM(amount) as total FROM AdminFinancials');
+  return rows[0].total || 0;
 }
 
 // Add a new financial record
