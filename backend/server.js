@@ -25,6 +25,29 @@ import aReportsRoutes from "./routes/admin/a_reportsRoutes.js";
 import aSettingsRoutes from "./routes/admin/a_settingsRoutes.js";
 import aUsersRoutes from "./routes/admin/a_usersRoutes.js";
 
+
+
+// ---------- USER TABLE CREATION ----------
+// ---------------------- USER ROUTES -----------------------
+import { ensureu_UserTableExists } from "./models/user/UserDashboard.js";
+import { ensureUsersIDsTableExists } from "./models/usermodels.js";
+import { ensureProfileTableExists } from "./models/user/Profile.js";
+import { ensureMembershipTableExists } from "./models/user/Membership.js";
+import { ensureImmersionTableExists } from "./models/user/Immersion.js";
+import { ensureMOUTableExists } from "./models/user/MOU.js";
+import { ensureDonationTableExists } from "./models/user/Donation.js";
+import { ensurePlacementTableExists } from "./models/user/Placement.js";
+import { ensureResearchTableExists } from "./models/user/Research.js";
+import userRoutes from "./routes/userRoutes.js";
+import UprofileRoutes from "./routes/user/U_profileRoutes.js";
+import membershipRoutes from "./routes/user/membershipRoutes.js";
+import immersionRoutes from "./routes/user/immersionRoutes.js";
+import mouRoutes from "./routes/user/mouRoutes.js";
+import donationRoutes from "./routes/user/donationRoutes.js";
+import placementRoutes from "./routes/user/placementRoutes.js";
+import researchRoutes from "./routes/user/researchRoutes.js";
+
+
 // ---------------------- INSTITUTE ROUTES -----------------------
 import departmentRoutes from "./routes/institute/departmentRoute.js";
 import studentRoutes from "./routes/institute/studentmanagementRoute.js";
@@ -62,6 +85,18 @@ app.listen(PORT, async () => {
   await ensureSettingTableExists();
   await ensureUserTableExists();
   await ensureAdminTableExists();
+
+
+//user
+  await ensureUsersIDsTableExists();
+  await ensureu_UserTableExists();
+  await ensureProfileTableExists();
+  await ensureMembershipTableExists();
+  await ensureImmersionTableExists();
+  await ensureMOUTableExists();
+  await ensureDonationTableExists();
+  await ensurePlacementTableExists();
+  await ensureResearchTableExists();
   console.log('✅ All essential ERP tables are checked/created!');
 });
 
@@ -87,3 +122,13 @@ app.use("/api/institute/profile", profileRoutes);
 app.use("/api/institute/notifications", notificationRoutes);
 app.use("/api/institute/reports", reportRoutes);
 app.use("/api/institute/dashboard", dashboardRoutes);
+
+// ---------------------- USER ROUTES -------------------
+app.use("/api/users", userRoutes);
+app.use("/api/user/profile", UprofileRoutes);
+app.use("/api/user/membership", membershipRoutes);
+app.use("/api/user/immersion", immersionRoutes);
+app.use("/api/user/mou", mouRoutes);
+app.use("/api/user/donation", donationRoutes);
+app.use("/api/user/placement", placementRoutes);
+app.use("/api/user/research", researchRoutes);

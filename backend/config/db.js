@@ -2,9 +2,9 @@ import mysql from "mysql2/promise";
 
 // MySQL pool connection
 export const pool = mysql.createPool({
-  host: "127.0.0.1",
+  host: "localhost",
   user: "root",
-  password: "root",
+  password: "#myprajay@17",
   database: "sahfonn",
   waitForConnections: true,
   connectionLimit: 10,
