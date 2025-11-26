@@ -1,40 +1,31 @@
-// backend/models/faculty.js
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./Faculty.css";
 
-import { DataTypes } from "sequelize";
-import { sequelize } from "../config/db.js";   // Make sure this file exports your MySQL connection
+export default function Faculty() {
+  const [faculty, setFaculty] = useState([]);
 
-const Faculty = sequelize.define(
-  "Faculty",
-  {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/api/institute/faculty/all")
+      .then((res) => setFaculty(res.data))
+      .catch((err) => console.log(err));
+  }, []);
 
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+  return (
+    <div className="faculty-page">
+      <h2>Faculty Members</h2>
 
-    department: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,      // Prevent duplicate faculty emails
-      validate: {
-        isEmail: true,
-      }
-    }
-  },
-  {
-    tableName: "faculty", // MySQL table name
-    timestamps: true,     // createdAt, updatedAt
-  }
-);
-
-export default Faculty;
+      <div className="faculty-list">
+        {faculty.map((f) => (
+          <div key={f.id} className="faculty-card">
+            <h3>{f.name}</h3>
+            <p>{f.department}</p>
+            <p>{f.designation}</p>
+            <p>{f.email}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}

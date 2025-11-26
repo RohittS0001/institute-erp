@@ -1,26 +1,30 @@
-import db from "../config/db.js";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./Reports.css";
 
-// Report model using MySQL
+export default function Reports() {
+  const [reports, setReports] = useState([]);
 
-export const Report = {
-  // Create new report
-  create: async ({ title, type, details }) => {
-    const [result] = await db.query(
-      "INSERT INTO reports (title, type, details) VALUES (?, ?, ?)",
-      [title, type, details]
-    );
-    return result.insertId;
-  },
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/api/institute/reports/all")
+      .then((res) => setReports(res.data))
+      .catch((err) => console.log(err));
+  }, []);
 
-  // Get all reports
-  findAll: async () => {
-    const [rows] = await db.query("SELECT * FROM reports ORDER BY id DESC");
-    return rows;
-  },
+  return (
+    <div className="reports-page">
+      <h2>Reports</h2>
 
-  // Find a single report
-  findById: async (id) => {
-    const [rows] = await db.query("SELECT * FROM reports WHERE id = ?", [id]);
-    return rows[0];
-  }
-};
+      <div className="reports-list">
+        {reports.map((r) => (
+          <div key={r.id} className="report-card">
+            <h3>{r.title}</h3>
+            <p>{r.description}</p>
+            <small>{r.created_at}</small>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
