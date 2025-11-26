@@ -1,4 +1,5 @@
-import Attendance from "../../models/institute/attendance.js";
+import { pool } from "../../config/db.js";  // ✅ CORRECT
+
 
 // ADD attendance
 export const markAttendance = async (req, res) => {

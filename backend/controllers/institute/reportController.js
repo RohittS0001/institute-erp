@@ -1,30 +1,47 @@
-import Report from "../../models/institute/Report.js";   // FIXED PATH
+import {
+  getReports,
+  addReport,
+  updateReport,
+  deleteReport,
+  countReports
+} from "../../models/institute/Report.js";
 
-// Add report
-export const addReport = async (req, res) => {
+// GET all reports
+export const fetchReports = async (req, res) => {
   try {
-    const report = await Report.create({
-      title: req.body.title,
-      type: req.body.type,
-      description: req.body.description,
-      date: req.body.date || new Date(),
-    });
-
-    return res.json({ success: true, report });
-  } catch (err) {
-    return res.status(500).json({ success: false, message: err.message });
+    const reports = await getReports();
+    res.json(reports);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
-// Get all reports
-export const getReports = async (req, res) => {
+// CREATE report
+export const createReport = async (req, res) => {
   try {
-    const reports = await Report.findAll({
-      order: [["date", "DESC"]]
-    });
+    const id = await addReport(req.body);
+    res.json({ success: true, message: "Report created", id });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
-    return res.json({ success: true, reports });
-  } catch (err) {
-    return res.status(500).json({ success: false, message: err.message });
+// UPDATE report
+export const editReport = async (req, res) => {
+  try {
+    await updateReport(req.params.id, req.body);
+    res.json({ success: true, message: "Report updated" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// DELETE report
+export const removeReport = async (req, res) => {
+  try {
+    await deleteReport(req.params.id);
+    res.json({ success: true, message: "Report deleted" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };

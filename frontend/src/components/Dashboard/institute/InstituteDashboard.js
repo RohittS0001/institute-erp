@@ -18,7 +18,7 @@ export default function InstituteDashboard() {
 
   // Fetch dashboard stats from backend
   useEffect(() => {
-    axios.get("http://localhost:5000/api/dashboard/stats")
+    axios.get("http://localhost:4000/api/dashboard/stats")
       .then((res) => setStats(res.data))
       .catch((err) => console.log("Error:", err));
   }, []);
@@ -36,7 +36,7 @@ export default function InstituteDashboard() {
     { url: "/dashboard/institute/profile", text: "My Profile", icon: "👤" },
     { url: "/dashboard/institute/events", text: "Institute Events", icon: "📅" },
     { url: "/dashboard/institute/reports", text: "Analytics", icon: "📊" },
-    { url: "/dashboard/institute/settings", text: "Settings", icon: "⚙️" },
+
   ];
 
   const filteredWidgets = widgetFeatures.filter(
@@ -49,7 +49,7 @@ export default function InstituteDashboard() {
     <div className="inst-dashboard">
       <header className="inst-header">
         <div>
-          <h1>🏫 Institute Dashboard</h1>
+          <h1> Institute Dashboard</h1>
           <p className="inst-sub">Your central place for institute management</p>
         </div>
 
@@ -97,7 +97,7 @@ export default function InstituteDashboard() {
         <section className="recent-activity">
           <h2>Recent Activity</h2>
           <ul>
-            <li>Conducted Semester Exams (1 hour ago)</li>
+            <li>Conducted Semester Exams (50 min ago)</li>
             <li>Student Admission Approved (Today)</li>
             <li>Faculty Joined: Dr. Mehta (Yesterday)</li>
             <li>New Course Introduced: AI Fundamentals (This week)</li>

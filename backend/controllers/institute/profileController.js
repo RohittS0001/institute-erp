@@ -1,43 +1,32 @@
-// backend/controllers/institute/profileController.js
+import {
+  getProfile,
+  createProfile,
+  updateProfileDB
+} from "../../models/institute/profile.js";
 
-import Profile from "../../models/institute/Profile.js";  // ✅ CORRECT PATH
-
-// GET profile (used by GET /api/institute/profile/me)
-export const getProfile = async (req, res) => {
+// GET profile
+export const getProfileController = async (req, res) => {
   try {
-    // We keep only one profile row
-    let profile = await Profile.findOne();
-
-    // If no profile exists yet, create a blank one
-    if (!profile) {
-      profile = await Profile.create({
-        instituteName: "",
-        adminName: "",
-        email: "",
-        phone: "",
-        address: "",
-      });
-    }
-
-    return res.json(profile);
+    const profile = await getProfile();
+    res.json(profile || {});
   } catch (err) {
-    return res.status(500).json({ success: false, message: err.message });
+    res.status(500).json({ error: err.message });
   }
 };
 
-// UPDATE profile (used by PUT /api/institute/profile/update)
+// UPDATE or CREATE profile
 export const updateProfile = async (req, res) => {
   try {
-    let profile = await Profile.findOne();
+    const existing = await getProfile();
 
-    if (!profile) {
-      profile = await Profile.create(req.body);
-    } else {
-      await profile.update(req.body);
+    if (!existing) {
+      const id = await createProfile(req.body);
+      return res.json({ message: "Profile created", id });
     }
 
-    return res.json({ success: true, profile });
+    await updateProfileDB(req.body);
+    res.json({ message: "Profile updated" });
   } catch (err) {
-    return res.status(500).json({ success: false, message: err.message });
+    res.status(500).json({ error: err.message });
   }
 };

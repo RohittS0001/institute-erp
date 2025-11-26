@@ -11,7 +11,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 34px;
-  background: #2643e9;
+  background: #f36b2c;
   padding: 24px 34px;
   border-radius: 16px;
   box-shadow: 0px 3px 12px #2643e915;
@@ -54,9 +54,9 @@
 
 .inst-link {
   text-decoration: none;
-  color: #fff;
+  color: #070707;
   font-weight: 700;
-  background: #2ca7fa;
+  background: #f6a13f;
   padding: 11px 22px;
   border-radius: 10px;
   box-shadow: 0 2px 10px #2ca7fa22;
@@ -68,7 +68,7 @@
 }
 
 .inst-link:hover {
-  background: #2643e9;
+  background: #2644ee;
   color: #fffba9;
   box-shadow: 0 4px 18px #2643e930;
 }

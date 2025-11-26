@@ -11,7 +11,7 @@ const Attendance = sequelize.define("Attendance", {
     defaultValue: "Student"
   },
   date: {
-    type: DataTypes.STRING,
+    type: DataTypes.DATEONLY,
     allowNull: false
   },
   status: {

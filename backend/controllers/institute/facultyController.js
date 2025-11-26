@@ -1,4 +1,5 @@
-import Faculty from "../../models/institute/Faculty.js";
+import { pool } from "../../config/db.js";  // ✅ CORRECT
+
 
 
 

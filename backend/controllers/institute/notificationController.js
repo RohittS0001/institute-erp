@@ -1,4 +1,5 @@
-import Notification from "../../models/institute/Notification.js";  // FIXED PATH
+import { pool } from "../../config/db.js";  // ✅ CORRECT
+
 
 // Add notification
 export const addNotification = async (req, res) => {

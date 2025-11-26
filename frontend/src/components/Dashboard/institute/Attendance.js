@@ -14,16 +14,17 @@ export default function Attendance() {
     status: "Present",
   });
 
-  // Backend Base URL (FIXED)
+  // Backend API Base URL (MySQL)
   const API = "http://localhost:4000/api/institute/attendance";
 
+  // Load all attendance from MySQL backend
   const fetchAttendance = async () => {
     try {
       const res = await axios.get(`${API}/all`);
       setAttendance(res.data);
     } catch (error) {
       console.error("Fetch Error:", error);
-      alert("❌ Cannot load attendance. Backend not running!");
+      alert("❌ Cannot load attendance. Check backend!");
     }
   };
 
@@ -31,10 +32,10 @@ export default function Attendance() {
     fetchAttendance();
   }, []);
 
-  // Add Attendance (FIXED URL)
+  // Add new attendance entry
   const handleAddAttendance = async () => {
     if (!formData.studentName || !formData.date) {
-      alert("⚠ Please fill all fields!");
+      alert("⚠ Please enter student name and date!");
       return;
     }
 
@@ -50,7 +51,7 @@ export default function Attendance() {
     }
   };
 
-  // Update Attendance
+  // Update attendance status (Present/Absent)
   const handleMark = async (id, status) => {
     try {
       await axios.put(`${API}/update/${id}`, { status });
@@ -61,6 +62,7 @@ export default function Attendance() {
     }
   };
 
+  // Search filter
   const filteredRows = attendance.filter(
     (row) =>
       row.studentName.toLowerCase().includes(search.toLowerCase()) ||
@@ -69,7 +71,6 @@ export default function Attendance() {
 
   return (
     <div className="attendance-page">
-
       <div className="header-row">
         <h2>Attendance Management</h2>
         <button className="add-btn" onClick={() => setShowAddForm(true)}>
@@ -85,7 +86,7 @@ export default function Attendance() {
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      {/* Add Form */}
+      {/* Add Attendance Form (Popup) */}
       {showAddForm && (
         <div className="modal">
           <div className="modal-content">
@@ -95,9 +96,7 @@ export default function Attendance() {
               type="text"
               placeholder="Student Name"
               value={formData.studentName}
-              onChange={(e) =>
-                setFormData({ ...formData, studentName: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, studentName: e.target.value })}
             />
 
             <input
@@ -122,6 +121,7 @@ export default function Attendance() {
         </div>
       )}
 
+      {/* Attendance Table */}
       <table className="att-table">
         <thead>
           <tr>
@@ -135,7 +135,7 @@ export default function Attendance() {
 
         <tbody>
           {filteredRows.map((row) => (
-            <tr key={row._id}>
+            <tr key={row.id}>
               <td>{row.studentName}</td>
               <td>{row.role}</td>
               <td>{row.date}</td>
@@ -143,14 +143,14 @@ export default function Attendance() {
 
               <td>
                 <button
-                  onClick={() => handleMark(row._id, "Present")}
+                  onClick={() => handleMark(row.id, "Present")}
                   disabled={row.status === "Present"}
                 >
                   Present
                 </button>
 
                 <button
-                  onClick={() => handleMark(row._id, "Absent")}
+                  onClick={() => handleMark(row.id, "Absent")}
                   disabled={row.status === "Absent"}
                 >
                   Absent
@@ -163,160 +163,3 @@ export default function Attendance() {
     </div>
   );
 }
-
-
-// import React, { useState, useEffect } from "react";
-// import axios from "axios";
-// import "./Attendance.css";
-
-// export default function Attendance() {
-//   const [search, setSearch] = useState("");
-//   const [attendance, setAttendance] = useState([]);
-//   const [showAddForm, setShowAddForm] = useState(false);
-
-//   // Add form fields
-//   const [formData, setFormData] = useState({
-//     studentName: "",
-//     role: "Student",
-//     date: "",
-//     status: "Present",
-//   });
-
-//   const fetchAttendance = async () => {
-//     try {
-//       const res = await axios.get("http://localhost:5000/api/attendance/all");
-//       setAttendance(res.data);
-//     } catch (error) {
-//       console.error("Fetch error:", error);
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchAttendance();
-//   }, []);
-
-//   const handleAddAttendance = async () => {
-//     try {
-//       await axios.post("http://localhost:5000/api/attendance/mark", formData);
-//       setShowAddForm(false);
-//       fetchAttendance();
-//       setFormData({ studentName: "", role: "Student", date: "", status: "Present" });
-//     } catch (error) {
-//       console.error("Add error:", error);
-//     }
-//   };
-
-//   const handleMark = async (id, status) => {
-//     try {
-//       await axios.put(
-//         `http://localhost:5000/api/attendance/update/${id}`,
-//         { status }
-//       );
-//       fetchAttendance();
-//     } catch (error) {
-//       console.error("Update error:", error);
-//     }
-//   };
-
-//   const filteredRows = attendance.filter(
-//     (row) =>
-//       row.studentName.toLowerCase().includes(search.toLowerCase()) ||
-//       row.role.toLowerCase().includes(search.toLowerCase())
-//   );
-
-//   return (
-//     <div className="attendance-page">
-
-//       <div className="header-row">
-//         <h2>Attendance Management</h2>
-//         <button className="add-btn" onClick={() => setShowAddForm(true)}>
-//           + Add Attendance
-//         </button>
-//       </div>
-
-//       <input
-//         className="att-search"
-//         type="search"
-//         placeholder="Search..."
-//         value={search}
-//         onChange={(e) => setSearch(e.target.value)}
-//       />
-
-//       {/* ADD FORM MODAL */}
-//       {showAddForm && (
-//         <div className="modal">
-//           <div className="modal-content">
-//             <h3>Add Attendance</h3>
-
-//             <input
-//               type="text"
-//               placeholder="Student Name"
-//               value={formData.studentName}
-//               onChange={(e) =>
-//                 setFormData({ ...formData, studentName: e.target.value })
-//               }
-//             />
-
-//             <input
-//               type="date"
-//               value={formData.date}
-//               onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-//             />
-
-//             <select
-//               value={formData.status}
-//               onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-//             >
-//               <option value="Present">Present</option>
-//               <option value="Absent">Absent</option>
-//             </select>
-
-//             <div className="modal-actions">
-//               <button onClick={handleAddAttendance}>Save</button>
-//               <button onClick={() => setShowAddForm(false)}>Cancel</button>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-
-//       <table className="att-table">
-//         <thead>
-//           <tr>
-//             <th>Name</th>
-//             <th>Role</th>
-//             <th>Date</th>
-//             <th>Status</th>
-//             <th>Mark</th>
-//           </tr>
-//         </thead>
-
-//         <tbody>
-//           {filteredRows.map((row) => (
-//             <tr key={row._id}>
-//               <td>{row.studentName}</td>
-//               <td>{row.role}</td>
-//               <td>{row.date}</td>
-//               <td>{row.status}</td>
-
-//               <td>
-//                 <button
-//                   onClick={() => handleMark(row._id, "Present")}
-//                   disabled={row.status === "Present"}
-//                 >
-//                   Present
-//                 </button>
-
-//                 <button
-//                   onClick={() => handleMark(row._id, "Absent")}
-//                   disabled={row.status === "Absent"}
-//                 >
-//                   Absent
-//                 </button>
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-// }

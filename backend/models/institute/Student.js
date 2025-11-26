@@ -1,38 +1,37 @@
-import { DataTypes } from "sequelize";
-import { sequelize } from "../../config/db.js";
+import { pool } from "../../config/db.js";
 
-const Student = sequelize.define("Student", {
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
+// Get all students
+export const getStudents = async () => {
+  const [rows] = await pool.query("SELECT * FROM students");
+  return rows;
+};
 
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
+// Add student
+export const addStudent = async (data) => {
+  const [result] = await pool.query(
+    "INSERT INTO students (name, roll, branch, email) VALUES (?, ?, ?, ?)",
+    [data.name, data.roll, data.branch, data.email]
+  );
+  return result.insertId;
+};
 
-  phone: {
-    type: DataTypes.STRING,
-  },
+// Update student
+export const updateStudent = async (id, data) => {
+  await pool.query(
+    "UPDATE students SET name=?, roll=?, branch=?, email=? WHERE id=?",
+    [data.name, data.roll, data.branch, data.email, id]
+  );
+  return true;
+};
 
-  rollNumber: {
-    type: DataTypes.STRING,
-    unique: true,
-  },
+// Delete student
+export const deleteStudent = async (id) => {
+  await pool.query("DELETE FROM students WHERE id=?", [id]);
+  return true;
+};
 
-  department: {
-    type: DataTypes.STRING,
-  },
-
-  course: {
-    type: DataTypes.STRING,
-  },
-
-  address: {
-    type: DataTypes.TEXT,
-  }
-});
-
-export default Student;
+// Count students (optional)
+export const countStudents = async () => {
+  const [rows] = await pool.query("SELECT COUNT(*) AS total FROM students");
+  return rows[0].total;
+};

@@ -1,31 +1,32 @@
-import { DataTypes } from "sequelize";
-import { sequelize } from "../../config/db.js";
+import { pool } from "../../config/db.js";   // ✅ FIXED
 
-const Notification = sequelize.define("Notification", {
-  title: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
+// GET all departments
+export const getDepartments = async () => {
+  const [rows] = await pool.query("SELECT * FROM departments");
+  return rows;
+};
 
-  message: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
+// ADD department
+export const addDepartment = async (data) => {
+  const [result] = await pool.query(
+    "INSERT INTO departments (name, head, description) VALUES (?, ?, ?)",
+    [data.name, data.head, data.description]
+  );
+  return result.insertId;
+};
 
-  date: {
-    type: DataTypes.STRING, 
-    allowNull: true,
-  },
+// UPDATE department
+export const updateDepartment = async (id, data) => {
+  await pool.query(
+    "UPDATE departments SET name=?, head=?, description=? WHERE id=?",
+    [data.name, data.head, data.description, id]
+  );
+  return true;
+};
 
-  target: {
-    type: DataTypes.ENUM("All", "Students", "Faculty"),
-    defaultValue: "All",
-  },
+// DELETE department
+export const deleteDepartment = async (id) => {
+  await pool.query("DELETE FROM departments WHERE id=?", [id]);
+  return true;
+};
 
-  createdBy: {
-    type: DataTypes.INTEGER,   // foreign key (Faculty ID)
-    allowNull: true,
-  }
-});
-
-export default Notification;

@@ -1,4 +1,5 @@
-import Course from "../../models/institute/Course.js";   // <-- FIX PATH
+import { pool } from "../../config/db.js";  // ✅ CORRECT
+
 
 // Add course
 export const addCourse = async (req, res) => {
