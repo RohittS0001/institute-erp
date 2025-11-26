@@ -1,8 +1,8 @@
-import db from "../config/db.js";
+import { pool } from "../config/db.js";
 
 // Create table for students (runs once)
 export const createStudentTable = async () => {
-  await db.execute(`
+  await pool.query(`
     CREATE TABLE IF NOT EXISTS students (
       id INT AUTO_INCREMENT PRIMARY KEY,
       name VARCHAR(100) NOT NULL,
@@ -21,7 +21,7 @@ export const createStudentTable = async () => {
 export const addStudent = async (data) => {
   const { name, rollNo, department, email, phone, admissionYear, course } = data;
 
-  const [result] = await db.execute(
+  const [result] = await pool.query(
     `INSERT INTO students (name, rollNo, department, email, phone, admissionYear, course)
      VALUES (?, ?, ?, ?, ?, ?, ?)`,
     [name, rollNo, department, email, phone, admissionYear, course]
@@ -32,13 +32,13 @@ export const addStudent = async (data) => {
 
 // Get all students
 export const getAllStudents = async () => {
-  const [rows] = await db.execute(`SELECT * FROM students ORDER BY id DESC`);
+  const [rows] = await pool.query(`SELECT * FROM students ORDER BY id DESC`);
   return rows;
 };
 
 // Get student by ID
 export const getStudentById = async (id) => {
-  const [rows] = await db.execute(`SELECT * FROM students WHERE id = ?`, [id]);
+  const [rows] = await pool.query(`SELECT * FROM students WHERE id = ?`, [id]);
   return rows[0];
 };
 
@@ -50,7 +50,7 @@ export const updateStudent = async (id, data) => {
 
   const values = Object.values(data);
 
-  await db.execute(
+  await pool.query(
     `UPDATE students SET ${fields} WHERE id = ?`,
     [...values, id]
   );
@@ -60,6 +60,6 @@ export const updateStudent = async (id, data) => {
 
 // Delete student
 export const deleteStudent = async (id) => {
-  await db.execute(`DELETE FROM students WHERE id = ?`, [id]);
+  await pool.query(`DELETE FROM students WHERE id = ?`, [id]);
   return { message: "Student deleted", id };
 };

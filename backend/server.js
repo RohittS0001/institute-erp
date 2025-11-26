@@ -2,10 +2,7 @@ import express from "express";
 import cors from "cors";
 import { connectDB } from "./config/db.js";
 
-
-
-// ---------------------- ADMIN ROUTES -----------------------
-// ---------- ADDED: IMPORT TABLE CREATION FUNCTIONS ----------
+// ---------------------- ADMIN TABLES -----------------------
 import { ensureCourseTableExists } from "./models/admin/Course.js";
 import { ensureFinancialTableExists } from "./models/admin/Financial.js";
 import { ensureInstituteTableExists } from "./models/admin/Institute.js";
@@ -15,6 +12,18 @@ import { ensureSettingTableExists } from "./models/admin/Setting.js";
 import { ensureUserTableExists } from "./models/admin/User.js";
 import { ensureAdminTableExists } from "./models/adminmodels.js";
 
+// ---------------------- INSTITUTE TABLES -----------------------
+import { ensureDepartmentTableExists } from "./models/institute/department.js";
+import { ensureStudentTableExists } from "./models/institute/Student.js";
+import { ensureFacultyTableExists } from "./models/institute/Faculty.js";
+import { ensureCourseTableExists as ensureInstituteCourseTable } from "./models/institute/Course.js";
+import { ensureAttendanceTable } from "./models/institute/Attendance.js";
+import { ensureEventTableExists } from "./models/institute/Event.js";
+import { ensureProfileTableExists } from "./models/institute/profile.js";
+import { ensureReportsTableExists } from "./models/institute/Report.js";
+import { ensureInstitutesTableExists } from "./models/institute/institute.js";
+
+// ---------------------- ADMIN ROUTES -----------------------
 import adminRoutes from "./routes/adminRoutes.js";
 import aCoursesRoutes from "./routes/admin/a_coursesRoutes.js";
 import aDashboardRoutes from "./routes/admin/a_dashboardRoutes.js";
@@ -53,7 +62,7 @@ app.listen(PORT, async () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
   await connectDB();
 
-  // ---------- ADDED: ENSURE TABLES EXIST ON STARTUP ----------
+  // ---------- ADMIN TABLE CREATION ----------
   await ensureCourseTableExists();
   await ensureFinancialTableExists();
   await ensureInstituteTableExists();
@@ -62,7 +71,19 @@ app.listen(PORT, async () => {
   await ensureSettingTableExists();
   await ensureUserTableExists();
   await ensureAdminTableExists();
-  console.log('✅ All essential ERP tables are checked/created!');
+
+  // ---------- INSTITUTE TABLE CREATION ----------
+  await ensureDepartmentTableExists();
+  await ensureStudentTableExists();
+  await ensureFacultyTableExists();
+  await ensureInstituteCourseTable(); // institute's course table
+  await ensureAttendanceTable();
+  await ensureEventTableExists();
+  await ensureProfileTableExists();
+  await ensureReportsTableExists();
+  await ensureInstituteRecordTable();
+
+  console.log("✅ All ERP Admin + Institute tables verified/created!");
 });
 
 // ---------------------- ADMIN ROUTES -----------------------

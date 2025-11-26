@@ -1,32 +1,62 @@
 import { pool } from "../../config/db.js";
 
-export const getDepartments = async () => {
-  const [rows] = await pool.query("SELECT * FROM departments");
-  return rows;
-};
+// AUTO-CREATE departments TABLE
+export async function ensureDepartmentTableExists() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS departments (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      head VARCHAR(255),
+      description TEXT
+    );
+  `);
+}
 
-export const addDepartment = async (data) => {
+// Get all departments
+export async function getDepartments() {
+  const [rows] = await pool.query("SELECT * FROM departments ORDER BY id DESC");
+  return rows;
+}
+
+// Add department
+export async function addDepartment(data) {
+  const { name, head, description } = data;
+
   const [result] = await pool.query(
     "INSERT INTO departments (name, head, description) VALUES (?, ?, ?)",
-    [data.name, data.head, data.description]
+    [name, head, description]
   );
-  return result.insertId;
-};
 
-export const updateDepartment = async (id, data) => {
+  return {
+    id: result.insertId,
+    name,
+    head,
+    description,
+  };
+}
+
+// Update department by ID
+export async function updateDepartment(id, data) {
+  const { name, head, description } = data;
+
   await pool.query(
     "UPDATE departments SET name=?, head=?, description=? WHERE id=?",
-    [data.name, data.head, data.description, id]
+    [name, head, description, id]
   );
-  return true;
-};
 
-export const deleteDepartment = async (id) => {
-  await pool.query("DELETE FROM departments WHERE id=?", [id]);
-  return true;
-};
+  return { id, name, head, description };
+}
 
-export const countDepartments = async () => {
-  const [rows] = await pool.query("SELECT COUNT(*) AS total FROM departments");
+// Delete department by ID
+export async function deleteDepartment(id) {
+  const [result] = await pool.query("DELETE FROM departments WHERE id=?", [id]);
+  return result.affectedRows > 0;
+}
+
+// Count departments
+export async function countDepartments() {
+  const [rows] = await pool.query(
+    "SELECT COUNT(*) AS total FROM departments"
+  );
   return rows[0].total;
-};
+}

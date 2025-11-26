@@ -1,25 +1,60 @@
 import { pool } from "../../config/db.js";
 
-// Get Profile (first row)
-export const getProfile = async () => {
+// AUTO-CREATE profile TABLE
+export async function ensureProfileTableExists() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS profile (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      email VARCHAR(255),
+      phone VARCHAR(50),
+      address VARCHAR(255),
+      role VARCHAR(100)
+    );
+  `);
+}
+
+// Get Profile (first/only row)
+export async function getProfile() {
   const [rows] = await pool.query("SELECT * FROM profile LIMIT 1");
   return rows[0] || null;
-};
+}
 
 // Create Profile
-export const createProfile = async (data) => {
-  const [result] = await pool.query(
-    "INSERT INTO profile (name, email, phone, address, role) VALUES (?, ?, ?, ?, ?)",
-    [data.name, data.email, data.phone, data.address, data.role]
-  );
-  return result.insertId;
-};
+export async function createProfile(data) {
+  const { name, email, phone, address, role } = data;
 
-// Update Profile
-export const updateProfileDB = async (data) => {
-  await pool.query(
-    "UPDATE profile SET name=?, email=?, phone=?, address=?, role=? WHERE id=1",
-    [data.name, data.email, data.phone, data.address, data.role]
+  const [result] = await pool.query(
+    `INSERT INTO profile (name, email, phone, address, role)
+     VALUES (?, ?, ?, ?, ?)`,
+    [name, email, phone, address, role]
   );
-  return true;
-};
+
+  return {
+    id: result.insertId,
+    name,
+    email,
+    phone,
+    address,
+    role
+  };
+}
+
+// Update Profile (always updates ID 1)
+export async function updateProfileDB(data) {
+  const { name, email, phone, address, role } = data;
+
+  await pool.query(
+    `UPDATE profile SET name=?, email=?, phone=?, address=?, role=? WHERE id=1`,
+    [name, email, phone, address, role]
+  );
+
+  return {
+    id: 1,
+    name,
+    email,
+    phone,
+    address,
+    role
+  };
+}

@@ -1,29 +1,29 @@
-import db from "../../config/db.js";
+import { pool } from "../../config/db.js";
 
 export const getDashboardStats = async (req, res) => {
   try {
     // Count Students
-    const [studentCount] = await db.execute(
+    const [studentCount] = await pool.query(
       "SELECT COUNT(*) AS totalStudents FROM students"
     );
 
     // Count Faculty
-    const [facultyCount] = await db.execute(
+    const [facultyCount] = await pool.query(
       "SELECT COUNT(*) AS totalFaculty FROM faculty"
     );
 
     // Count Courses
-    const [courseCount] = await db.execute(
+    const [courseCount] = await pool.query(
       "SELECT COUNT(*) AS totalCourses FROM courses"
     );
 
     // Count Events
-    const [eventCount] = await db.execute(
+    const [eventCount] = await pool.query(
       "SELECT COUNT(*) AS totalEvents FROM events"
     );
 
     // Count Notifications
-    const [notifCount] = await db.execute(
+    const [notifCount] = await pool.query(
       "SELECT COUNT(*) AS totalNotifications FROM notifications"
     );
 

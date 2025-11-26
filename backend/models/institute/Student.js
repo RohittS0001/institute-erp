@@ -1,37 +1,70 @@
 import { pool } from "../../config/db.js";
 
-// Get all students
-export const getStudents = async () => {
-  const [rows] = await pool.query("SELECT * FROM students");
-  return rows;
-};
+// AUTO-CREATE students TABLE
+export async function ensureStudentTableExists() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS students (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      roll VARCHAR(100) NOT NULL,
+      branch VARCHAR(255),
+      email VARCHAR(255)
+    );
+  `);
+}
 
-// Add student
-export const addStudent = async (data) => {
+// Get all students
+export async function getStudents() {
+  const [rows] = await pool.query("SELECT * FROM students ORDER BY id DESC");
+  return rows;
+}
+
+// Add a student
+export async function addStudent(data) {
+  const { name, roll, branch, email } = data;
+
   const [result] = await pool.query(
     "INSERT INTO students (name, roll, branch, email) VALUES (?, ?, ?, ?)",
-    [data.name, data.roll, data.branch, data.email]
+    [name, roll, branch, email]
   );
-  return result.insertId;
-};
+
+  return {
+    id: result.insertId,
+    name,
+    roll,
+    branch,
+    email
+  };
+}
 
 // Update student
-export const updateStudent = async (id, data) => {
+export async function updateStudent(id, data) {
+  const { name, roll, branch, email } = data;
+
   await pool.query(
     "UPDATE students SET name=?, roll=?, branch=?, email=? WHERE id=?",
-    [data.name, data.roll, data.branch, data.email, id]
+    [name, roll, branch, email, id]
   );
-  return true;
-};
+
+  return {
+    id,
+    name,
+    roll,
+    branch,
+    email
+  };
+}
 
 // Delete student
-export const deleteStudent = async (id) => {
-  await pool.query("DELETE FROM students WHERE id=?", [id]);
-  return true;
-};
+export async function deleteStudent(id) {
+  const [result] = await pool.query("DELETE FROM students WHERE id=?", [id]);
+  return result.affectedRows > 0;
+}
 
-// Count students (optional)
-export const countStudents = async () => {
-  const [rows] = await pool.query("SELECT COUNT(*) AS total FROM students");
+// Count students
+export async function countStudents() {
+  const [rows] = await pool.query(
+    "SELECT COUNT(*) AS total FROM students"
+  );
   return rows[0].total;
-};
+}

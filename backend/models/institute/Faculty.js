@@ -1,37 +1,70 @@
 import { pool } from "../../config/db.js";
 
+// AUTO-CREATE faculty TABLE
+export async function ensureFacultyTableExists() {
+  await pool.query(`
+    CREATE TABLE IF NOT_EXISTS faculty (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      email VARCHAR(255) NOT NULL,
+      department VARCHAR(255),
+      designation VARCHAR(255)
+    );
+  `);
+}
+
 // Get all faculty
-export const getFaculty = async () => {
-  const [rows] = await pool.query("SELECT * FROM faculty");
+export async function getFaculty() {
+  const [rows] = await pool.query("SELECT * FROM faculty ORDER BY id DESC");
   return rows;
-};
+}
 
 // Add a faculty member
-export const addFaculty = async (data) => {
+export async function addFaculty(data) {
+  const { name, email, department, designation } = data;
+
   const [result] = await pool.query(
     "INSERT INTO faculty (name, email, department, designation) VALUES (?, ?, ?, ?)",
-    [data.name, data.email, data.department, data.designation]
+    [name, email, department, designation]
   );
-  return result.insertId;
-};
+
+  return {
+    id: result.insertId,
+    name,
+    email,
+    department,
+    designation
+  };
+}
 
 // Update faculty
-export const updateFaculty = async (id, data) => {
+export async function updateFaculty(id, data) {
+  const { name, email, department, designation } = data;
+
   await pool.query(
     "UPDATE faculty SET name=?, email=?, department=?, designation=? WHERE id=?",
-    [data.name, data.email, data.department, data.designation, id]
+    [name, email, department, designation, id]
   );
-  return true;
-};
+
+  return {
+    id,
+    name,
+    email,
+    department,
+    designation
+  };
+}
 
 // Delete faculty
-export const deleteFaculty = async (id) => {
-  await pool.query("DELETE FROM faculty WHERE id=?", [id]);
-  return true;
-};
+export async function deleteFaculty(id) {
+  const [result] = await pool.query("DELETE FROM faculty WHERE id=?", [id]);
+  return result.affectedRows > 0;
+}
 
-// Count faculty (optional for dashboard)
-export const countFaculty = async () => {
-  const [rows] = await pool.query("SELECT COUNT(*) AS total FROM faculty");
+// Count faculty (for dashboard)
+export async function countFaculty() {
+  const [rows] = await pool.query(
+    "SELECT COUNT(*) AS total FROM faculty"
+  );
   return rows[0].total;
-};
+}

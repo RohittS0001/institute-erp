@@ -1,37 +1,71 @@
 import { pool } from "../../config/db.js";
 
-// Get all courses
-export const getCourses = async () => {
-  const [rows] = await pool.query("SELECT * FROM courses");
-  return rows;
-};
+// AUTO-CREATE courses TABLE
+export async function ensureCourseTableExists() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS courses (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      code VARCHAR(100) NOT NULL,
+      department VARCHAR(255),
+      duration VARCHAR(100),
+      credits INT DEFAULT 4
+    );
+  `);
+}
 
-// Add a course
-export const addCourse = async (data) => {
+// Get all courses
+export async function getCourses() {
+  const [rows] = await pool.query("SELECT * FROM courses ORDER BY id DESC");
+  return rows;
+}
+
+// Add a new course
+export async function addCourse(data) {
+  const { name, code, department, duration, credits } = data;
+
   const [result] = await pool.query(
     "INSERT INTO courses (name, code, department, duration, credits) VALUES (?, ?, ?, ?, ?)",
-    [data.name, data.code, data.department, data.duration, data.credits]
+    [name, code, department, duration, credits]
   );
-  return result.insertId;
-};
 
-// Update course
-export const updateCourse = async (id, data) => {
+  return {
+    id: result.insertId,
+    name,
+    code,
+    department,
+    duration,
+    credits,
+  };
+}
+
+// Update course by ID
+export async function updateCourse(id, data) {
+  const { name, code, department, duration, credits } = data;
+
   await pool.query(
     "UPDATE courses SET name=?, code=?, department=?, duration=?, credits=? WHERE id=?",
-    [data.name, data.code, data.department, data.duration, data.credits, id]
+    [name, code, department, duration, credits, id]
   );
-  return true;
-};
 
-// Delete course
-export const deleteCourse = async (id) => {
-  await pool.query("DELETE FROM courses WHERE id=?", [id]);
-  return true;
-};
+  return {
+    id,
+    name,
+    code,
+    department,
+    duration,
+    credits,
+  };
+}
+
+// Delete a course by ID
+export async function deleteCourse(id) {
+  const [result] = await pool.query("DELETE FROM courses WHERE id=?", [id]);
+  return result.affectedRows > 0;
+}
 
 // Count courses (for dashboard)
-export const countCourses = async () => {
+export async function countCourses() {
   const [rows] = await pool.query("SELECT COUNT(*) AS total FROM courses");
   return rows[0].total;
-};
+}

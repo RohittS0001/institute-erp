@@ -1,32 +1,59 @@
-import { pool } from "../../config/db.js";   // ✅ FIXED
+import { pool } from "../../config/db.js";
+
+// AUTO-CREATE departments TABLE
+export async function ensureDepartmentTableExists() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS departments (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      head VARCHAR(255),
+      description TEXT
+    );
+  `);
+}
 
 // GET all departments
-export const getDepartments = async () => {
-  const [rows] = await pool.query("SELECT * FROM departments");
+export async function getDepartments() {
+  const [rows] = await pool.query("SELECT * FROM departments ORDER BY id DESC");
   return rows;
-};
+}
 
 // ADD department
-export const addDepartment = async (data) => {
+export async function addDepartment(data) {
+  const { name, head, description } = data;
+
   const [result] = await pool.query(
     "INSERT INTO departments (name, head, description) VALUES (?, ?, ?)",
-    [data.name, data.head, data.description]
+    [name, head, description]
   );
-  return result.insertId;
-};
+
+  return {
+    id: result.insertId,
+    name,
+    head,
+    description
+  };
+}
 
 // UPDATE department
-export const updateDepartment = async (id, data) => {
+export async function updateDepartment(id, data) {
+  const { name, head, description } = data;
+
   await pool.query(
     "UPDATE departments SET name=?, head=?, description=? WHERE id=?",
-    [data.name, data.head, data.description, id]
+    [name, head, description, id]
   );
-  return true;
-};
+
+  return {
+    id,
+    name,
+    head,
+    description
+  };
+}
 
 // DELETE department
-export const deleteDepartment = async (id) => {
-  await pool.query("DELETE FROM departments WHERE id=?", [id]);
-  return true;
-};
-
+export async function deleteDepartment(id) {
+  const [result] = await pool.query("DELETE FROM departments WHERE id=?", [id]);
+  return result.affectedRows > 0;
+}
