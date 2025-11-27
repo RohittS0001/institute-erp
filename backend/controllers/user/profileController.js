@@ -1,11 +1,11 @@
-import db from "../../config/db.js"; 
+// import db from "../../config/db.js"; 
 import {
   createProfile,
   getProfiles,
   findProfileById,
   updateProfile,
   deleteProfile
-} from "../../models/user/Profile.js";
+} from "../../models/user/profile.js";
 
 // GET: all profiles with user info
 export const getProfilesHandler = (req, res) => {

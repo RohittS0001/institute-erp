@@ -5,7 +5,7 @@ import {
   updateMembership,
   deleteMembership
 } from "../../models/user/Membership.js";
-import db from "../../config/db.js"; // For explicit SQL join
+// import db from "../../config/db.js"; // For explicit SQL join
 
 // GET: all memberships (with user info)
 export const getMembershipsHandler = (req, res) => {

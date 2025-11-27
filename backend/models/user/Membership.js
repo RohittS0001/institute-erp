@@ -1,56 +1,55 @@
-import db from "../../config/db.js"; // Adjust path as needed
+import { pool } from "../../config/db.js"; // Adjust path as needed
 
-// MySQL table creation (run separately from Node.js):
-/*
-CREATE TABLE UserMembership (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  userId INT NOT NULL, -- Reference to User table's id
-  organization VARCHAR(255) NOT NULL,
-  membershipType VARCHAR(100) NOT NULL,
-  startDate DATE NOT NULL,
-  endDate DATE,
-  status VARCHAR(50) DEFAULT 'active',
-  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
--- Add appropriate FOREIGN KEY constraint if your User table is in MySQL
-*/
+// Utility: Ensure Membership Table Exists (Optional)
+export async function ensureMembershipTableExists() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS UserMembership (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      userId INT NOT NULL,
+      organization VARCHAR(255) NOT NULL,
+      membershipType VARCHAR(100) NOT NULL,
+      startDate DATE NOT NULL,
+      endDate DATE,
+      status VARCHAR(50) DEFAULT 'active',
+      createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    );
+  `);
+}
 
 // Create new membership record
-export function createMembership(membershipData, callback) {
-  const {
-    userId, organization, membershipType, startDate, endDate, status
-  } = membershipData;
-  db.query(
+export async function createMembership({ userId, organization, membershipType, startDate, endDate, status }) {
+  const [result] = await pool.query(
     "INSERT INTO UserMembership (userId, organization, membershipType, startDate, endDate, status) VALUES (?, ?, ?, ?, ?, ?)",
-    [userId, organization, membershipType, startDate, endDate, status || 'active'],
-    callback
+    [userId, organization, membershipType, startDate, endDate, status || 'active']
   );
+  return { id: result.insertId, userId, organization, membershipType, startDate, endDate, status: status || 'active' };
 }
 
 // Get all membership records
-export function getMemberships(callback) {
-  db.query("SELECT * FROM UserMembership", callback);
+export async function getMemberships() {
+  const [rows] = await pool.query("SELECT * FROM UserMembership");
+  return rows;
 }
 
 // Get membership by ID
-export function findMembershipById(id, callback) {
-  db.query("SELECT * FROM UserMembership WHERE id = ?", [id], callback);
+export async function findMembershipById(id) {
+  const [rows] = await pool.query("SELECT * FROM UserMembership WHERE id = ?", [id]);
+  return rows[0];
 }
 
 // Update membership by ID
-export function updateMembership(id, membershipData, callback) {
-  const {
-    userId, organization, membershipType, startDate, endDate, status
-  } = membershipData;
-  db.query(
-    "UPDATE UserMembership SET userId = ?, organization = ?, membershipType = ?, startDate = ?, endDate = ?, status = ? WHERE id = ?",
-    [userId, organization, membershipType, startDate, endDate, status || 'active', id],
-    callback
+export async function updateMembership(id, { userId, organization, membershipType, startDate, endDate, status }) {
+  const [result] = await pool.query(
+    "UPDATE UserMembership SET userId=?, organization=?, membershipType=?, startDate=?, endDate=?, status=? WHERE id=?",
+    [userId, organization, membershipType, startDate, endDate, status || 'active', id]
   );
+  if (result.affectedRows === 0) return null;
+  return { id, userId, organization, membershipType, startDate, endDate, status: status || 'active' };
 }
 
 // Delete membership by ID
-export function deleteMembership(id, callback) {
-  db.query("DELETE FROM UserMembership WHERE id = ?", [id], callback);
+export async function deleteMembership(id) {
+  const [result] = await pool.query("DELETE FROM UserMembership WHERE id = ?", [id]);
+  return result.affectedRows > 0;
 }
