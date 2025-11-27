@@ -112,7 +112,7 @@ app.listen(PORT, async () => {
   await ensureInstituteProfileTableExists();
 
   await ensureReportsTableExists();
-  await ensureInstituteRecordTable();
+  //await ensureInstituteRecordTable();
 
   console.log("✅ All ERP Admin + Institute tables verified/created!");
 

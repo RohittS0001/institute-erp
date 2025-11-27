@@ -3,13 +3,13 @@ import { pool } from "../../config/db.js";
 // AUTO-CREATE faculty TABLE
 export async function ensureFacultyTableExists() {
   await pool.query(`
-    CREATE TABLE IF NOT_EXISTS faculty (
+    CREATE TABLE IF NOT EXISTS faculty (
       id INT AUTO_INCREMENT PRIMARY KEY,
       name VARCHAR(255) NOT NULL,
       email VARCHAR(255) NOT NULL,
       department VARCHAR(255),
       designation VARCHAR(255)
-    );
+    )
   `);
 }
 
