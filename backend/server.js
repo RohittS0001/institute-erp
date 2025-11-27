@@ -107,10 +107,7 @@ app.listen(PORT, async () => {
   await ensureInstituteCourseTable();
   await ensureAttendanceTable();
   await ensureEventTableExists();
-
-  // FIX: second profile table is INSTITUTE profile
   await ensureInstituteProfileTableExists();
-
   await ensureReportsTableExists();
   await ensureInstituteRecordTable();
 
