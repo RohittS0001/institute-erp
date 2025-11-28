@@ -37,14 +37,36 @@ export default function Research() {
   };
 
   return (
-    <div className="page-container">
+    <div className="research-page">
       <header className="research-header">
-        <h2>🔬 Research Support</h2>
+        <div className="research-header-top">
+          <h2>🔬 Research Support</h2>
+          <button className="back-btn" onClick={() => navigate(-1)}>
+            ⬅ Back to Dashboard
+          </button>
+        </div>
         <p>Access research mentorship, funding programs, and project tracking.</p>
-        <button className="back-btn" onClick={() => navigate(-1)}>
-          ⬅ Back to Dashboard
-        </button>
+
+        {/* New Research Support Services */}
+        <div className="research-services">
+          <div className="service-card">
+            <h4>Faculty Manuscript Support</h4>
+            <p>End-to-end help from formatting to final publishing support for faculty manuscripts.</p>
+            <span className="service-tag">Formatting → Publishing</span>
+          </div>
+          <div className="service-card">
+            <h4>Proposal Writing</h4>
+            <p>Guidance for writing proposals for research grant projects and institutional funding.</p>
+            <span className="service-tag">Research Grant Projects</span>
+          </div>
+          <div className="service-card">
+            <h4>Data Analysis & Typing</h4>
+            <p>Support for data analysis documentation, report preparation, and typewriting assistance.</p>
+            <span className="service-tag">Data & Typewriting Support</span>
+          </div>
+        </div>
       </header>
+
       <main className="research-content">
         <section className="research-info">
           <h3>Ongoing Research Overview</h3>
@@ -74,6 +96,7 @@ export default function Research() {
             </li>
           </ul>
         </section>
+
         <section className="research-list">
           <h3>Your Research Submissions</h3>
           <ul>
@@ -90,6 +113,7 @@ export default function Research() {
             )}
           </ul>
         </section>
+
         <section className="research-actions">
           <h3>Submit New Research</h3>
           <form onSubmit={handleSubmit} className="research-form">

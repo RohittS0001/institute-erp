@@ -13,21 +13,63 @@ export default function Placement() {
   }, []);
 
   // Derive dynamic "Current Updates" e.g. latest company, next placement date
-  const latestPlacement = placements.length > 0 ? placements[placements.length - 1] : null;
+  const latestPlacement =
+    placements.length > 0 ? placements[placements.length - 1] : null;
   const companiesShortlisted = placements.length; // Simplified example
 
   return (
     <div className="placement-page">
       {/* Header Section */}
       <header className="placement-header">
-        <h1>🎓 Placement Support</h1>
+        <div className="placement-header-top">
+          <h1>🎓 Placement Support</h1>
+          <button className="back-btn" onClick={() => navigate(-1)}>
+            ⬅ Back to Dashboard
+          </button>
+        </div>
         <p>
           Get assistance with interview preparation, job listings, and company
           connections.
         </p>
-        <button className="back-btn" onClick={() => navigate(-1)}>
-          ⬅ Back to Dashboard
-        </button>
+
+        {/* New Placement Fee Info */}
+        <div className="placement-fee-strip">
+          <div className="placement-fee-card student">
+            <h3>Student Registration</h3>
+            <div className="fee-row">
+              <span>Indian</span>
+              <strong>₹ 500</strong>
+            </div>
+            <div className="fee-row">
+              <span>Non‑Indian</span>
+              <strong>$ 10</strong>
+            </div>
+          </div>
+
+          <div className="placement-fee-card company">
+            <h3>Company Partnership</h3>
+            <div className="fee-row">
+              <span>Indian</span>
+              <strong>₹ 2,000</strong>
+            </div>
+            <div className="fee-row">
+              <span>Non‑Indian</span>
+              <strong>$ 49</strong>
+            </div>
+          </div>
+
+          <div className="placement-fee-card agent">
+            <h3>Placement Agent</h3>
+            <div className="fee-row">
+              <span>Indian</span>
+              <strong>₹ 1,000</strong>
+            </div>
+            <div className="fee-row">
+              <span>Non‑Indian</span>
+              <strong>$  —</strong>
+            </div>
+          </div>
+        </div>
       </header>
 
       {/* Content Section */}
@@ -39,7 +81,9 @@ export default function Placement() {
             <li>
               🕒 Next Interview:{" "}
               {latestPlacement
-                ? new Date(latestPlacement.dateOfPlacement).toLocaleString()
+                ? new Date(
+                    latestPlacement.dateOfPlacement
+                  ).toLocaleString()
                 : "Tomorrow, 11:00 AM"}
             </li>
             <li>👨‍💼 Placement Coordinator: Mr. Rajesh Singh</li>

@@ -1,87 +1,191 @@
+/* Placement Page Layout */
 .placement-page {
-  padding: 2rem;
+  min-height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: 2rem 0;
   font-family: "Poppins", sans-serif;
-  background-color: #f9fafc;
+  background: #f9fafc;
   color: #333;
 }
 
+/* Center header and content */
+.placement-header,
+.placement-content {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Header */
 .placement-header {
-  text-align: center;
-  margin-bottom: 2rem;
+  padding: 2rem 1rem 1rem;
+  border-bottom: 2px solid #eef1f7;
+}
+
+/* Title + back button row */
+.placement-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
 .placement-header h1 {
   font-size: 2rem;
-  color: #1c3ec8;
+  color: #805ad5;
+  margin-bottom: 0.3rem;
 }
 
 .placement-header p {
-  color: #555;
+  color: #666;
   margin-top: 0.5rem;
 }
 
+/* Back button */
 .back-btn {
-  margin-top: 1rem;
+  margin-top: 0;
   padding: 10px 20px;
-  background-color: #1c3ec8;
+  background-color: #805ad5;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
-  transition: background-color 0.2s ease-in;
+  white-space: nowrap;
 }
 
 .back-btn:hover {
-  background-color: #0f2d96;
+  background-color: #6b46c1;
 }
 
+/* Placement fee strip */
+.placement-fee-strip {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1rem;
+}
+
+.placement-fee-card {
+  background: white;
+  border-radius: 14px;
+  padding: 1.2rem 1.4rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e2e8f0;
+}
+
+.placement-fee-card h3 {
+  margin: 0 0 0.8rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.placement-fee-card.student h3 {
+  color: #3182ce;
+}
+
+.placement-fee-card.company h3 {
+  color: #38a169;
+}
+
+.placement-fee-card.agent h3 {
+  color: #dd6b20;
+}
+
+.fee-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  padding: 0.4rem 0;
+  border-top: 1px solid #edf2f7;
+}
+
+.fee-row:first-of-type {
+  border-top: none;
+}
+
+.fee-row span {
+  color: #4a5568;
+}
+
+.fee-row strong {
+  color: #1a202c;
+}
+
+/* Content layout */
 .placement-content {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-wrap: wrap;
   gap: 2rem;
+  padding: 2rem 1rem 3rem;
 }
 
 .placement-info,
 .placement-actions {
-  background-color: white;
+  background: white;
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 45%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  width: 48%;
+  box-sizing: border-box;
 }
 
 .placement-info h2,
 .placement-actions h2 {
-  color: #1c3ec8;
+  color: #805ad5;
   margin-bottom: 1rem;
 }
 
+/* Info list */
 .placement-info ul {
-  list-style-type: none;
-  padding: 0;
+  list-style: none;
+  padding-left: 0;
   margin: 0;
 }
 
 .placement-info li {
-  margin: 10px 0;
-  font-weight: 500;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #edf2f7;
+  font-size: 0.95rem;
 }
 
+.placement-info li:last-child {
+  border-bottom: none;
+}
+
+/* Action buttons */
 .placement-btn {
-  margin-top: 1rem;
+  width: 100%;
+  margin-top: 0.5rem;
   padding: 10px 15px;
   border: none;
-  background-color: #36b9cc;
+  background-color: #4299e1;
   color: white;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
-  width: 100%;
-  transition: background-color 0.2s ease-in;
+  font-size: 0.95rem;
 }
 
 .placement-btn:hover {
-  background-color: #2a96a5;
+  background-color: #3182ce;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .placement-header-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .placement-content {
+    flex-direction: column;
+  }
+
+  .placement-info,
+  .placement-actions {
+    width: 100%;
+  }
 }

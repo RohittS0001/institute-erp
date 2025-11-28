@@ -18,7 +18,8 @@ export default function Membership() {
       .then(setMemberships);
   }, []);
 
-  const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = e =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -40,29 +41,109 @@ export default function Membership() {
   };
 
   return (
-    <div>
-      <h2>Memberships</h2>
-      <ul>
-        {memberships.map(m => (
-          <li key={m.id}>
-            User: {m.name} ({m.email}) | {m.organization} | {m.membershipType} | {m.status}
-          </li>
-        ))}
-      </ul>
-      <h3>Add New Membership</h3>
-      <form onSubmit={handleSubmit}>
-        <input name="userId" value={form.userId} onChange={handleChange} placeholder="User ID" required />
-        <input name="organization" value={form.organization} onChange={handleChange} placeholder="Organization" required />
-        <input name="membershipType" value={form.membershipType} onChange={handleChange} placeholder="Membership Type" required />
-        <input name="startDate" type="date" value={form.startDate} onChange={handleChange} required />
-        <input name="endDate" type="date" value={form.endDate} onChange={handleChange} />
-        <select name="status" value={form.status} onChange={handleChange}>
-          <option value="active">Active</option>
-          <option value="expired">Expired</option>
-          <option value="pending">Pending</option>
-        </select>
-        <button type="submit">Add Membership</button>
-      </form>
+    <div className="membership-page">
+      <header className="membership-header">
+        <h2>👥 Memberships</h2>
+        <p>Manage your memberships and view available membership categories.</p>
+
+        {/* New Membership Pricing Info */}
+        <div className="membership-pricing">
+          <div className="membership-card student">
+            <h3>Student</h3>
+            <p>Annual membership for individual students.</p>
+            <div className="price-row">
+              <span>Indian</span>
+              <strong>₹ 500</strong>
+            </div>
+          </div>
+
+          <div className="membership-card faculty">
+            <h3>Faculty / Institute</h3>
+            <p>Membership for faculty members or institutions.</p>
+            <div className="price-row">
+              <span>Indian</span>
+              <strong>₹ 1,000</strong>
+            </div>
+          </div>
+
+          <div className="membership-card university">
+            <h3>University</h3>
+            <p>Comprehensive membership at university level.</p>
+            <div className="price-row">
+              <span>Indian</span>
+              <strong>₹ 2,000</strong>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main className="membership-content">
+        <section className="membership-list">
+          <h3>Existing Memberships</h3>
+          <ul>
+            {memberships.length > 0 ? (
+              memberships.map(m => (
+                <li key={m.id}>
+                  <strong>{m.name}</strong> ({m.email}) | {m.organization} |{" "}
+                  {m.membershipType} | {m.status}
+                </li>
+              ))
+            ) : (
+              <li>No memberships added yet.</li>
+            )}
+          </ul>
+        </section>
+
+        <section className="membership-form-section">
+          <h3>Add New Membership</h3>
+          <form onSubmit={handleSubmit} className="membership-form">
+            <input
+              name="userId"
+              value={form.userId}
+              onChange={handleChange}
+              placeholder="User ID"
+              required
+            />
+            <input
+              name="organization"
+              value={form.organization}
+              onChange={handleChange}
+              placeholder="Organization"
+              required
+            />
+            <input
+              name="membershipType"
+              value={form.membershipType}
+              onChange={handleChange}
+              placeholder="Membership Type (Student / Faculty / University)"
+              required
+            />
+            <input
+              name="startDate"
+              type="date"
+              value={form.startDate}
+              onChange={handleChange}
+              required
+            />
+            <input
+              name="endDate"
+              type="date"
+              value={form.endDate}
+              onChange={handleChange}
+            />
+            <select
+              name="status"
+              value={form.status}
+              onChange={handleChange}
+            >
+              <option value="active">Active</option>
+              <option value="expired">Expired</option>
+              <option value="pending">Pending</option>
+            </select>
+            <button type="submit">Add Membership</button>
+          </form>
+        </section>
+      </main>
     </div>
   );
 }
