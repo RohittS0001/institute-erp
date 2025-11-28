@@ -27,7 +27,7 @@ export default function Donation() {
     fetch("http://localhost:4000/api/donation", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
+      body: JSON.stringify(form)
     })
       .then(res => res.json())
       .then(newDonation => setDonations(prev => [...prev, newDonation]));
@@ -37,15 +37,42 @@ export default function Donation() {
   return (
     <div className="donation-page">
       <header className="donation-header">
-        <h1>💖 Donation</h1>
+        <div className="donation-header-top">
+          <h1>💖 Donation</h1>
+          <button className="back-btn" onClick={() => navigate(-1)}>
+            ⬅ Back to Dashboard
+          </button>
+        </div>
         <p>
           Support our foundation’s mission. Every contribution helps fund
           scholarships, research, and student development.
         </p>
-        <button className="back-btn" onClick={() => navigate(-1)}>
-          ⬅ Back to Dashboard
-        </button>
+
+        {/* New Payment Details Section */}
+        <div className="donation-payment">
+          <h2>Bank Payment Details</h2>
+          <div className="payment-card">
+            <p className="payment-foundation">Saathaihum Foundation</p>
+            <div className="payment-row">
+              <span>Account Number</span>
+              <strong>60534708338</strong>
+            </div>
+            <div className="payment-row">
+              <span>IFSC Code</span>
+              <strong>MAHB0002410</strong>
+            </div>
+            <div className="payment-row">
+              <span>Branch</span>
+              <strong>Dhanori</strong>
+            </div>
+            <div className="payment-row">
+              <span>Bank</span>
+              <strong>Bank of Maharashtra</strong>
+            </div>
+          </div>
+        </div>
       </header>
+
       <main className="donation-content">
         <section className="donation-campaigns">
           <h2>Active Campaigns</h2>
@@ -55,6 +82,7 @@ export default function Donation() {
             <li>🌍 Community Outreach Program</li>
           </ul>
         </section>
+
         <section className="donation-actions">
           <h2>Make a Donation</h2>
           <form onSubmit={handleSubmit} className="donation-form">
@@ -91,12 +119,14 @@ export default function Donation() {
               💰 Donate
             </button>
           </form>
+
           <h2>Previous Donations</h2>
           <ul>
             {donations.length > 0 ? (
               donations.map(item => (
                 <li key={item.id}>
-                  {item.donor} donated ₹{item.amount} on {item.date} ({item.purpose})
+                  {item.donor} donated ₹{item.amount} on {item.date} (
+                  {item.purpose})
                 </li>
               ))
             ) : (

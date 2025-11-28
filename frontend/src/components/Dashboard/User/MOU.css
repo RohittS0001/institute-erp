@@ -1,85 +1,230 @@
+/* MOU Page Layout */
 .mou-page {
-  padding: 2rem;
+  min-height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: 2rem 0;
   font-family: "Poppins", sans-serif;
-  background: #f9fafc;
-  color: #333;
+  background: #f5f7fb;
+  color: #1a202c;
 }
 
+/* Center header and content */
+.mou-header,
+.mou-content {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Header */
 .mou-header {
+  padding: 2rem 1rem 1.5rem;
   text-align: center;
-  margin-bottom: 2rem;
+}
+
+.mou-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .mou-header h1 {
-  font-size: 2rem;
-  color: #4e73df;
+  font-size: 2.1rem;
+  color: #3b82f6;
 }
 
-.mou-header p {
-  color: #555;
-  margin-top: 0.5rem;
-}
-
+/* Back button same style as other pages */
 .back-btn {
-  margin-top: 1rem;
-  padding: 10px 20px;
-  background-color: #4e73df;
-  color: white;
+  padding: 10px 22px;
+  background-color: #3b82f6;
+  color: #ffffff;
   border: none;
-  border-radius: 8px;
+  border-radius: 999px;
   cursor: pointer;
   font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  box-shadow: 0 6px 14px rgba(59, 130, 246, 0.4);
 }
 
 .back-btn:hover {
-  background-color: #3756c2;
+  background-color: #2563eb;
 }
 
+.mou-header p {
+  color: #4b5563;
+  font-size: 0.98rem;
+  margin-top: 0.4rem;
+}
+
+/* Main content layout */
 .mou-content {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-wrap: wrap;
   gap: 2rem;
+  padding: 1.5rem 1rem 3rem;
+  box-sizing: border-box;
 }
 
-.mou-card,
-.mou-actions {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 45%;
+/* Left card: Recent MOUs */
+.mou-card {
+  width: 48%;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 1.6rem 1.7rem;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+  box-sizing: border-box;
 }
 
-.mou-card h2,
-.mou-actions h2 {
-  color: #4e73df;
+.mou-card h2 {
+  font-size: 1.25rem;
+  color: #1f2937;
   margin-bottom: 1rem;
 }
 
 .mou-card ul {
-  list-style-type: none;
-  padding: 0;
+  list-style: none;
   margin: 0;
+  padding-left: 0;
 }
 
 .mou-card li {
-  margin: 10px 0;
-  font-weight: 500;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #edf2f7;
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+.mou-card li:last-child {
+  border-bottom: none;
+}
+
+/* Right column card */
+.mou-actions {
+  width: 48%;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 1.6rem 1.7rem;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+  box-sizing: border-box;
+}
+
+.mou-actions h2 {
+  font-size: 1.15rem;
+  color: #1f2937;
+  margin-bottom: 0.4rem;
+}
+
+.mou-subtext {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 0.8rem;
+}
+
+/* Buttons inside right card */
+.mou-file-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
 }
 
 .mou-btn {
-  margin-top: 1rem;
-  padding: 10px 15px;
-  border: none;
-  background-color: #36b9cc;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
   width: 100%;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #ffffff;
+  background: #10b981;
+  box-shadow: 0 6px 14px rgba(16, 185, 129, 0.35);
+}
+
+.mou-btn.primary {
+  background: #14b8a6;
+  box-shadow: 0 6px 14px rgba(20, 184, 166, 0.35);
+}
+
+.mou-btn.secondary {
+  background: #0ea5e9;
+  box-shadow: 0 6px 14px rgba(14, 165, 233, 0.35);
 }
 
 .mou-btn:hover {
-  background-color: #2c9faf;
+  filter: brightness(0.96);
+}
+
+.mou-divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 1.2rem 0;
+}
+
+/* Template form */
+.mou-template-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+}
+
+.mou-template-form input {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #d1d9e6;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.mou-template-form input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.18);
+}
+
+/* Add MOU form */
+.mou-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mou-form input,
+.mou-form textarea,
+.mou-form select {
+  padding: 9px 11px;
+  border-radius: 10px;
+  border: 1px solid #d1d9e6;
+  font-size: 0.94rem;
+  outline: none;
+}
+
+.mou-form textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.mou-form input:focus,
+.mou-form textarea:focus,
+.mou-form select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.18);
+}
+
+/* Last button in form already uses .mou-btn style */
+
+/* Responsive */
+@media (max-width: 900px) {
+  .mou-content {
+    flex-direction: column;
+  }
+
+  .mou-card,
+  .mou-actions {
+    width:auto;
+  }
 }

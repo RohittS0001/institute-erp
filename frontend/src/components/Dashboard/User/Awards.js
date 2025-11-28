@@ -15,7 +15,8 @@ export default function Awards() {
   }, []);
 
   // Form handler to add new award using backend API
-  const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = e =>
+    setForm({ ...form, [e.target.name]: e.target.value });
   const handleSubmit = e => {
     e.preventDefault();
     fetch("http://localhost:4000/api/awards", {
@@ -31,14 +32,31 @@ export default function Awards() {
   return (
     <div className="awards-page">
       <header className="awards-header">
-        <h1>🏅 Awards & Recognition</h1>
+        <div className="awards-header-top">
+          <h1>🏅 Awards & Recognition</h1>
+          <button className="back-btn" onClick={() => navigate(-1)}>
+            ⬅ Back to Dashboard
+          </button>
+        </div>
         <p>
-          Track your achievements, certificates, and awards received through academic and extracurricular excellence.
+          Track your achievements, certificates, and awards received through
+          academic and extracurricular excellence.
         </p>
-        <button className="back-btn" onClick={() => navigate(-1)}>
-          ⬅ Back to Dashboard
-        </button>
+
+        {/* NEW APPLICATION INFO STRIP */}
+        <div className="awards-application-strip">
+          <div className="app-pill anytime">
+            🕒 Applications Open Anytime
+          </div>
+          <div className="app-pill nominee">
+            🎓 Selected Candidates as Nominee (No fees to apply)
+          </div>
+          <div className="app-pill sponsor">
+            💼 Sponsor Category (Application with fees)
+          </div>
+        </div>
       </header>
+
       <main className="awards-content">
         <section className="awards-list">
           <h2>Your Awards</h2>
@@ -58,6 +76,7 @@ export default function Awards() {
             )}
           </ul>
         </section>
+
         <section className="awards-actions">
           <h2>Add New Award</h2>
           <form onSubmit={handleSubmit} className="awards-form">
@@ -85,8 +104,12 @@ export default function Awards() {
             />
             <button type="submit">Add Award</button>
           </form>
-          <button onClick={() => alert("View Certificates clicked")}>📜 View Certificates</button>
-          <button onClick={() => alert("Download Report clicked")}>⬇ Download Report</button>
+          <button onClick={() => alert("View Certificates clicked")}>
+            📜 View Certificates
+          </button>
+          <button onClick={() => alert("Download Report clicked")}>
+            ⬇ Download Report
+          </button>
         </section>
       </main>
     </div>

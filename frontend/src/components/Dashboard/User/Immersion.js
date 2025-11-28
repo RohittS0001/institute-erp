@@ -28,7 +28,7 @@ export default function Immersion() {
     fetch("http://localhost:4000/api/immersion", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
+      body: JSON.stringify(form)
     })
       .then(res => res.json())
       .then(newImmersion =>
@@ -46,14 +46,45 @@ export default function Immersion() {
   return (
     <div className="immersion-page">
       <header className="immersion-header">
-        <h1>🏭 Academic–Industry Immersion</h1>
+        <div className="immersion-header-top">
+          <h1>🏭 Academic–Industry Immersion</h1>
+          <button className="back-btn" onClick={() => navigate(-1)}>
+            ⬅ Back to Dashboard
+          </button>
+        </div>
         <p>
-          Track your internships, industrial training, and professional exposure programs here.
+          Track your internships, industrial training, and professional exposure
+          programs here.
         </p>
-        <button className="back-btn" onClick={() => navigate(-1)}>
-          ⬅ Back to Dashboard
-        </button>
+
+        {/* New Academic / Industry Fee Info */}
+        <div className="immersion-fee-strip">
+          <div className="fee-card academic">
+            <h3>Academic Immersion</h3>
+            <div className="fee-row">
+              <span>Indian Students</span>
+              <strong>₹ 2,000</strong>
+            </div>
+            <div className="fee-row">
+              <span>Non‑Indian Students</span>
+              <strong>$ 29</strong>
+            </div>
+          </div>
+
+          <div className="fee-card industry">
+            <h3>Industry Immersion</h3>
+            <div className="fee-row">
+              <span>Indian Students</span>
+              <strong>₹ 999</strong>
+            </div>
+            <div className="fee-row">
+              <span>Non‑Indian Students</span>
+              <strong>$ 20</strong>
+            </div>
+          </div>
+        </div>
       </header>
+
       <main className="immersion-content">
         <section className="immersion-progress">
           <h2>Current Immersion Status</h2>
@@ -76,6 +107,7 @@ export default function Immersion() {
             )}
           </ul>
         </section>
+
         <section className="immersion-actions">
           <h2>Quick Actions</h2>
           <form onSubmit={handleSubmit} className="immersion-form">
