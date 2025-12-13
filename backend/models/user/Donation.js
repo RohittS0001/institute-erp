@@ -1,4 +1,4 @@
-import { pool } from "../../config/db.js"; // Adjust path as needed
+import { pool } from "../../config/db.js"; 
 
 // Utility: Ensure Donation Table Exists (Optional)
 export async function ensureDonationTableExists() {
