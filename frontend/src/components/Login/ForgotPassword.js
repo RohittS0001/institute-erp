@@ -9,7 +9,7 @@ const ForgotPassword = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:4000/api/user/forgot-password", { input });
+      await axios.post("https://backenderp-production-fe2b.up.railway.app/api/user/forgot-password", { input });
       setMsg("If your account exists, you'll receive a reset link/code soon.");
     } catch (err) {
       setMsg("Error: " + (err.response?.data?.error || "Unknown error"));

@@ -19,7 +19,7 @@ const Notifications = () => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/admin/notifications");
+        const response = await axios.get("https://backenderp-production-fe2b.up.railway.app/api/admin/notifications");
         setNotifications(response.data);
       } catch (error) {
         console.error("Error fetching notifications:", error);
@@ -38,7 +38,7 @@ const Notifications = () => {
     );
     // Persist change to backend
     try {
-      await axios.put(`http://localhost:4000/api/admin/notifications/${id}/toggle-read`);
+      await axios.put(`https://backenderp-production-fe2b.up.railway.app/api/admin/notifications/${id}/toggle-read`);
     } catch (error) {
       console.error("Failed to update read status:", error);
       // Optionally revert UI change or refetch notifications here
