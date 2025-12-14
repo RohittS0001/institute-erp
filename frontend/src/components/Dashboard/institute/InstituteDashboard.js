@@ -18,7 +18,7 @@ export default function InstituteDashboard() {
 
   // Fetch dashboard stats from backend
   useEffect(() => {
-    axios.get("http://localhost:4000/api/dashboard/stats")
+    axios.get("https://backenderp-production-fe2b.up.railway.app/api/dashboard/stats")
       .then((res) => setStats(res.data))
       .catch((err) => console.log("Error:", err));
   }, []);

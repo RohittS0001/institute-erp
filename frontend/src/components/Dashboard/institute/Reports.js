@@ -7,7 +7,7 @@ export default function Reports() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/institute/reports/all")
+      .get("https://backenderp-production-fe2b.up.railway.app/api/institute/reports/all")
       .then((res) => setReports(res.data))
       .catch((err) => console.log(err));
   }, []);

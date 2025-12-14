@@ -25,7 +25,7 @@ const Institutes = () => {
   useEffect(() => {
     const fetchInstitutes = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/admin/institutes");
+        const response = await axios.get("https://backenderp-production-fe2b.up.railway.app/api/admin/institutes");
         setInstitutes(response.data);
       } catch (error) {
         console.error("Error fetching institutes:", error);
@@ -57,7 +57,7 @@ const Institutes = () => {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:4000/api/admin/institutes", newInstitute);
+      const response = await axios.post("https://backenderp-production-fe2b.up.railway.app/api/admin/institutes", newInstitute);
       setInstitutes((prev) => [...prev, response.data]);
       setNewInstitute({
         name: "",
@@ -77,7 +77,7 @@ const Institutes = () => {
   const handleDeleteInstitute = async (id) => {
     if (!window.confirm("Are you sure you want to delete this institute?")) return;
     try {
-      await axios.delete(`http://localhost:4000/api/admin/institutes/${id}`);
+      await axios.delete(`https://backenderp-production-fe2b.up.railway.app/api/admin/institutes/${id}`);
       setInstitutes((prev) => prev.filter((instit) => instit.id !== id));
     } catch (error) {
       console.error("Failed to delete institute:", error);
@@ -105,7 +105,7 @@ const Institutes = () => {
   const handleSave = async (id) => {
     try {
       const response = await axios.put(
-        `http://localhost:4000/api/admin/institutes/${id}`,
+        `https://backenderp-production-fe2b.up.railway.app/api/admin/institutes/${id}`,
         editInstitute
       );
       setInstitutes((prev) =>

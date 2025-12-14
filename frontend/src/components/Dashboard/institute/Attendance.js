@@ -15,7 +15,7 @@ export default function Attendance() {
   });
 
   // Backend API Base URL (MySQL)
-  const API = "http://localhost:4000/api/institute/attendance";
+  const API = "https://backenderp-production-fe2b.up.railway.app/api/institute/attendance";
 
   // Load all attendance from MySQL backend
   const fetchAttendance = async () => {

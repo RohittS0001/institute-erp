@@ -144,7 +144,7 @@ export default function Events() {
   // Fetch events
   const fetchEvents = async () => {
     try {
-      const res = await axios.get("http://localhost:4000/api/institute/events/all");
+      const res = await axios.get("https://backenderp-production-fe2b.up.railway.app/api/institute/events/all");
       setEvents(res.data);
       console.log(res.data);
     } catch (err) {
@@ -167,7 +167,7 @@ export default function Events() {
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:4000/api/institute/events/create", form);
+      await axios.post("https://backenderp-production-fe2b.up.railway.app/api/institute/events/create", form);
       setForm({ title: "", date: "", location: "" });
       setShowAdd(false);
       fetchEvents();

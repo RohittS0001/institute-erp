@@ -23,7 +23,7 @@ const Courses = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/admin/courses");
+        const response = await axios.get("https://backenderp-production-fe2b.up.railway.app/api/admin/courses");
         setCourses(response.data);
       } catch (error) {
         console.error("Error fetching courses:", error);
@@ -62,7 +62,7 @@ const Courses = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/admin/courses",
+        "https://backenderp-production-fe2b.up.railway.app/api/admin/courses",
         newCourse
       );
       setCourses((prev) => [...prev, response.data]);
@@ -78,7 +78,7 @@ const Courses = () => {
   const handleDeleteCourse = async (id) => {
     if (!window.confirm("Are you sure you want to delete this course?")) return;
     try {
-      await axios.delete(`http://localhost:4000/api/admin/courses/${id}`);
+      await axios.delete(`https://backenderp-production-fe2b.up.railway.app/api/admin/courses/${id}`);
       setCourses((prev) => prev.filter((course) => course.id !== id));
     } catch (error) {
       console.error("Failed to delete course:", error);
@@ -101,7 +101,7 @@ const Courses = () => {
   const handleEditSave = async (id) => {
     try {
       const response = await axios.put(
-        `http://localhost:4000/api/admin/courses/${id}`,
+        `https://backenderp-production-fe2b.up.railway.app/api/admin/courses/${id}`,
         editCourse
       );
       setCourses((prev) =>

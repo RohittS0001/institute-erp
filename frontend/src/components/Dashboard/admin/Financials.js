@@ -25,7 +25,7 @@ const Financials = () => {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/admin/financials");
+        const response = await axios.get("https://backenderp-production-fe2b.up.railway.app/api/admin/financials");
         setTransactions(response.data);
       } catch (error) {
         console.error("Error fetching transactions:", error);
@@ -61,7 +61,7 @@ const Financials = () => {
       return;
     }
     try {
-      const response = await axios.post("http://localhost:4000/api/admin/financials", newTransaction);
+      const response = await axios.post("https://backenderp-production-fe2b.up.railway.app/api/admin/financials", newTransaction);
       setTransactions((prev) => [...prev, response.data]);
       setNewTransaction({
         type: "",
@@ -81,7 +81,7 @@ const Financials = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this transaction?")) return;
     try {
-      await axios.delete(`http://localhost:4000/api/admin/financials/${id}`);
+      await axios.delete(`https://backenderp-production-fe2b.up.railway.app/api/admin/financials/${id}`);
       setTransactions((prev) => prev.filter((t) => t.id !== id));
     } catch (error) {
       console.error("Failed to delete transaction:", error);
@@ -105,7 +105,7 @@ const Financials = () => {
   const handleSave = async (id) => {
     try {
       const response = await axios.put(
-        `http://localhost:4000/api/admin/financials/${id}`,
+        `https://backenderp-production-fe2b.up.railway.app/api/admin/financials/${id}`,
         editTransaction
       );
       setTransactions((prev) =>

@@ -148,7 +148,7 @@ export default function Courses() {
   const navigate = useNavigate();
 
   // BASE URL (make sure your backend runs on this)
-  const API = "http://localhost:4000/api/institute/course";
+  const API = "https://backenderp-production-fe2b.up.railway.app/api/institute/course";
 
   // GET all courses
   const fetchCourses = async () => {

@@ -7,7 +7,7 @@ export default function Faculty() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/institute/faculty/all")
+      .get("https://backenderp-production-fe2b.up.railway.app/api/institute/faculty/all")
       .then((res) => setFaculty(res.data))
       .catch((err) => console.log(err));
   }, []);

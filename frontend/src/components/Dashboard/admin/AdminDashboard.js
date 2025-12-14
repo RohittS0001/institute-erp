@@ -18,7 +18,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchInstitutes = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/admin/institutes");
+        const response = await axios.get("https://backenderp-production-fe2b.up.railway.app/api/admin/institutes");
         setInstitutes(response.data);
       } catch (error) {
         console.error("Error fetching institutes:", error);
