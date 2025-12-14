@@ -1,68 +1,66 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate
+} from "react-router-dom";
+
 import Login from "./components/Login/Login";
-import Register from "./components/Login/Register";          // <-- Import this!
-import ForgotPassword from "./components/Login/ForgotPassword"; // <-- And this!
+import Register from "./components/Login/Register";
+import ForgotPassword from "./components/Login/ForgotPassword";
+
 import Admin from "./components/Dashboard/admin/admin";
 import UserDashboard from "./components/Dashboard/User/User";
 import InstituteDashboard from "./components/Dashboard/institute/institute";
+
 import "./App.css";
 
 function App() {
-  const user = JSON.parse(localStorage.getItem("user"));
+  // safer parsing (prevents crash if user is null or corrupted)
+  const user = JSON.parse(localStorage.getItem("user") || "null");
 
-  const ProtectedRoute = ({ element }) =>
-    user?.role === "user" ? element : <Navigate to="/" />;
-
-  const AdminRoute = ({ element }) =>
-    user?.role === "admin" ? element : <Navigate to="/" />;
-
-  const InstituteRoute = ({ element }) =>
-    user?.role === "institute" ? element : <Navigate to="/" />;
+  // reusable role-based route
+  const RoleRoute = ({ role, element }) => {
+    if (!user) return <Navigate to="/" replace />;
+    return user.role === role ? element : <Navigate to="/" replace />;
+  };
 
   return (
     <Router>
       <Routes>
+
         {/* Login or Redirect */}
         <Route
           path="/"
           element={
-            user ? <Navigate to={`/dashboard/${user.role}`} /> : <Login />
+            user ? <Navigate to={`/dashboard/${user.role}`} replace /> : <Login />
           }
         />
 
-        {/* Registration page */}
-        <Route
-          path="/register"
-          element={<Register />}
-        />
+        {/* Auth Routes */}
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
 
-        {/* Forgot password page */}
-        <Route
-          path="/forgot-password"
-          element={<ForgotPassword />}
-        />
-
-        {/* Admin Dashboard Container - with nested routing */}
+        {/* Dashboards */}
         <Route
           path="/dashboard/admin/*"
-          element={<AdminRoute element={<Admin />} />}
+          element={<RoleRoute role="admin" element={<Admin />} />}
         />
 
-        {/* Institute Dashboard */}
         <Route
           path="/dashboard/institute/*"
-          element={<InstituteRoute element={<InstituteDashboard />} />}
+          element={<RoleRoute role="institute" element={<InstituteDashboard />} />}
         />
 
-        {/* User Dashboard */}
         <Route
           path="/dashboard/user/*"
-          element={<ProtectedRoute element={<UserDashboard />} />}
+          element={<RoleRoute role="user" element={<UserDashboard />} />}
         />
 
         {/* Fallback */}
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+
       </Routes>
     </Router>
   );
