@@ -6,7 +6,7 @@ import Awards from "./Awards";
 import Research from "./Research";
 import Immersion from "./Immersion";
 import Placement from "./Placement";
-import Profile from "./Profile";
+import Profile from "./profile";
 import Donation from "./Donation";
 import MOU from "./MOU";
 import Membership from "./Membership";

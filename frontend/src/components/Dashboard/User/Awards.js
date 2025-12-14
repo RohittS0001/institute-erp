@@ -46,7 +46,7 @@ export default function Awards() {
         {/* NEW APPLICATION INFO STRIP */}
         <div className="awards-application-strip">
           <div className="app-pill anytime">
-            🕒 Applications Open Anytime
+            🕒 Applications for Awards
           </div>
           <div className="app-pill nominee">
             🎓 Selected Candidates as Nominee (No fees to apply)
