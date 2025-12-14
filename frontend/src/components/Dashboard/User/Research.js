@@ -14,7 +14,7 @@ export default function Research() {
 
   // Fetch research records from backend API on mount
   useEffect(() => {
-    fetch("http://localhost:4000/api/research")
+    fetch("https://backenderp-production-fe2b.up.railway.app/api/research")
       .then(res => res.json())
       .then(data => setResearches(data));
   }, []);
@@ -26,7 +26,7 @@ export default function Research() {
   // Add a new research record
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:4000/api/research", {
+    fetch("https://backenderp-production-fe2b.up.railway.app/api/research", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form)

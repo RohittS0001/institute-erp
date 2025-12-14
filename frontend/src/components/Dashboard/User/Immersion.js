@@ -15,7 +15,7 @@ export default function Immersion() {
 
   // Fetch from backend on mount
   useEffect(() => {
-    fetch("http://localhost:4000/api/immersion")
+    fetch("https://backenderp-production-fe2b.up.railway.app/api/immersion")
       .then(res => res.json())
       .then(setImmersions);
   }, []);
@@ -25,7 +25,7 @@ export default function Immersion() {
 
   const handleSubmit = e => {
     e.preventDefault();
-    fetch("http://localhost:4000/api/immersion", {
+    fetch("https://backenderp-production-fe2b.up.railway.app/api/immersion", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form)

@@ -18,7 +18,7 @@ export default function Profile() {
   // Fetch profile from backend on mount
   useEffect(() => {
     if (userId) {
-      fetch(`http://localhost:4000/api/profile/${userId}`)
+      fetch(`https://backenderp-production-fe2b.up.railway.app/api/profile/${userId}`)
         .then(res => {
           if (!res.ok) throw new Error("Profile not found");
           return res.json();
@@ -39,7 +39,7 @@ export default function Profile() {
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSave = () => {
-    fetch(`http://localhost:4000/api/profile/${userId}`, {
+    fetch(`https://backenderp-production-fe2b.up.railway.app/api/profile/${userId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ membershipStatus: form.membershipStatus }),

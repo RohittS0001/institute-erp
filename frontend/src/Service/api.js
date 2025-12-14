@@ -6,3 +6,4 @@ export async function getMessage() {
   const text = await response.text();
   return text;
 }
+export default API_URL;

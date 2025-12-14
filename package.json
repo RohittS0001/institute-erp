@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/RohittS0001/institute-erp/issues"
   },
-  "homepage": "https://github.com/RohittS0001/institute-erp#readme"
+  "homepage": "https://github.com/RohittS0001/institute-erp#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "mysql2": "^3.15.3"
+  }
 }

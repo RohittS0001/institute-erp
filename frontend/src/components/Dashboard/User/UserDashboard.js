@@ -20,11 +20,11 @@ const UserDashboard = () => {
   ]);
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/admissions").then(res => res.json()).then(setAdmissions);
-    fetch("http://localhost:4000/api/awards").then(res => res.json()).then(setAwards);
-    fetch("http://localhost:4000/api/research").then(res => res.json()).then(setResearches);
-    fetch("http://localhost:4000/api/immersion").then(res => res.json()).then(setImmersions);
-    fetch("http://localhost:4000/api/placement").then(res => res.json()).then(setPlacements);
+    fetch("https://backenderp-production-fe2b.up.railway.app/api/admissions").then(res => res.json()).then(setAdmissions);
+    fetch("https://backenderp-production-fe2b.up.railway.app/api/awards").then(res => res.json()).then(setAwards);
+    fetch("https://backenderp-production-fe2b.up.railway.app/api/research").then(res => res.json()).then(setResearches);
+    fetch("https://backenderp-production-fe2b.up.railway.app/api/immersion").then(res => res.json()).then(setImmersions);
+    fetch("https://backenderp-production-fe2b.up.railway.app/api/placement").then(res => res.json()).then(setPlacements);
 
     // Optionally, fetch recent activity from backend if you implement such an endpoint
     // fetch("http://localhost:4000/api/activity").then(res => res.json()).then(setRecentActivity);

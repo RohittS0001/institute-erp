@@ -7,7 +7,7 @@ export default function Placement() {
   const [placements, setPlacements] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/placement")
+    fetch("https://backenderp-production-fe2b.up.railway.app/api/placement")
       .then(res => res.json())
       .then(setPlacements);
   }, []);

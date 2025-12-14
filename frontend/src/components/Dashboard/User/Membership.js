@@ -13,7 +13,7 @@ export default function Membership() {
   });
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/membership")
+    fetch("https://backenderp-production-fe2b.up.railway.app/api/membership")
       .then(res => res.json())
       .then(setMemberships);
   }, []);
@@ -23,7 +23,7 @@ export default function Membership() {
 
   const handleSubmit = e => {
     e.preventDefault();
-    fetch("http://localhost:4000/api/membership", {
+    fetch("https://backenderp-production-fe2b.up.railway.app/api/membership", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form)
