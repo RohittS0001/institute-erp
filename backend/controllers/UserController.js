@@ -28,13 +28,23 @@ export const getUsers = async (req, res) => {
 // User login
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
+
   try {
-    const user = await findUserByEmail(email);
-    if (!user || user.password !== password) {
+    const normalizedEmail = email.toLowerCase().trim();
+    const normalizedPassword = password.trim();
+
+    const user = await findUserByEmail(normalizedEmail);
+
+    console.log("DB:", user?.email, "|", user?.password);
+    console.log("REQ:", normalizedEmail, "|", normalizedPassword);
+
+    if (!user || user.password !== normalizedPassword) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
+
     res.json({ message: "Login successful", user });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
+
