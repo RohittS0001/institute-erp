@@ -1,4 +1,4 @@
-const API_URL = "https://backenderp-production-fe2b.up.railway.app"; // your backend port
+const API_URL = "https://backenderp-production-6374.up.railway.app"; // your backend port
 
 // Example API call to test backend connection
 export async function getMessage() {

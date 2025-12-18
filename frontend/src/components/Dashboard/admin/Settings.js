@@ -54,7 +54,7 @@ const Settings = () => {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const response = await axios.get("https://backenderp-production-fe2b.up.railway.app/api/admin/settings");
+        const response = await axios.get("https://backenderp-production-6374.up.railway.app/api/admin/settings");
         setSettings(response.data);
       } catch (err) {
         setError("Failed to load settings.");
@@ -72,7 +72,7 @@ const Settings = () => {
     setError(null);
     setSuccess(false);
     try {
-      await axios.post("https://backenderp-production-fe2b.up.railway.app/api/admin/settings", settings);
+      await axios.post("https://backenderp-production-6374.up.railway.app/api/admin/settings", settings);
       setSuccess(true);
       setTimeout(() => setSuccess(false), 2000);
     } catch (err) {

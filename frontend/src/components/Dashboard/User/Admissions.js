@@ -8,7 +8,7 @@ export default function Admissions() {
 
   // Fetch from backend on mount
   useEffect(() => {
-    fetch("https://backenderp-production-fe2b.up.railway.app/api/admissions")
+    fetch("https://backenderp-production-6374.up.railway.app/api/admissions")
       .then(res => res.json())
       .then(setAdmissions);
   }, []);

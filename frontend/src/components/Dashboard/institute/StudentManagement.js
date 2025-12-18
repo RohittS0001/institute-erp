@@ -24,7 +24,7 @@ export default function StudentManagement() {
   const loadStudents = async () => {
     try {
       const res = await axios.get(
-        "https://backenderp-production-fe2b.up.railway.app/api/institute/students/all"
+        "https://backenderp-production-6374.up.railway.app/api/institute/students/all"
       );
       setStudents(res.data);
     } catch (err) {
@@ -52,7 +52,7 @@ export default function StudentManagement() {
 
     try {
       await axios.post(
-        "https://backenderp-production-fe2b.up.railway.app/api/institute/students/add",
+        "https://backenderp-production-6374.up.railway.app/api/institute/students/add",
         payload
       );
 

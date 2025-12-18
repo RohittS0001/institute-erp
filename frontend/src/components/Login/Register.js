@@ -32,7 +32,7 @@ const Register = () => {
       return;
     }
     try {
-      await axios.post("https://backenderp-production-fe2b.up.railway.app/api/user/register", {
+      await axios.post("https://backenderp-production-6374.up.railway.app/api/user/register", {
         name: form.name,
         email: form.email,
         password: form.password,

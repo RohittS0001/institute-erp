@@ -22,7 +22,7 @@ export default function MOU() {
 
   // Fetch MOUs from backend on mount
   useEffect(() => {
-    fetch("https://backenderp-production-fe2b.up.railway.app/api/mou")
+    fetch("https://backenderp-production-6374.up.railway.app/api/mou")
       .then(res => res.json())
       .then(setMOUs);
   }, []);
@@ -32,7 +32,7 @@ export default function MOU() {
 
   const handleSubmit = e => {
     e.preventDefault();
-    fetch("https://backenderp-production-fe2b.up.railway.app/api/mou", {
+    fetch("https://backenderp-production-6374.up.railway.app/api/mou", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form)

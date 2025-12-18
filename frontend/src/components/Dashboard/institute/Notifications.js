@@ -16,7 +16,7 @@ export default function Notifications() {
   const loadNotifications = async () => {
     try {
       const res = await axios.get(
-        "https://backenderp-production-fe2b.up.railway.app/api/institute/notifications/all"
+        "https://backenderp-production-6374.up.railway.app/api/institute/notifications/all"
       );
       setNotifications(res.data);
     } catch (err) {
@@ -41,7 +41,7 @@ export default function Notifications() {
 
     try {
       await axios.post(
-        "https://backenderp-production-fe2b.up.railway.app/api/institute/notifications/send",
+        "https://backenderp-production-6374.up.railway.app/api/institute/notifications/send",
         payload
       );
 

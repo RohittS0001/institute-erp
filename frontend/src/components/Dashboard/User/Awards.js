@@ -9,7 +9,7 @@ export default function Awards() {
 
   // Fetch awards from backend
   useEffect(() => {
-    fetch("https://backenderp-production-fe2b.up.railway.app/api/awards")
+    fetch("https://backenderp-production-6374.up.railway.app/api/awards")
       .then(res => res.json())
       .then(setAwards);
   }, []);
@@ -19,7 +19,7 @@ export default function Awards() {
     setForm({ ...form, [e.target.name]: e.target.value });
   const handleSubmit = e => {
     e.preventDefault();
-    fetch("https://backenderp-production-fe2b.up.railway.app/api/awards", {
+    fetch("https://backenderp-production-6374.up.railway.app/api/awards", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form)

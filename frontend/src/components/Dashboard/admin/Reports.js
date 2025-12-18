@@ -30,7 +30,7 @@ const Reports = () => {
     setReportData(null);
 
     try {
-      const response = await axios.post("https://backenderp-production-fe2b.up.railway.app/api/admin/reports", {
+      const response = await axios.post("https://backenderp-production-6374.up.railway.app/api/admin/reports", {
         type: selectedReport,
         from: dateRange.from,
         to: dateRange.to,

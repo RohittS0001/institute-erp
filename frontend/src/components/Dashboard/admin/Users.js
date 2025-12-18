@@ -23,7 +23,7 @@ const Users = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("https://backenderp-production-fe2b.up.railway.app/api/admin/users");
+        const response = await axios.get("https://backenderp-production-6374.up.railway.app/api/admin/users");
         setUsers(response.data);
       } catch (error) {
         console.error("Failed to fetch users:", error);
@@ -54,7 +54,7 @@ const Users = () => {
       return;
     }
     try {
-      const response = await axios.post("https://backenderp-production-fe2b.up.railway.app/api/admin/users", newUser);
+      const response = await axios.post("https://backenderp-production-6374.up.railway.app/api/admin/users", newUser);
       setUsers((prev) => [...prev, response.data]);
       setNewUser({ name: "", email: "", role: "User", status: "Active" });
       setShowAddForm(false);
@@ -82,7 +82,7 @@ const Users = () => {
 
   const handleSave = async (id) => {
     try {
-      const response = await axios.put(`https://backenderp-production-fe2b.up.railway.app/api/admin/users/${id}`, editUser);
+      const response = await axios.put(`https://backenderp-production-6374.up.railway.app/api/admin/users/${id}`, editUser);
       setUsers((prev) =>
         prev.map((user) => user.id === id ? response.data : user)
       );
@@ -97,7 +97,7 @@ const Users = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this user?")) return;
     try {
-      await axios.delete(`https://backenderp-production-fe2b.up.railway.app/api/admin/users/${id}`);
+      await axios.delete(`https://backenderp-production-6374.up.railway.app/api/admin/users/${id}`);
       setUsers((prev) => prev.filter((user) => user.id !== id));
     } catch (error) {
       console.error("Failed to delete user:", error);

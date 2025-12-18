@@ -1,15 +1,17 @@
-import { createUser, findUserByEmail, getUsers as getAllUsers } from "../models/usermodels.js";
+import {
+  createUser,
+  getUserByEmail,
+  getAllUsers,
+} from "../models/userModel.js";
 
-
-// Register new user
+// Register user
 export const registerUser = async (req, res) => {
   try {
     const user = await createUser(req.body);
     res.status(201).json(user);
   } catch (err) {
-    // Handle duplicate entry error for unique constraints etc
     if (err.code === "ER_DUP_ENTRY") {
-      return res.status(400).json({ error: "Email or name already exists" });
+      return res.status(400).json({ error: "Email already exists" });
     }
     res.status(400).json({ error: err.message });
   }
@@ -30,21 +32,20 @@ export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const normalizedEmail = email.toLowerCase().trim();
-    const normalizedPassword = password.trim();
+    const user = await getUserByEmail(email);
 
-    const user = await findUserByEmail(normalizedEmail);
-
-    console.log("DB:", user?.email, "|", user?.password);
-    console.log("REQ:", normalizedEmail, "|", normalizedPassword);
-
-    if (!user || user.password !== normalizedPassword) {
+    if (!user || user.password !== password.trim()) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    res.json({ message: "Login successful", user });
+    res.status(200).json({
+      message: "Login successful",
+      user: {
+        id: user.id,
+        email: user.email,
+      },
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
-

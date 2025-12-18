@@ -14,7 +14,7 @@ export default function Donation() {
 
   // Fetch from backend on mount
   useEffect(() => {
-    fetch("https://backenderp-production-fe2b.up.railway.app/api/donation")
+    fetch("https://backenderp-production-6374.up.railway.app/api/donation")
       .then(res => res.json())
       .then(setDonations);
   }, []);
@@ -24,7 +24,7 @@ export default function Donation() {
 
   const handleSubmit = e => {
     e.preventDefault();
-    fetch("https://backenderp-production-fe2b.up.railway.app/api/donation", {
+    fetch("https://backenderp-production-6374.up.railway.app/api/donation", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form)

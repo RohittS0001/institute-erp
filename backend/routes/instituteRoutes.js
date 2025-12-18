@@ -7,13 +7,8 @@ import {
 
 const router = express.Router();
 
-// 📌 Dashboard Summary API
 router.get("/dashboard", getInstituteDashboard);
-
-// 📌 Get Institute Profile
 router.get("/profile", getInstituteProfile);
-
-// 📌 Update Institute Profile
 router.put("/profile/update", updateInstituteProfile);
 
 export default router;

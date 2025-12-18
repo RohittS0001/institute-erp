@@ -11,7 +11,7 @@ export default function Profile() {
 
   // Load profile from backend
   useEffect(() => {
-    axios.get("https://backenderp-production-fe2b.up.railway.app/api/institute/profile/me")
+    axios.get("https://backenderp-production-6374.up.railway.app/api/institute/profile/me")
       .then(res => {
         setProfile(res.data);
         setForm(res.data);
@@ -24,7 +24,7 @@ export default function Profile() {
   };
 
   const handleSave = () => {
-    axios.put("https://backenderp-production-fe2b.up.railway.app/api/institute/profile/update", form)
+    axios.put("https://backenderp-production-6374.up.railway.app/api/institute/profile/update", form)
       .then(res => {
         setProfile(res.data.profile);
         setEditMode(false);

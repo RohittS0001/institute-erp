@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -17,10 +17,14 @@ import InstituteDashboard from "./components/Dashboard/institute/institute";
 import "./App.css";
 
 function App() {
-  // safer parsing (prevents crash if user is null or corrupted)
-  const user = JSON.parse(localStorage.getItem("user") || "null");
+  const [user, setUser] = useState(null);
 
-  // reusable role-based route
+  // 🔥 FIX: react to localStorage change
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user") || "null");
+    setUser(storedUser);
+  }, []);
+
   const RoleRoute = ({ role, element }) => {
     if (!user) return <Navigate to="/" replace />;
     return user.role === role ? element : <Navigate to="/" replace />;
@@ -34,7 +38,9 @@ function App() {
         <Route
           path="/"
           element={
-            user ? <Navigate to={`/dashboard/${user.role}`} replace /> : <Login />
+            user
+              ? <Navigate to={`/dashboard/${user.role}`} replace />
+              : <Login />
           }
         />
 
