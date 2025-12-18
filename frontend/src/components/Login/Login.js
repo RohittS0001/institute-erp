@@ -105,7 +105,7 @@ const Login = () => {
 
       showAlert('Login successful! Redirecting...', 'success');
 
-      setTimeout(() => {
+      
         localStorage.setItem("user", JSON.stringify({
           role: formData.role.toLowerCase(),
           email: formData.email,
@@ -118,16 +118,16 @@ const Login = () => {
 
         if (formData.role === 'admin') {
           navigate('/dashboard/admin');
-            window.location.reload();
+            // window.location.reload();
         } else if (formData.role === 'Institute') {
           navigate('/dashboard/institute');
-            window.location.reload();
+            // window.location.reload();
         } else if (formData.role === 'User') {
           navigate('/dashboard/user');
-            window.location.reload();
+            // window.location.reload();
         } else {
           navigate('/');
-            window.location.reload();
+            // window.location.reload();
         }
       
         setFormData({
@@ -136,7 +136,7 @@ const Login = () => {
           password: '',
           rememberMe: false,
         });
-      }, 1500);
+     
 
     } catch (error) {
       showAlert('Invalid credentials. Please check your role, email and password.', 'error');
