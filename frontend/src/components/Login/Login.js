@@ -1,119 +1,136 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import './Login.css';
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import "./Login.css";
+
+const API_BASE ="https://backenderp-production-6374.up.railway.app/api";
 
 const Login = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    role: '',
-    email: '',
-    password: '',
-    rememberMe: false
+    role: "",
+    email: "",
+    password: "",
+    rememberMe: false,
   });
 
-  const [errors, setErrors] = useState({
-    role: '',
-    email: '',
-    password: ''
-  });
-
+  const [errors, setErrors] = useState({});
+  const [alert, setAlert] = useState({ show: false, message: "", type: "" });
   const [showPassword, setShowPassword] = useState(false);
-  const [alert, setAlert] = useState({ message: '', type: '', show: false });
   const [isLoading, setIsLoading] = useState(false);
 
-  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const validatePassword = (password) => password.length >= 8;
+  /* ----------------- Helpers ----------------- */
+
+  const validateEmail = (email) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const showAlert = (message, type = "error") => {
+    setAlert({ show: true, message, type });
+    setTimeout(() => {
+      setAlert({ show: false, message: "", type: "" });
+    }, 4000);
+  };
+
+  /* ----------------- Handlers ----------------- */
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     }));
-    if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
-  };
 
-  const handleBlur = (e) => {
-    const { name, value } = e.target;
-    let error = '';
-
-    if (name === 'email' && value && !validateEmail(value)) {
-      error = 'Please enter a valid email address';
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
-    if (name === 'password' && value && !validatePassword(value)) {
-      error = 'Password must be at least 8 characters';
-    }
-
-    setErrors(prev => ({ ...prev, [name]: error }));
   };
 
-  const showAlert = (message, type) => {
-    setAlert({ message, type, show: true });
-    setTimeout(() => setAlert(prev => ({ ...prev, show: false })), 4000);
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.role) newErrors.role = "Please select a role";
+    if (!formData.email) newErrors.email = "Email is required";
+    else if (!validateEmail(formData.email))
+      newErrors.email = "Invalid email address";
+
+    if (!formData.password)
+      newErrors.password = "Password is required";
+    else if (formData.password.length < 8)
+      newErrors.password = "Minimum 8 characters";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
+
+  /* ----------------- Submit ----------------- */
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const newErrors = {};
-    if (!formData.role) newErrors.role = 'Please select a role';
-    if (!formData.email) newErrors.email = 'Email is required';
-    else if (!validateEmail(formData.email)) newErrors.email = 'Invalid email';
-
-    if (!formData.password) newErrors.password = 'Password is required';
-    else if (!validatePassword(formData.password)) newErrors.password = 'Min 8 characters';
-
-    setErrors(newErrors);
-    if (Object.keys(newErrors).length) return;
+    if (!validateForm()) return;
 
     setIsLoading(true);
 
-    const role = formData.role.toLowerCase(); // 🔥 FIX: normalize role
+    const role = formData.role.toLowerCase();
+    const loginUrl = `${API_BASE}/${role}/login`;
 
     try {
-      const response = await axios.post(
-        `https://backenderp-production-6374.up.railway.app/api/${role}/login`,
+      const res = await axios.post(
+        loginUrl,
         {
-          email: formData.email,
-          password: formData.password
+          email: formData.email.trim().toLowerCase(),
+          password: formData.password.trim(),
         },
         { timeout: 10000 }
       );
 
-      localStorage.setItem(
-        'user',
-        JSON.stringify({
-          role,
-          email: formData.email,
-          name:
-            response.data?.name ||
-            response.data?.user?.name ||
-            response.data?.admin?.name ||
-            ''
-        })
-      );
+      /* ---- Normalize response for ALL roles ---- */
+      const userData =
+        res.data?.admin ||
+        res.data?.institute ||
+        res.data?.user ||
+        res.data;
 
-      showAlert('Login successful!', 'success');
-      setIsLoading(false); // 🔥 FIX: stop loading before navigation
+      if (!userData) {
+        throw new Error("Invalid login response");
+      }
 
-      if (role === 'admin') navigate('/dashboard/admin', { replace: true });
-      else if (role === 'institute') navigate('/dashboard/institute', { replace: true });
-      else navigate('/dashboard/user', { replace: true });
+      /* ---- Standard user object ---- */
+      const user = {
+        role,
+        id: userData.id || null,
+        email: userData.email || formData.email,
+      };
 
-      setFormData({
-        role: '',
-        email: '',
-        password: '',
-        rememberMe: false
-      });
+      localStorage.setItem("user", JSON.stringify(user));
 
-    } catch (error) {
+      showAlert("Login successful", "success");
+
+      /* ---- Role based redirect ---- */
+      if (role === "admin") {
+        navigate("/dashboard/admin", { replace: true });
+      } else if (role === "institute") {
+        navigate("/dashboard/institute", { replace: true });
+      } else {
+        navigate("/dashboard/user", { replace: true });
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+
+      if (err.response?.status === 401) {
+        showAlert("Invalid email or password");
+      } else if (err.code === "ECONNABORTED") {
+        showAlert("Server timeout. Try again.");
+      } else {
+        showAlert("Server error. Please try later.");
+      }
+    } finally {
       setIsLoading(false);
-      showAlert('Invalid credentials. Please try again.', 'error');
     }
   };
+
+  /* ----------------- UI ----------------- */
 
   return (
     <div className="login-body">
@@ -139,14 +156,16 @@ const Login = () => {
                 name="role"
                 value={formData.role}
                 onChange={handleChange}
-                className={errors.role ? 'error' : ''}
+                className={errors.role ? "error" : ""}
               >
                 <option value="">Select Role</option>
-                <option value="institute">Institute</option>
                 <option value="admin">Admin</option>
+                <option value="institute">Institute</option>
                 <option value="user">User</option>
               </select>
-              {errors.role && <span className="error-message">{errors.role}</span>}
+              {errors.role && (
+                <span className="error-message">{errors.role}</span>
+              )}
             </div>
 
             <div className="form-group">
@@ -156,36 +175,40 @@ const Login = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                onBlur={handleBlur}
-                className={errors.email ? 'error' : ''}
+                className={errors.email ? "error" : ""}
               />
-              {errors.email && <span className="error-message">{errors.email}</span>}
+              {errors.email && (
+                <span className="error-message">{errors.email}</span>
+              )}
             </div>
 
             <div className="form-group">
               <label>Password *</label>
               <div className="input-wrapper">
                 <input
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  onBlur={handleBlur}
-                  className={errors.password ? 'error' : ''}
+                  className={errors.password ? "error" : ""}
                 />
                 <button
                   type="button"
-                  onClick={() => setShowPassword(!showPassword)}
                   className="toggle-password"
+                  onClick={() => setShowPassword((p) => !p)}
                 >
-                  {showPassword ? '🙈' : '👁️'}
+                  {showPassword ? "🙈" : "👁️"}
                 </button>
               </div>
-              {errors.password && <span className="error-message">{errors.password}</span>}
+              {errors.password && (
+                <span className="error-message">
+                  {errors.password}
+                </span>
+              )}
             </div>
 
-            <button type="submit" className="btn" disabled={isLoading}>
-              {isLoading ? 'Signing in...' : 'Sign In'}
+            <button className="btn" type="submit" disabled={isLoading}>
+              {isLoading ? "Signing in..." : "Sign In"}
             </button>
 
           </form>
