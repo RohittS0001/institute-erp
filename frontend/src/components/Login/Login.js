@@ -93,50 +93,48 @@ const Login = () => {
 
     setIsLoading(true);
 
-    // Actual API call for all roles
     try {
       const response = await axios.post(
-        `https://backenderp-production-6374.up.railway.app/api/${formData.role.toLowerCase()}/login`,
+        // ✅ CHANGE 1: role already stored as lowercase, used directly
+        `https://backenderp-production-6374.up.railway.app/api/${formData.role}/login`,
         {
           email: formData.email,
           password: formData.password,
         }
       );
 
-      showAlert('Login successful! Redirecting...', 'success');
+      // ✅ CHANGE 2: normalize role to lowercase once
+      const roleLower = formData.role.toLowerCase();
 
-      
-        localStorage.setItem("user", JSON.stringify({
-          role: formData.role.toLowerCase(),
-          email: formData.email,
-          name:
-            response.data?.name ||
-            response.data?.user?.name ||
-            response.data?.admin?.name ||
-            ""
-        }));
+      // ✅ CHANGE 3: store user with lowercase role (matches App.js)
+      const userData = {
+        role: roleLower,
+        email: formData.email,
+        name:
+          response.data?.name ||
+          response.data?.user?.name ||
+          response.data?.admin?.name ||
+          ""
+      };
+      localStorage.setItem("user", JSON.stringify(userData));
 
-        if (formData.role === 'admin') {
-          navigate('/dashboard/admin');
-            // window.location.reload();
-        } else if (formData.role === 'Institute') {
-          navigate('/dashboard/institute');
-            // window.location.reload();
-        } else if (formData.role === 'User') {
-          navigate('/dashboard/user');
-            // window.location.reload();
-        } else {
-          navigate('/');
-            // window.location.reload();
-        }
-      
-        setFormData({
-          role: '',
-          email: '',
-          password: '',
-          rememberMe: false,
-        });
-     
+      // ✅ CHANGE 4: use roleLower to decide redirect path
+      if (roleLower === 'admin') {
+        navigate('/dashboard/admin', { replace: true });
+      } else if (roleLower === 'institute') {
+        navigate('/dashboard/institute', { replace: true });
+      } else if (roleLower === 'user') {
+        navigate('/dashboard/user', { replace: true });
+      } else {
+        navigate('/', { replace: true });
+      }
+
+      setFormData({
+        role: '',
+        email: '',
+        password: '',
+        rememberMe: false,
+      });
 
     } catch (error) {
       showAlert('Invalid credentials. Please check your role, email and password.', 'error');
@@ -156,7 +154,7 @@ const Login = () => {
 
   const handleSignupClick = (e) => {
     e.preventDefault();
-    window.alert('Please contact your system administrator at [admin@company.com](mailto:admin@company.com) to create a new account.');
+    window.alert('Please contact your system administrator at admin@company.com to create a new account.');
   };
 
   return (
@@ -178,6 +176,7 @@ const Login = () => {
           <form onSubmit={handleSubmit} noValidate>
             <div className="form-group">
               <label htmlFor="role">Login As <span className="required">*</span></label>
+              {/* ✅ CHANGE 5: values are lowercase to match App.js */}
               <select
                 id="role"
                 name="role"
@@ -187,9 +186,9 @@ const Login = () => {
                 required
               >
                 <option value="">Select Role</option>
-                <option value="Institute">Institute</option>
+                <option value="institute">Institute</option>
                 <option value="admin">Admin</option>
-                <option value="User">User</option>
+                <option value="user">User</option>
               </select>
               {errors.role && <div className="error-message show">{errors.role}</div>}
             </div>

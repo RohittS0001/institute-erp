@@ -19,7 +19,7 @@ import "./App.css";
 function App() {
   const [user, setUser] = useState(null);
 
-  // 🔥 FIX: react to localStorage change
+  // ✅ CHANGE 1: Read user from localStorage on mount
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user") || "null");
     setUser(storedUser);
@@ -33,8 +33,7 @@ function App() {
   return (
     <Router>
       <Routes>
-
-        {/* Login or Redirect */}
+        {/* ✅ CHANGE 2: Use user.role directly to build dashboard path */}
         <Route
           path="/"
           element={
@@ -66,7 +65,6 @@ function App() {
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
-
       </Routes>
     </Router>
   );
