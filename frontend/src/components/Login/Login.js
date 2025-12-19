@@ -121,12 +121,16 @@ const Login = () => {
       // ✅ CHANGE 4: use roleLower to decide redirect path
       if (roleLower === 'admin') {
         navigate('/dashboard/admin', { replace: true });
+        window.location.reload();
       } else if (roleLower === 'institute') {
         navigate('/dashboard/institute', { replace: true });
+        window.location.reload();
       } else if (roleLower === 'user') {
         navigate('/dashboard/user', { replace: true });
+        window.location.reload();
       } else {
         navigate('/', { replace: true });
+        window.location.reload();
       }
 
       setFormData({
