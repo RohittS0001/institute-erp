@@ -13,6 +13,31 @@ export default function Immersion() {
     description: ""
   });
 
+  // NEW: academic -> industry form state
+  const [academicToIndustry, setAcademicToIndustry] = useState({
+    industryName: "",
+    industryEmail: "",
+    industrySkypeId: "",
+    industryContact: "",
+    industryLocation: "",
+    industrySkillsSubjects: "",
+    industryExperienceLookingFor: "",
+    industryDescription: "",
+    industryResume: null
+  });
+
+  // NEW: industry -> academic form state
+  const [industryToAcademic, setIndustryToAcademic] = useState({
+    academicName: "",
+    academicContact: "",
+    academicEmail: "",
+    academicLocation: "",
+    academicPrograms: "",
+    academicSpecialization: "",
+    academicSubject: "",
+    academicSkypeId: ""
+  });
+
   // Fetch from backend on mount
   useEffect(() => {
     fetch("https://backenderp-production-6374.up.railway.app/api/immersion")
@@ -22,6 +47,27 @@ export default function Immersion() {
 
   const handleChange = e =>
     setForm({ ...form, [e.target.name]: e.target.value });
+
+  // NEW: handlers for new forms
+  const handleAcademicToIndustryChange = e =>
+    setAcademicToIndustry({
+      ...academicToIndustry,
+      [e.target.name]: e.target.value
+    });
+
+  const handleIndustryResumeChange = e => {
+    const file = e.target.files && e.target.files[0];
+    setAcademicToIndustry(prev => ({
+      ...prev,
+      industryResume: file || null
+    }));
+  };
+
+  const handleIndustryToAcademicChange = e =>
+    setIndustryToAcademic({
+      ...industryToAcademic,
+      [e.target.name]: e.target.value
+    });
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -43,6 +89,41 @@ export default function Immersion() {
     });
   };
 
+  // NEW: stub submit handlers – integrate with backend later
+  const handleAcademicToIndustrySubmit = e => {
+    e.preventDefault();
+    console.log("Academic → Industry form submitted", academicToIndustry);
+    setAcademicToIndustry({
+      industryName: "",
+      industryEmail: "",
+      industrySkypeId: "",
+      industryContact: "",
+      industryLocation: "",
+      industrySkillsSubjects: "",
+      industryExperienceLookingFor: "",
+      industryDescription: "",
+      industryResume: null
+    });
+  };
+
+  const handleIndustryToAcademicSubmit = e => {
+    e.preventDefault();
+    console.log("Industry → Academic form submitted", industryToAcademic);
+    setIndustryToAcademic({
+      academicName: "",
+      academicContact: "",
+      academicEmail: "",
+      academicLocation: "",
+      academicPrograms: "",
+      academicSpecialization: "",
+      academicSubject: "",
+      academicSkypeId: ""
+    });
+  };
+
+  // helper to go to Donation page
+  const goToDonation = () => navigate("/dashboard/user/donation");
+
   return (
     <div className="immersion-page">
       <header className="immersion-header">
@@ -62,25 +143,187 @@ export default function Immersion() {
           <div className="fee-card academic">
             <h3>Academic Immersion</h3>
             <div className="fee-row">
-              <span>Indian Students</span>
-              <strong>₹ 2,000</strong>
+              <span>Indian</span>
+              <button
+                type="button"
+                className="link-button"
+                onClick={goToDonation}
+              >
+                Donate For Good
+              </button>
             </div>
             <div className="fee-row">
-              <span>Non‑Indian Students</span>
-              <strong>$ 29</strong>
+              <span>Non‑Indian</span>
+              <button
+                type="button"
+                className="link-button"
+                onClick={goToDonation}
+              >
+                Donate For Good
+              </button>
             </div>
+
+            {/* NEW: Form 1 – Industry applies here */}
+            <form
+              className="immersion-form small-form"
+              onSubmit={handleAcademicToIndustrySubmit}
+            >
+              <h4>Industry Application</h4>
+              <input
+                name="industryName"
+                placeholder="Name of Industry"
+                value={academicToIndustry.industryName}
+                onChange={handleAcademicToIndustryChange}
+                required
+              />
+              <input
+                name="industryEmail"
+                type="email"
+                placeholder="Email"
+                value={academicToIndustry.industryEmail}
+                onChange={handleAcademicToIndustryChange}
+                required
+              />
+              <input
+                name="industrySkypeId"
+                placeholder="Skype ID"
+                value={academicToIndustry.industrySkypeId}
+                onChange={handleAcademicToIndustryChange}
+              />
+              <input
+                name="industryContact"
+                placeholder="Contact Number"
+                value={academicToIndustry.industryContact}
+                onChange={handleAcademicToIndustryChange}
+                required
+              />
+              <input
+                name="industryLocation"
+                placeholder="Location"
+                value={academicToIndustry.industryLocation}
+                onChange={handleAcademicToIndustryChange}
+                required
+              />
+              <input
+                name="industrySkillsSubjects"
+                placeholder="Skills and Subjects looking at"
+                value={academicToIndustry.industrySkillsSubjects}
+                onChange={handleAcademicToIndustryChange}
+                required
+              />
+              <input
+                name="industryExperienceLookingFor"
+                placeholder="Experience of candidate looking for"
+                value={academicToIndustry.industryExperienceLookingFor}
+                onChange={handleAcademicToIndustryChange}
+                required
+              />
+              <textarea
+                name="industryDescription"
+                placeholder="Description of industry (max ~80 words)"
+                value={academicToIndustry.industryDescription}
+                onChange={handleAcademicToIndustryChange}
+                rows={3}
+              />
+              {/* label added here */}
+              <label style={{ fontSize: "0.85rem" }}>Upload Resume</label>
+              <input
+                type="file"
+                name="industryResume"
+                accept=".pdf,.doc,.docx"
+                onChange={handleIndustryResumeChange}
+              />
+              <button type="submit">Submit Industry Details</button>
+            </form>
           </div>
 
           <div className="fee-card industry">
             <h3>Industry Immersion</h3>
             <div className="fee-row">
-              <span>Indian Students</span>
-              <strong>₹ 999</strong>
+              <span>Indian</span>
+              <button
+                type="button"
+                className="link-button"
+                onClick={goToDonation}
+              >
+                Donate For Good
+              </button>
             </div>
             <div className="fee-row">
-              <span>Non‑Indian Students</span>
-              <strong>$ 20</strong>
+              <span>Non‑Indian</span>
+              <button
+                type="button"
+                className="link-button"
+                onClick={goToDonation}
+              >
+                Donate For Good
+              </button>
             </div>
+
+            {/* NEW: Form 2 – Academic applies here */}
+            <form
+              className="immersion-form small-form"
+              onSubmit={handleIndustryToAcademicSubmit}
+            >
+              <h4>Academic Application</h4>
+              <input
+                name="academicName"
+                placeholder="Name of University / Institute"
+                value={industryToAcademic.academicName}
+                onChange={handleIndustryToAcademicChange}
+                required
+              />
+              <input
+                name="academicContact"
+                placeholder="Contact Number"
+                value={industryToAcademic.academicContact}
+                onChange={handleIndustryToAcademicChange}
+                required
+              />
+              <input
+                name="academicEmail"
+                type="email"
+                placeholder="Email"
+                value={industryToAcademic.academicEmail}
+                onChange={handleIndustryToAcademicChange}
+                required
+              />
+              <input
+                name="academicLocation"
+                placeholder="Location"
+                value={industryToAcademic.academicLocation}
+                onChange={handleIndustryToAcademicChange}
+                required
+              />
+              <input
+                name="academicPrograms"
+                placeholder="Programs (e.g. BBA, BTech)"
+                value={industryToAcademic.academicPrograms}
+                onChange={handleIndustryToAcademicChange}
+                required
+              />
+              <input
+                name="academicSpecialization"
+                placeholder="Specialization"
+                value={industryToAcademic.academicSpecialization}
+                onChange={handleIndustryToAcademicChange}
+                required
+              />
+              <input
+                name="academicSubject"
+                placeholder="Subject"
+                value={industryToAcademic.academicSubject}
+                onChange={handleIndustryToAcademicChange}
+                required
+              />
+              <input
+                name="academicSkypeId"
+                placeholder="Skype ID"
+                value={industryToAcademic.academicSkypeId}
+                onChange={handleIndustryToAcademicChange}
+              />
+              <button type="submit">Submit Academic Details</button>
+            </form>
           </div>
         </div>
       </header>
