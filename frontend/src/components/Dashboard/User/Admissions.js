@@ -16,7 +16,7 @@ export default function Admissions() {
   return (
     <div className="admission-page">
       <header className="admission-header">
-        <h1>📚 Admissions Assistance</h1>
+        <h1>📚 Consulting Admissions Assistance</h1>
         <p>
           Welcome to the Admissions Assistance section. Here you can view and manage your admission details.
         </p>
