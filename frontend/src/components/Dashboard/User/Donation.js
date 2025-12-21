@@ -9,7 +9,10 @@ export default function Donation() {
     donor: "",
     amount: "",
     date: "",
-    purpose: ""
+    purpose: "",
+    contact: "",
+    email: "",
+    pancard: ""
   });
 
   // Fetch from backend on mount
@@ -31,7 +34,15 @@ export default function Donation() {
     })
       .then(res => res.json())
       .then(newDonation => setDonations(prev => [...prev, newDonation]));
-    setForm({ donor: "", amount: "", date: "", purpose: "" });
+    setForm({
+      donor: "",
+      amount: "",
+      date: "",
+      purpose: "",
+      contact: "",
+      email: "",
+      pancard: ""
+    });
   };
 
   return (
@@ -112,6 +123,28 @@ export default function Donation() {
               name="purpose"
               placeholder="Purpose"
               value={form.purpose}
+              onChange={handleChange}
+              required
+            />
+            <input
+              name="contact"
+              placeholder="Contact Number"
+              value={form.contact}
+              onChange={handleChange}
+              required
+            />
+            <input
+              name="email"
+              type="email"
+              placeholder="Email"
+              value={form.email}
+              onChange={handleChange}
+              required
+            />
+            <input
+              name="pancard"
+              placeholder="PAN Card"
+              value={form.pancard}
               onChange={handleChange}
               required
             />
