@@ -6,7 +6,7 @@ const menuItems = [
   { path: 'admin', icon: '🏠', label: 'Dashboard' },
   { path: 'institutes', icon: '🏫', label: 'Institutes' },
   { path: 'users', icon: '👥', label: 'Users' },
-  { path: 'courses', icon: '📚', label: 'Courses' },
+  { path: 'AdminImmersion', icon: '📚', label: 'Academic Immersion' },
   { path: 'financials', icon: '💰', label: 'Financials' },
   { path: 'reports', icon: '📊', label: 'Reports' },
   { path: 'notifications', icon: '🔔', label: 'Notifications' },
