@@ -350,60 +350,6 @@ export default function Immersion() {
             )}
           </ul>
         </section>
-
-        <section className="immersion-actions">
-          <h2>Quick Actions</h2>
-          <form onSubmit={handleSubmit} className="immersion-form">
-            <input
-              name="program"
-              placeholder="Program Name"
-              value={form.program}
-              onChange={handleChange}
-              required
-            />
-            <input
-              name="institution"
-              placeholder="Institution Name"
-              value={form.institution}
-              onChange={handleChange}
-              required
-            />
-            <input
-              name="startDate"
-              type="date"
-              value={form.startDate}
-              onChange={handleChange}
-              required
-            />
-            <input
-              name="endDate"
-              type="date"
-              value={form.endDate}
-              onChange={handleChange}
-              required
-            />
-            <textarea
-              name="description"
-              placeholder="Description"
-              value={form.description}
-              onChange={handleChange}
-              required
-            />
-            <button type="submit">Add Immersion</button>
-          </form>
-          <button
-            onClick={() => alert("Upload Report clicked")}
-            className="immersion-btn"
-          >
-            📤 Upload Report
-          </button>
-          <button
-            onClick={() => alert("View Mentor Feedback clicked")}
-            className="immersion-btn secondary"
-          >
-            🧾 View Mentor Feedback
-          </button>
-        </section>
       </main>
     </div>
   );
