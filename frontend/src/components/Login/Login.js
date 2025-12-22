@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Login.css';
 
 const Login = () => {
@@ -94,31 +95,41 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post(
-        // ✅ CHANGE 1: role already stored as lowercase, used directly
-        `https://backenderp-production-6374.up.railway.app/api/${formData.role}/login`,
-        {
-          email: formData.email,
-          password: formData.password,
-        }
-      );
-
-      // ✅ CHANGE 2: normalize role to lowercase once
+      // ----- ONLY REAL CHANGE: choose URL by role -----
       const roleLower = formData.role.toLowerCase();
+      let url = '';
 
-      // ✅ CHANGE 3: store user with lowercase role (matches App.js)
-      const userData = {
-        role: roleLower,
+      if (roleLower === 'user') {
+        // new UsersIDs login (works with Register page)
+        url = 'https://backenderp-production-6374.up.railway.app/api/user/login';
+      } else if (roleLower === 'admin') {
+        url = 'https://backenderp-production-6374.up.railway.app/api/admin/login';
+      } else if (roleLower === 'institute') {
+        url = 'https://backenderp-production-6374.up.railway.app/api/institute/login';
+      }
+
+      const response = await axios.post(url, {
         email: formData.email,
-        name:
-          response.data?.name ||
-          response.data?.user?.name ||
-          response.data?.admin?.name ||
-          ""
-      };
-      localStorage.setItem("user", JSON.stringify(userData));
+        password: formData.password,
+      });
 
-      // ✅ CHANGE 4: use roleLower to decide redirect path
+      // store user with lowercase role (matches App.js)
+      const userFromResponse =
+        response.data?.user ||
+        response.data?.admin ||
+        response.data; // fallback if backend sends just user
+
+      const userData = {
+        role: (userFromResponse?.role || roleLower),
+        email: userFromResponse?.email || formData.email,
+        name:
+          userFromResponse?.name ||
+          response.data?.name ||
+          ''
+      };
+      localStorage.setItem('user', JSON.stringify(userData));
+
+      // use roleLower to decide redirect path
       if (roleLower === 'admin') {
         navigate('/dashboard/admin', { replace: true });
         window.location.reload();
@@ -156,9 +167,8 @@ const Login = () => {
     }
   };
 
-  const handleSignupClick = (e) => {
-    e.preventDefault();
-    window.alert('Please contact your system administrator at admin@company.com to create a new account.');
+  const handleSignupClick = () => {
+    navigate('/register');
   };
 
   return (
@@ -180,7 +190,6 @@ const Login = () => {
           <form onSubmit={handleSubmit} noValidate>
             <div className="form-group">
               <label htmlFor="role">Login As <span className="required">*</span></label>
-              {/* ✅ CHANGE 5: values are lowercase to match App.js */}
               <select
                 id="role"
                 name="role"
@@ -265,12 +274,11 @@ const Login = () => {
           <div className="divider">
             <span>New to the system?</span>
           </div>
-
           <div className="signup-link">
             Don't have an account?{' '}
-            <a href="#" onClick={handleSignupClick}>
+            <Link to="/register" onClick={handleSignupClick}>
               Contact Administrator
-            </a>
+            </Link>
           </div>
         </div>
       </div>

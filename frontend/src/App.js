@@ -44,6 +44,7 @@ function App() {
         />
 
         {/* Auth Routes */}
+        
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
 
