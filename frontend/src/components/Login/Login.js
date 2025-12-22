@@ -277,7 +277,7 @@ const Login = () => {
           <div className="signup-link">
             Don't have an account?{' '}
             <Link to="/register" onClick={handleSignupClick}>
-              Contact Administrator
+              SIGN UP
             </Link>
           </div>
         </div>
