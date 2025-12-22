@@ -4,7 +4,7 @@ import Sidebar from "./Sidebar";
 import AdminDashboard from "./AdminDashboard";
 import Institutes from "./Institutes";
 import Users from "./Users";
-import Courses from "./Courses";
+import AdminImmersion from "./AdminImmersion";
 import Financials from "./Financials";
 import Reports from "./Reports";
 import Notifications from "./Notifications";
@@ -21,7 +21,7 @@ const Admin = () => {
           <Route path="admin" element={<AdminDashboard />} /> 
           <Route path="institutes" element={<Institutes />} />
           <Route path="users" element={<Users />} />
-          <Route path="courses" element={<Courses />} />
+          <Route path="AdminImmersion" element={<AdminImmersion />} />
           <Route path="financials" element={<Financials />} />
           <Route path="reports" element={<Reports />} />
           <Route path="notifications" element={<Notifications />} />
