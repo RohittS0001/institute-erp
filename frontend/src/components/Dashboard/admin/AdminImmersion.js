@@ -1,301 +1,223 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./AdminImmersion.css";
 
+const API_BASE =
+  "https://backenderp-production-6374.up.railway.app/api";
+
 const AdminImmersion = () => {
+  // Section 1 – immersion records
   const [immersions, setImmersions] = useState([]);
-  const [search, setSearch] = useState("");
-  const [showAddForm, setShowAddForm] = useState(false);
+  const [immSearch, setImmSearch] = useState("");
 
-  const [newImmersion, setNewImmersion] = useState({
-    program: "",
-    institution: "",
-    startDate: "",
-    endDate: "",
-    description: "",
-  });
+  // Section 2 – Academic → Industry applications
+  const [academicToIndustry, setAcademicToIndustry] = useState([]);
+  const [a2iSearch, setA2iSearch] = useState("");
 
-  const [editId, setEditId] = useState(null);
-  const [editImmersion, setEditImmersion] = useState({
-    program: "",
-    institution: "",
-    startDate: "",
-    endDate: "",
-    description: "",
-  });
+  // Section 2 – Industry → Academic applications
+  const [industryToAcademic, setIndustryToAcademic] = useState([]);
+  const [i2aSearch, setI2aSearch] = useState("");
 
   useEffect(() => {
-    const fetchImmersions = async () => {
+    const loadAll = async () => {
       try {
-        const response = await axios.get(
-          "https://backenderp-production-6374.up.railway.app/api/immersion"
-        );
-        setImmersions(response.data || []);
-      } catch (error) {
-        console.error("Error fetching immersions:", error);
-        setImmersions([]);
+        const [immRes, a2iRes, i2aRes] = await Promise.all([
+          axios.get(`${API_BASE}/immersion`), // same as user
+          axios.get(`${API_BASE}/immersion/academic-to-industry`), // you create
+          axios.get(`${API_BASE}/immersion/industry-to-academic`), // you create
+        ]);
+
+        setImmersions(immRes.data || []);
+        setAcademicToIndustry(a2iRes.data || []);
+        setIndustryToAcademic(i2aRes.data || []);
+      } catch (err) {
+        console.error("Admin immersion load error:", err);
       }
     };
-    fetchImmersions();
+
+    loadAll();
   }, []);
 
-  const filteredImmersions = immersions.filter(
-    (item) =>
-      item.program?.toLowerCase().includes(search.toLowerCase()) ||
-      item.institution?.toLowerCase().includes(search.toLowerCase()) ||
-      item.description?.toLowerCase().includes(search.toLowerCase())
-  );
+  // simple filters
+  const filteredImmersions = immersions.filter((item) => {
+    const q = immSearch.toLowerCase();
+    return (
+      item.program?.toLowerCase().includes(q) ||
+      item.institution?.toLowerCase().includes(q) ||
+      item.description?.toLowerCase().includes(q)
+    );
+  });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewImmersion((prev) => ({ ...prev, [name]: value }));
-  };
+  const filteredA2I = academicToIndustry.filter((item) => {
+    const q = a2iSearch.toLowerCase();
+    return (
+      item.industryName?.toLowerCase().includes(q) ||
+      item.industryEmail?.toLowerCase().includes(q) ||
+      item.industryLocation?.toLowerCase().includes(q)
+    );
+  });
 
-  const handleEditChange = (e) => {
-    const { name, value } = e.target;
-    setEditImmersion((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleAddImmersion = async (e) => {
-    e.preventDefault();
-    if (!newImmersion.program.trim() || !newImmersion.institution.trim()) {
-      alert("Program and Institution are required");
-      return;
-    }
-
-    try {
-      const response = await axios.post(
-        "https://backenderp-production-6374.up.railway.app/api/immersion",
-        newImmersion
-      );
-      setImmersions((prev) => [...prev, response.data]);
-      setNewImmersion({
-        program: "",
-        institution: "",
-        startDate: "",
-        endDate: "",
-        description: "",
-      });
-      setShowAddForm(false);
-    } catch (error) {
-      console.error("Failed to add immersion:", error);
-      alert("Failed to add immersion. Please try again.");
-    }
-  };
-
-  const handleDeleteImmersion = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this record?")) return;
-    try {
-      await axios.delete(
-        `https://backenderp-production-6374.up.railway.app/api/immersion/${id}`
-      );
-      setImmersions((prev) => prev.filter((item) => item.id !== id && item._id !== id));
-    } catch (error) {
-      console.error("Failed to delete immersion:", error);
-      alert("Failed to delete immersion. Please try again.");
-    }
-  };
-
-  const handleEdit = (item) => {
-    setEditId(item.id || item._id);
-    setEditImmersion({
-      program: item.program,
-      institution: item.institution,
-      startDate: item.startDate,
-      endDate: item.endDate,
-      description: item.description,
-    });
-  };
-
-  const handleEditSave = async (id) => {
-    try {
-      const response = await axios.put(
-        `https://backenderp-production-6374.up.railway.app/api/immersion/${id}`,
-        editImmersion
-      );
-      const updated = response.data;
-
-      setImmersions((prev) =>
-        prev.map((item) =>
-          (item.id || item._id) === id ? updated : item
-        )
-      );
-      setEditId(null);
-    } catch (error) {
-      console.error("Failed to update immersion:", error);
-      alert("Failed to update immersion. Please try again.");
-    }
-  };
-
-  const toggleForm = () => setShowAddForm((prev) => !prev);
+  const filteredI2A = industryToAcademic.filter((item) => {
+    const q = i2aSearch.toLowerCase();
+    return (
+      item.academicName?.toLowerCase().includes(q) ||
+      item.academicEmail?.toLowerCase().includes(q) ||
+      item.academicLocation?.toLowerCase().includes(q)
+    );
+  });
 
   return (
-    <div className="immersion-page-content">
-      <h1>Immersion Management</h1>
+    <div className="imm-admin-page">
+      <h1>Immersion Overview</h1>
 
-      <div className="immersion-header-top">
-        <input
-          type="search"
-          className="immersion-search"
-          placeholder="Search by program, institution, description..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <button onClick={toggleForm} className="immersion-add-btn">
-          {showAddForm ? "Close Form" : "Add New Immersion"}
-        </button>
-      </div>
+      {/* SECTION 1 – Immersion records */}
+      <section className="imm-admin-section">
+        <div className="imm-admin-header">
+          <h2>Immersion Records</h2>
+          <input
+            type="search"
+            className="imm-admin-search"
+            placeholder="Search program, institution, description..."
+            value={immSearch}
+            onChange={(e) => setImmSearch(e.target.value)}
+          />
+        </div>
 
-      {showAddForm && (
-        <form onSubmit={handleAddImmersion} className="immersion-add-form">
-          <input
-            name="program"
-            placeholder="Program Name"
-            value={newImmersion.program}
-            onChange={handleChange}
-            required
-          />
-          <input
-            name="institution"
-            placeholder="Institution"
-            value={newImmersion.institution}
-            onChange={handleChange}
-            required
-          />
-          <input
-            name="startDate"
-            type="date"
-            value={newImmersion.startDate}
-            onChange={handleChange}
-          />
-          <input
-            name="endDate"
-            type="date"
-            value={newImmersion.endDate}
-            onChange={handleChange}
-          />
-          <textarea
-            name="description"
-            placeholder="Short description"
-            value={newImmersion.description}
-            onChange={handleChange}
-          />
-          <button type="submit" className="immersion-submit-btn">
-            Save Immersion
-          </button>
-        </form>
-      )}
-
-      <table className="immersion-table">
-        <thead>
-          <tr>
-            <th>Program</th>
-            <th>Institution</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>Description</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredImmersions.length ? (
-            filteredImmersions.map((item) => {
-              const rowId = item.id || item._id;
-              if (editId === rowId) {
-                return (
-                  <tr key={rowId}>
-                    <td>
-                      <input
-                        name="program"
-                        value={editImmersion.program}
-                        onChange={handleEditChange}
-                        required
-                      />
-                    </td>
-                    <td>
-                      <input
-                        name="institution"
-                        value={editImmersion.institution}
-                        onChange={handleEditChange}
-                        required
-                      />
-                    </td>
-                    <td>
-                      <input
-                        name="startDate"
-                        type="date"
-                        value={editImmersion.startDate}
-                        onChange={handleEditChange}
-                      />
-                    </td>
-                    <td>
-                      <input
-                        name="endDate"
-                        type="date"
-                        value={editImmersion.endDate}
-                        onChange={handleEditChange}
-                      />
-                    </td>
-                    <td>
-                      <textarea
-                        name="description"
-                        value={editImmersion.description}
-                        onChange={handleEditChange}
-                      />
-                    </td>
-                    <td>
-                      <button
-                        className="immersion-submit-btn"
-                        onClick={() => handleEditSave(rowId)}
-                        type="button"
-                      >
-                        Save
-                      </button>
-                      <button
-                        className="immersion-cancel-btn"
-                        type="button"
-                        onClick={() => setEditId(null)}
-                      >
-                        Cancel
-                      </button>
-                    </td>
-                  </tr>
-                );
-              }
-
-              return (
-                <tr key={rowId}>
+        <table className="imm-admin-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Program</th>
+              <th>Institution</th>
+              <th>Start</th>
+              <th>End</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredImmersions.length ? (
+              filteredImmersions.map((item, index) => (
+                <tr key={item.id || item._id || index}>
+                  <td>{index + 1}</td>
                   <td>{item.program}</td>
                   <td>{item.institution}</td>
                   <td>{item.startDate}</td>
                   <td>{item.endDate}</td>
                   <td>{item.description}</td>
-                  <td>
-                    <button
-                      className="immersion-edit-btn"
-                      onClick={() => handleEdit(item)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="immersion-delete-btn"
-                      onClick={() => handleDeleteImmersion(rowId)}
-                    >
-                      Delete
-                    </button>
-                  </td>
                 </tr>
-              );
-            })
-          ) : (
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6" style={{ textAlign: "center", padding: "10px" }}>
+                  No immersion records found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </section>
+
+      {/* SECTION 2 – Academic → Industry */}
+      <section className="imm-admin-section">
+        <div className="imm-admin-header">
+          <h2>Academic → Industry Applications</h2>
+          <input
+            type="search"
+            className="imm-admin-search"
+            placeholder="Search by industry, email, location..."
+            value={a2iSearch}
+            onChange={(e) => setA2iSearch(e.target.value)}
+          />
+        </div>
+
+        <table className="imm-admin-table small-font">
+          <thead>
             <tr>
-              <td colSpan="6" style={{ textAlign: "center", padding: "20px" }}>
-                No immersion records found.
-              </td>
+              <th>#</th>
+              <th>Industry Name</th>
+              <th>Email</th>
+              <th>Contact</th>
+              <th>Location</th>
+              <th>Skills / Subjects</th>
+              <th>Experience Looking For</th>
+              <th>Description</th>
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredA2I.length ? (
+              filteredA2I.map((item, index) => (
+                <tr key={item.id || item._id || index}>
+                  <td>{index + 1}</td>
+                  <td>{item.industryName}</td>
+                  <td>{item.industryEmail}</td>
+                  <td>{item.industryContact}</td>
+                  <td>{item.industryLocation}</td>
+                  <td>{item.industrySkillsSubjects}</td>
+                  <td>{item.industryExperienceLookingFor}</td>
+                  <td>{item.industryDescription}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="8" style={{ textAlign: "center", padding: "10px" }}>
+                  No Academic → Industry applications found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </section>
+
+      {/* SECTION 3 – Industry → Academic */}
+      <section className="imm-admin-section">
+        <div className="imm-admin-header">
+          <h2>Industry → Academic Applications</h2>
+          <input
+            type="search"
+            className="imm-admin-search"
+            placeholder="Search by institute, email, location..."
+            value={i2aSearch}
+            onChange={(e) => setI2aSearch(e.target.value)}
+          />
+        </div>
+
+        <table className="imm-admin-table small-font">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Institute / University</th>
+              <th>Contact</th>
+              <th>Email</th>
+              <th>Location</th>
+              <th>Programs</th>
+              <th>Specialization</th>
+              <th>Subject</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredI2A.length ? (
+              filteredI2A.map((item, index) => (
+                <tr key={item.id || item._id || index}>
+                  <td>{index + 1}</td>
+                  <td>{item.academicName}</td>
+                  <td>{item.academicContact}</td>
+                  <td>{item.academicEmail}</td>
+                  <td>{item.academicLocation}</td>
+                  <td>{item.academicPrograms}</td>
+                  <td>{item.academicSpecialization}</td>
+                  <td>{item.academicSubject}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="8" style={{ textAlign: "center", padding: "10px" }}>
+                  No Industry → Academic applications found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </section>
     </div>
   );
 };
