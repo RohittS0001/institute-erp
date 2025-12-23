@@ -168,7 +168,7 @@ export default function Immersion() {
               className="immersion-form small-form"
               onSubmit={handleAcademicToIndustrySubmit}
             >
-              <h4>Industry Application</h4>
+              <h4>Industry Expert (Register Here)</h4>
               <input
                 name="industryName"
                 placeholder="Name of Industry"
@@ -265,7 +265,7 @@ export default function Immersion() {
               className="immersion-form small-form"
               onSubmit={handleIndustryToAcademicSubmit}
             >
-              <h4>Academic Application</h4>
+              <h4>Academic University (Register Here)</h4>
               <input
                 name="academicName"
                 placeholder="Name of University / Institute"
