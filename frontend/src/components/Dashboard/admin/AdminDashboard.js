@@ -6,7 +6,7 @@ import axios from "axios";
 const widgetsData = [
   { title: "Total Institutes", icon: "🏫", color: "#5c71e7ff", path: "institutes" },
   { title: "Active Users", icon: "👥", color: "#f50057", path: "users" },
-  { title: "AdminImmersion Offered", icon: "📚", color: "#ff9800", path: "AdminImmersion" },
+  { title: "Immersion", icon: "📚", color: "#ff9800", path: "AdminImmersion" },
   { title: "Pending Approvals", icon: "⏳", color: "#009688", path: "notifications" },
 ];
 

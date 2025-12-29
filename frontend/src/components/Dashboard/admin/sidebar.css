@@ -21,8 +21,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 20px;  /* PERFECT PADDING */
-  font-size: 1rem;
+  padding: 15px 18px;  /* PERFECT PADDING */
+  margin: 5px;
+  font-size: 0.8rem;
   font-weight: 600;
   background-color: #ffffff;
   color: #1f2937;  /* DARK TEXT */
