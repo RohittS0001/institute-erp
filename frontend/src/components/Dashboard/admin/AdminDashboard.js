@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./AdminDashboard.css";
+// import "./AdminDashboard.css";
 
 const widgetsData = [
   { title: "Total Institutes", icon: "🏫", color: "#5c71e7ff", path: "institutes" },

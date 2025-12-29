@@ -9,7 +9,7 @@
 /* Main content area to the right of sidebar */
 .dashboard-content {
   flex-grow: 1;
-  padding: 20px 20px;
+  padding: 20px 12px !important;  /* PERFECT WIDE LIKE SCREENSHOT */
   overflow-y: auto;
   background-color: #f3f4f6;
   min-height: 100vh;
@@ -61,7 +61,6 @@
   font-size: 30px;
   padding: 15px;
   border-radius: 30%;
- 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -80,95 +79,230 @@
   color: #6b7280;
 }
 
-/* Institutes Table Section */
+/* IMMERSION SMALL FONT TABLES - ALL ADMIN PAGES */
+.imm-admin-page,
 .institutes-table-section {
-  background-color: white;
-  padding: 25px 30px;
-  border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
-
+  padding: 16px 16px !important;  /* PERFECT SCREENSHOT PADDING */
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.08);
+  font-size: 0.88rem;
+  color: #333;
+  margin: 0 !important;
 }
 
+.imm-admin-page h1,
 .institutes-table-section h2 {
-  margin-bottom: 20px;
-  font-weight: 700;
-  font-size: 1.5rem;
-  color: #111827;
-}
-
-.institutes-table {
-  width: 100%;
-  border-collapse: collapse;
+  font-size: 1.25rem;
   font-weight: 600;
-  color: #4b5563;
+  color: #3f51b5;
+  margin-bottom: 14px;
 }
 
+.imm-admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 10px;
+}
+
+.imm-admin-search {
+  width: 240px;
+  padding: 6px 9px;
+  border-radius: 5px;
+  border: 1px solid #c0c0c0;
+  font-size: 0.8rem;
+}
+
+.imm-admin-add-btn {
+  background: #3f51b5;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.imm-admin-add-btn:hover {
+  background: #303f9f;
+}
+
+.imm-admin-add-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: #f8f9ff;
+  border-radius: 6px;
+  border: 1px solid #e1e5e9;
+}
+
+.imm-admin-input, 
+.imm-admin-edit-input, 
+.imm-admin-edit-select {
+  padding: 6px 8px;
+  border-radius: 4px;
+  border: 1px solid #c0c0c0;
+  font-size: 0.8rem;
+  flex: 1;
+  min-width: 110px;
+  box-sizing: border-box;
+}
+
+.imm-admin-submit-btn, 
+.imm-admin-save-btn {
+  background: #009688;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.82rem;
+}
+
+.imm-admin-submit-btn:hover, 
+.imm-admin-save-btn:hover {
+  background: #00796b;
+}
+
+.imm-admin-cancel-btn {
+  background: #999;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.82rem;
+  margin-left: 4px;
+}
+
+.imm-admin-cancel-btn:hover {
+  background: #777;
+}
+
+/* PERFECT SCREENSHOT TABLE - EXACT FONT SIZE */
+.imm-admin-table,
+.institutes-table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  font-size: 0.74rem !important;  /* EXACT SCREENSHOT FONT */
+  font-weight: 600 !important;
+  color: #4b5563 !important;
+}
+
+.imm-admin-table th,
+.imm-admin-table td,
 .institutes-table th,
 .institutes-table td {
-  padding: 14px 16px;
-  border-bottom: 1px solid #e5e7eb;
-  text-align: left;
-  vertical-align: middle;
+  padding: 5px 8px !important;  /* PERFECT PADDING */
+  border-bottom: 1px solid #ececec !important;
+  text-align: left !important;
+  vertical-align: middle !important;  /* LIKE SCREENSHOT */
 }
 
+.imm-admin-table th,
 .institutes-table th {
-  font-weight: 700;
-  font-size: 0.95rem;
-  background-color: #f9fafb;
+  background: #f9fafb !important;  /* LIGHT GRAY LIKE SCREENSHOT */
+  font-weight: 700 !important;
+  color: #555 !important;
+  font-size: 0.74rem !important;
 }
 
-/* Status indicator pills */
+/* PERFECT STATUS BADGES LIKE SCREENSHOT */
+.imm-admin-status,
 .status-indicator {
-  padding: 6px 14px;
-  border-radius: 50px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: white;
+  padding: 4px 10px !important;  /* SCREENSHOT SIZE */
+  border-radius: 20px !important;  /* ROUNDED LIKE SCREENSHOT */
+  font-weight: 700 !important;
+  font-size: 0.75rem !important;
+  display: inline-block !important;
   text-transform: capitalize;
-  display: inline-block;
 }
+
+.imm-admin-status-active,
 .status-indicator.active {
-  background-color: #10b981; /* green */
+  background: #10b981 !important;  /* GREEN LIKE SCREENSHOT */
+  color: white !important;
 }
+
+.imm-admin-status-pending {
+  background: #fff3cd !important;
+  color: #856404 !important;
+}
+
+.imm-admin-status-inactive,
+.imm-admin-status-rejected,
 .status-indicator.inactive {
-  background-color: #ef4444; /* red */
+  background: #f8d7da !important;
+  color: #721c24 !important;
 }
 
-/* Buttons Styles */
-.btn {
-  font-weight: 600;
-  font-size: 0.9rem;
-  padding: 6px 14px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  margin-right: 10px;
-  transition: background-color 0.2s ease;
+/* BUTTONS - NORMAL SIZE LIKE SCREENSHOT */
+.imm-admin-edit-btn,
+.btn.edit-btn {
+  background: #5c71e7 !important;
+  color: white !important;
+  border: none !important;
+  padding: 6px 12px !important;  /* NORMAL SIZE */
+  border-radius: 6px !important;
+  font-size: 0.82rem !important;
+  cursor: pointer !important;
+  margin-right: 6px !important;
 }
 
-.view-btn {
-  background-color: #3b82f6;
-  color: white;
+.imm-admin-delete-btn,
+.btn.delete-btn {
+  background: #f44336 !important;
+  color: white !important;
+  border: none !important;
+  padding: 6px 12px !important;
+  border-radius: 6px !important;
+  font-size: 0.82rem !important;
+  cursor: pointer !important;
 }
 
-.view-btn:hover {
-  background-color: #2563eb;
+.imm-admin-table-wrapper {
+  overflow-x: auto;
+  margin-top: 12px;
+  width: 100%;
 }
 
-.edit-btn {
-  background-color: #facc15;
-  color: black;
-}
-
-.edit-btn:hover {
-  background-color: #ca8a04;
-}
-
-.delete-btn {
-  background-color: #ef4444;
-  color: white;
-}
-
-.delete-btn:hover {
-  background-color: #b91c1c;
+/* RESPONSIVE - PERFECT MOBILE */
+@media (max-width: 768px) {
+  .imm-admin-page,
+  .institutes-table-section {
+    padding: 12px 4vw;
+  }
+  .imm-admin-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .imm-admin-search {
+    width: 100%;
+  }
+  .imm-admin-add-form {
+    flex-direction: column;
+  }
+  .imm-admin-input, 
+  .imm-admin-edit-input, 
+  .imm-admin-edit-select {
+    min-width: unset;
+  }
+  .imm-admin-table,
+  .institutes-table {
+    font-size: 0.72rem !important;
+  }
+  .imm-admin-table th,
+  .imm-admin-table td,
+  .institutes-table th,
+  .institutes-table td {
+    padding: 4px 6px !important;
+  }
 }

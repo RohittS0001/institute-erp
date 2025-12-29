@@ -1,0 +1,185 @@
+.imm-admin-page {
+  padding: 18px 28px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.08);
+  min-height: calc(100vh - 80px);
+  font-size: 0.88rem;
+  color: #333;
+}
+
+.imm-admin-page h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #3f51b5;
+  margin-bottom: 14px;
+}
+
+.imm-admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 10px;
+}
+
+.imm-admin-search {
+  width: 240px;
+  padding: 6px 9px;
+  border-radius: 5px;
+  border: 1px solid #c0c0c0;
+  font-size: 0.8rem;
+}
+
+.imm-admin-add-btn {
+  background: #3f51b5;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.imm-admin-add-btn:hover {
+  background: #303f9f;
+}
+
+.imm-admin-add-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: #f8f9ff;
+  border-radius: 6px;
+  border: 1px solid #e1e5e9;
+}
+
+.imm-admin-input, .imm-admin-edit-input, .imm-admin-edit-select {
+  padding: 6px 8px;
+  border-radius: 4px;
+  border: 1px solid #c0c0c0;
+  font-size: 0.82rem;
+  flex: 1;
+  min-width: 120px;
+}
+
+.imm-admin-submit-btn, .imm-admin-save-btn {
+  background: #009688;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.imm-admin-submit-btn:hover, .imm-admin-save-btn:hover {
+  background: #00796b;
+}
+
+.imm-admin-cancel-btn {
+  background: #999;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin-left: 4px;
+}
+
+.imm-admin-cancel-btn:hover {
+  background: #777;
+}
+
+.imm-admin-edit-btn {
+  background: #5c71e7;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  margin-right: 4px;
+}
+
+.imm-admin-delete-btn {
+  background: #f44336;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.imm-admin-table-wrapper {
+  overflow-x: auto;
+}
+
+.imm-admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.imm-admin-table th,
+.imm-admin-table td {
+  padding: 7px 9px;
+  border-bottom: 1px solid #ececec;
+  text-align: left;
+  vertical-align: top;
+}
+
+.imm-admin-table th {
+  background: #f6f6f6;
+  font-weight: 600;
+  color: #555;
+}
+
+.imm-admin-status {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.78rem;
+}
+
+.imm-admin-status-confirmed {
+  background: #d4edda;
+  color: #155724;
+}
+
+.imm-admin-status-pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.imm-admin-status-rejected {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+@media (max-width: 768px) {
+  .imm-admin-page {
+    padding: 12px 4vw;
+  }
+  .imm-admin-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .imm-admin-search {
+    width: 100%;
+  }
+  .imm-admin-add-form {
+    flex-direction: column;
+  }
+  .imm-admin-input, .imm-admin-edit-input, .imm-admin-edit-select {
+    min-width: unset;
+  }
+}
