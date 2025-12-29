@@ -9,11 +9,11 @@
   transition: width 0.3s ease;
   position: relative;
   overflow-y: visible;
-  box-shadow: 2px 0 8px rgba(0,0,0,0.08);  /* PERFECT SHADOW */
+  box-shadow: 2px 0 8px rgba(0,0,0,0.08);  
 }
 
 .sidebar.collapsed {
-  width: 70px;  /* FIXED: was 0px - now proper collapsed */
+  width: 70px; 
   min-width: 70px;
 }
 
@@ -21,12 +21,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 18px;  /* PERFECT PADDING */
+  padding: 15px 18px;  
   margin: 5px;
   font-size: 0.8rem;
   font-weight: 600;
   background-color: #ffffff;
-  color: #1f2937;  /* DARK TEXT */
+  color: #1f2937;
   border-bottom: 1px solid #e5e7eb;
 }
 
@@ -57,7 +57,7 @@
 .sidebar-link {
   display: flex;
   align-items: center;
-  padding: 14px 20px;  /* PERFECT LINK PADDING */
+  padding: 14px 20px;
   color: #374151;
   font-weight: 500;
   font-size: 0.95rem;

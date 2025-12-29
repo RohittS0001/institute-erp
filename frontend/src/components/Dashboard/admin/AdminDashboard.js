@@ -4,11 +4,12 @@ import axios from "axios";
 // import "./AdminDashboard.css";
 
 const widgetsData = [
-  { title: "Total Institutes", icon: "🏫", color: "#5c71e7ff", path: "institutes" },
-  { title: "Active Users", icon: "👥", color: "#f50057", path: "users" },
-  { title: "Immersion", icon: "📚", color: "#ff9800", path: "AdminImmersion" },
-  { title: "Pending Approvals", icon: "⏳", color: "#009688", path: "notifications" },
+  { title: "Total Institutes", icon: "ri-school-line", color: "#5c71e7", path: "institutes" },
+  { title: "Active Users", icon: "ri-team-line", color: "#f50057", path: "users" },
+  { title: "Immersion", icon: "ri-book-line", color: "#ff9800", path: "AdminImmersion" },
+  { title: "Pending Approvals", icon: "ri-time-line", color: "#009688", path: "notifications" },
 ];
+
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -34,6 +35,14 @@ const AdminDashboard = () => {
       inst.address?.toLowerCase().includes(search.toLowerCase()) ||
       inst.status?.toLowerCase().includes(search.toLowerCase())
   );
+const getWidgetIcon = (iconName) => {
+  return (
+    <i 
+      className={`ri ${iconName}`} 
+      style={{ fontSize: '1.8rem', color: 'white' }} 
+    />
+  );
+};
 
   return (
     <main className="dashboard-content">
@@ -57,7 +66,7 @@ const AdminDashboard = () => {
             onClick={() => navigate(`/dashboard/admin/${w.path}`)}
           >
             <div className="widget-icon" style={{ backgroundColor: w.color }}>
-              {w.icon}
+                {getWidgetIcon(w.icon)}
             </div>
             <div className="widget-info">
               <p>{w.title}</p>
@@ -82,7 +91,7 @@ const AdminDashboard = () => {
                 <tr key={inst.id}>
                   <td>{inst.name}</td>
                   <td>{inst.address}</td>
-                  <td>
+                  <td colSpan="3" style={{ textAlign: "center", padding: "20px" }}>
                     <span className={`status-indicator ${inst.status.toLowerCase()}`}>
                       {inst.status}
                     </span>
