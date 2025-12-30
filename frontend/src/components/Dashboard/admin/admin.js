@@ -8,7 +8,7 @@ import AdminImmersion from "./AdminImmersion";
 import Financials from "./Financials";
 import Reports from "./Reports";
 import Notifications from "./Notifications";
-import Settings from "./Settings";
+import Placements from "./Placements";
 import "./admin.css";
 
 const Admin = () => {
@@ -25,7 +25,7 @@ const Admin = () => {
           <Route path="financials" element={<Financials />} />
           <Route path="reports" element={<Reports />} />
           <Route path="notifications" element={<Notifications />} />
-          <Route path="settings" element={<Settings />} />
+          <Route path="Placements" element={<Placements />} />
         </Routes>
       </main>
     </div>
